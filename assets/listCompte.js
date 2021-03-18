@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
         fontWeight: theme.typography.fontWeightRegular,
     },
     details: {
-        alignItems : "center",
+        alignItems: "center",
     },
     fab: {
         margin: theme.spacing(2),
@@ -39,7 +39,7 @@ export default function SimpleAccordion() {
             </Accordion>
             <Accordion>
                 <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
+                    expandIcon={<ExpandMoreIcon/>}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                 >
@@ -54,7 +54,7 @@ export default function SimpleAccordion() {
             </Accordion>
             <Accordion>
                 <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
+                    expandIcon={<ExpandMoreIcon/>}
                     aria-controls="panel2a-content"
                     id="panel2a-header"
                 >
@@ -75,7 +75,7 @@ export default function SimpleAccordion() {
                     <Typography className={classes.heading}>Add compte</Typography>
                     <Tooltip title="Add" aria-label="add">
                         <Fab color="primary" className={classes.fab}>
-                            <AddIcon />
+                            <AddIcon/>
                         </Fab>
                     </Tooltip>
                 </AccordionSummary>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
@@ -37,9 +37,9 @@ export default function SelectedListItem() {
                     onClick={(event) => handleListItemClick(event, 0)}
                 >
                     <ListItemIcon>
-                        <InboxIcon />
+                        <InboxIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Fortnite" />
+                    <ListItemText primary="Fortnite"/>
                 </ListItem>
                 <ListItem
                     button
@@ -47,9 +47,9 @@ export default function SelectedListItem() {
                     onClick={(event) => handleListItemClick(event, 1)}
                 >
                     <ListItemIcon>
-                        <DraftsIcon />
+                        <DraftsIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="League of Legend" />
+                    <ListItemText primary="League of Legend"/>
                 </ListItem>
                 <ListItem
                     button
@@ -57,9 +57,9 @@ export default function SelectedListItem() {
                     onClick={(event) => handleListItemClick(event, 2)}
                 >
                     <ListItemIcon>
-                        <DraftsIcon />
+                        <DraftsIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Rocket League" />
+                    <ListItemText primary="Rocket League"/>
                 </ListItem>
                 <ListItem
                     button
@@ -67,12 +67,12 @@ export default function SelectedListItem() {
                     onClick={(event) => handleListItemClick(event, 3)}
                 >
                     <ListItemIcon>
-                        <DraftsIcon />
+                        <DraftsIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="add games" />
+                    <ListItemText primary="add games"/>
                     <Tooltip title="Add" aria-label="add">
                         <Fab color="primary" className={classes.fab}>
-                            <AddIcon />
+                            <AddIcon/>
                         </Fab>
                     </Tooltip>
                 </ListItem>
