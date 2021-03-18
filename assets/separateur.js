@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -10,19 +10,16 @@ import SelectedListItem from "./listGame";
 import SimpleAccordion from "./listCompte";
 
 
-
-
-
 export default function SpacingGrid() {
 
 
     return (
-        <Grid container >
+        <Grid container>
             <Grid item xs={6}>
-                <SelectedListItem />
+                <SelectedListItem/>
             </Grid>
             <Grid item xs={6}>
-                <SimpleAccordion />
+                <SimpleAccordion/>
             </Grid>
         </Grid>
     );

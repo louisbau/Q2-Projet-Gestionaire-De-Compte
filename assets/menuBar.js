@@ -40,6 +40,6 @@ function SimpleMenu() {
 
         </AppBar>
     );
-};
+}
 
 export default SimpleMenu;
