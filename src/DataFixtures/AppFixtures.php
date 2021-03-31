@@ -32,20 +32,7 @@ class AppFixtures extends Fixture
             $manager->persist($jeux);
 
         }
-        for($b = 1; $b <=5; $b++) {
-            $compteJeux=new CompteJeux();
-            $compteJeux
-                    -> setPlayerID($login)
-                    -> setJeuxID($jeux)
-                    ->setUsernameCompte($faker ->userName)
-                    ->setPasswordCompte($faker ->password)
-                    ->setDescription($faker -> sentence($nbWords = 6, $variableNbWords = true));
-            $manager->persist($compteJeux);
-        }
 
         $manager->flush();
-
-
-
     }
 }
