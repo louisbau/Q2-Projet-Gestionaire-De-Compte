@@ -4,9 +4,9 @@ namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use App\Entity\CompteJeux;
-use App\Entity\Jeux;
-use App\Entity\Login;
+use App\Entity\AccountClient;
+use App\Entity\Game;
+use App\Entity\Client;
 use Faker\Factory;
 
 class AppFixtures extends Fixture
@@ -17,21 +17,22 @@ class AppFixtures extends Fixture
 
         //creer trois compte
         for($i = 1; $i <=3; $i++) {
-            $login = new Login();
-            $login->setUsername($faker ->userName)
+            $client = new Client();
+            $client->setUsername($faker ->userName)
                   ->setPassword($faker ->password)
                   ->setEmail($faker ->freeEmail);
-            $manager->persist($login);
+            $manager->persist($client);
 
         }
         for($i = 1; $i <=5; $i++) {
 
-            $jeux = new Jeux();
-            $jeux->setNameJeux($faker->word )
+            $game = new Game();
+            $game->setNameGame($faker->word )
                  ->setPicture($faker ->imageUrl());
-            $manager->persist($jeux);
+            $manager->persist($game);
 
         }
+
 
         $manager->flush();
     }
