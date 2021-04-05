@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use App\Repository\AccountClientRepository;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Client;
+use App\Entity\Game;
 
 /**
  * @ORM\Entity(repositoryClass=AccountClientRepository::class)

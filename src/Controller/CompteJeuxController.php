@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\AccountClient;
 use App\Entity\Game;
 use App\Entity\Client;
-
+use Faker\Factory;
 use Doctrine\ORM\EntityManagerInterface;
 
 
