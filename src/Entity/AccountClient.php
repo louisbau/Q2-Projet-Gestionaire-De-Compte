@@ -2,9 +2,9 @@
 
 namespace App\Entity;
 
+use App\Entity\Client;
 use App\Repository\AccountClientRepository;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Client;
 use App\Entity\Game;
 
 /**
@@ -110,4 +110,11 @@ class AccountClient
 
         return $this;
     }
+
+    public function toArray()
+    {
+
+        return ['id' => $this-> id, 'usernameaccount'=>$this->username_account, 'passwordaccount'=>$this->password_account, 'description'=>$this->description];
+    }
+
 }

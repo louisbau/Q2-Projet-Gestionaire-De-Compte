@@ -114,4 +114,9 @@ class Client
 
         return $this;
     }
+
+    public function toArray()
+    {
+        return ['id' => $this-> id, 'username'=>$this->username];
+    }
 }

@@ -97,4 +97,9 @@ class Game
 
         return $this;
     }
+
+    public function toArray()
+    {
+        return ['id' => $this-> id, 'name_game'=>$this->name_game, 'picture'=>$this->picture];
+    }
 }

@@ -8,6 +8,9 @@ import Radio from '@material-ui/core/Radio';
 import Paper from '@material-ui/core/Paper';
 import SelectedListItem from "./listGame";
 import SimpleAccordion from "./listCompte";
+import ListeContextProvider, {ListeContext} from "./contexts/ListeContext";
+import TestListe from "./testliste";
+import Alaide from "./testaccordion";
 
 
 export default function SpacingGrid() {
@@ -16,10 +19,11 @@ export default function SpacingGrid() {
     return (
         <Grid container>
             <Grid item xs={6}>
-                <SelectedListItem/>
+                <ListeContextProvider>
+                    <TestListe />
+                </ListeContextProvider>
             </Grid>
             <Grid item xs={6}>
-                <SimpleAccordion/>
             </Grid>
         </Grid>
     );

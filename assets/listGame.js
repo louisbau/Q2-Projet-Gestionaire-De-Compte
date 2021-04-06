@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -8,6 +8,9 @@ import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import {Fab, Tooltip} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
+import axios from "axios";
+import {ListeContext} from "./contexts/ListeContext";
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -21,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SelectedListItem() {
+    const context = useContext(ListeContext);
     const classes = useStyles();
     const [selectedIndex, setSelectedIndex] = React.useState(1);
 
@@ -30,6 +34,7 @@ export default function SelectedListItem() {
 
     return (
         <div className={classes.root}>
+
             <List component="nav" aria-label="main mailbox folders">
                 <ListItem
                     button
@@ -39,8 +44,9 @@ export default function SelectedListItem() {
                     <ListItemIcon>
                         <InboxIcon/>
                     </ListItemIcon>
-                    <ListItemText primary="Fortnite"/>
+                    <ListItemText primary="fortnite"/>
                 </ListItem>
+
                 <ListItem
                     button
                     selected={selectedIndex === 1}
@@ -77,6 +83,10 @@ export default function SelectedListItem() {
                     </Tooltip>
                 </ListItem>
             </List>
+            <div>
+                {context.listeJeux.map(jeu => (<div>{jeu.jeux}</div>))}
+            </div>
+
         </div>
     );
 }
