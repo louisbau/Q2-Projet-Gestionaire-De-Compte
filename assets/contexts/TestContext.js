@@ -17,19 +17,8 @@ class TestContextProvider extends React.Component {
     //read
 
     readListe() {
-        axios.get('/api/recept/test/1')
+        axios.get('/api/test/1')
             .then(response => {
-                /*
-                const dict = {}
-                for (let a=0; a<response.data.length; a++) {
-                    dict[response.data[a].name_game] = [];
-                }
-
-                for (let a=0; a<response.data.length; a++) {
-                    dict[response.data[a].name_game].push({username_account: response.data[a].username_account, password_account: response.data[a].password_account, description: response.data[a].description, id: response.data[a].id});
-                }
-
-                 */
                 this.setState({
                     test: response.data,
                 });

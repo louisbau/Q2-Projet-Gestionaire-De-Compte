@@ -11,7 +11,7 @@ use App\Entity\Client;
 use App\Entity\AccountClient;
 use Faker\Factory;
 
-class AjoutJeuxController extends AbstractController
+class FakerController extends AbstractController
 {
     #[Route('/ajoutjeux', name: 'ajout_jeux')]
     public function ajoutJeux(): Response
