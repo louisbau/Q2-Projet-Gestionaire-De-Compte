@@ -28,29 +28,13 @@ const useStyles = makeStyles((theme) => ({
 export default function SimpleAccordion() {
     const classes = useStyles();
     const context = useContext(TestContext);
-    const listeCompte = context.test.map(number =>
-        <Accordion>
-            <AccordionSummary
-                expandIcon={<ExpandMoreIcon/>}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-            >
-                <Typography className={classes.heading}>Compte : {number.username_account}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-                <Typography>
-                    <p>Username : {number.username_account}</p>
-                    <p>Password : {number.password_account}</p>
-                    <p>Description : {number.description}</p>
-                </Typography>
-            </AccordionDetails>
-        </Accordion>
+    console.log("lol")
+    console.log()
 
-    )
 
     return (
         <div className={classes.root}>
-            {listeCompte}
+            "lol"
         </div>
     );
 }

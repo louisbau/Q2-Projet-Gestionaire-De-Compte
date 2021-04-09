@@ -18,17 +18,8 @@ import Test2 from "./listGame";
 export default function SpacingGrid() {
 
     return (
-        <Grid container>
-            <Grid item xs={6}>
-               <TestContextProvider>
-                   <Test2 />
-               </TestContextProvider>
-            </Grid>
-            <Grid item xs={6}>
-                <TestContextProvider>
-                    <SimpleAccordion />
-                </TestContextProvider>
-            </Grid>
-        </Grid>
+        <TestContextProvider>
+            <Test2 />
+        </TestContextProvider>
     );
 }

@@ -43,7 +43,7 @@ class AccountClientRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
-            'SELECT T3.name_game, T3.id, T2.username_account, T2.password_account, T2.description, T2.id
+            'SELECT T3.name_game, T3.id, T2.username_account, T2.password_account, T2.description, T2.id, T3.id as idGame
              FROM App\Entity\Client AS T1, App\Entity\AccountClient AS T2, App\Entity\Game as T3
              where T1.id = T2.account_id and T2.game_id = T3.id and T1.id = ?1'
         )->setParameter('1', $client);
