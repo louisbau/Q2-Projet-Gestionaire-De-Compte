@@ -3,11 +3,14 @@ import './styles/app.css';
 import ReactDOM from "react-dom";
 
 import SimpleMenu from "./menuBar.js";
-import SpacingGrid from "./separateur";
+import Test2 from "./listGame";
+import TestContextProvider from "./contexts/TestContext";
 ReactDOM.render(
     <div>
         <SimpleMenu />
-        <SpacingGrid />
+        <TestContextProvider>
+            <Test2 />
+        </TestContextProvider>
     </div>,
     document.getElementById('root')
 );

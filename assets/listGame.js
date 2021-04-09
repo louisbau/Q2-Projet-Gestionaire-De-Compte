@@ -8,12 +8,8 @@ import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import {Fab, Tooltip} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import axios from "axios";
-import TestContextProvider, {TestContext} from "./contexts/TestContext";
+import {TestContext} from "./contexts/TestContext";
 import ListSubheader from "@material-ui/core/ListSubheader";
-import {indexOf} from "core-js";
-import {func} from "prop-types";
-import SimpleAccordion from "./listCompte";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -23,9 +19,14 @@ import Grid from "@material-ui/core/Grid";
 
 
 const useStyles = makeStyles((theme) => ({
-    root: {
-        width: '100%',
-        maxWidth: '200%',
+    game: {
+        width: '15%',
+
+        backgroundColor: theme.palette.background.paper,
+    },
+    compte: {
+        width: '30%',
+
         backgroundColor: theme.palette.background.paper,
     },
     fab: {
@@ -36,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Test2() {
     const context = useContext(TestContext);
     const classes = useStyles();
-    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [selectedIndex, setSelectedIndex] = React.useState(1);
 
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
@@ -65,7 +66,7 @@ export default function Test2() {
 
     )
     console.log(selectedIndex)
-
+    /*
     const listeCompte = context.test.map(number =>
         <Accordion>
             <AccordionSummary
@@ -77,17 +78,18 @@ export default function Test2() {
             </AccordionSummary>
             <AccordionDetails>
                 <Typography>
-                    <p>Username : {number.username_account}</p>
-                    <p>Password : {number.password_account}</p>
-                    <p>Description : {number.description}</p>
+                    Username : {number.username_account}
+                    Password : {number.password_account}
+                    Description : {number.description}
                 </Typography>
             </AccordionDetails>
         </Accordion>
 
     )
+    */
     return (
-        <div className={classes.root}>
-            <Grid item xs={6}>
+        <div>
+            <Grid item xs={6} className={classes.game}>
                 <List
                     component="nav"
                     aria-label="nested-list-subheader"
@@ -101,26 +103,36 @@ export default function Test2() {
 
                 </List>
             </Grid>
-            <Grid item xs={6}>
-                {context.test.map(jeu => (
-                    (selectedIndex) === jeu.idGame && <Accordion>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon/>}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                            >
-                                <Typography className={classes.heading}>Compte : {jeu.username_account}</Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Typography>
-                                    <p>Username : {jeu.username_account}</p>
-                                    <p>Password : {jeu.password_account}</p>
-                                    <p>Description : {jeu.description}</p>
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>
-                    )
-                )}
+            <Grid item xs={6} className={classes.compte}>
+                <List
+                    component="nav"
+                    aria-label="nested-list-subheader"
+                    subheader={
+                        <ListSubheader component="div" id="nested-list-subheader">
+                            Liste de Compte
+                        </ListSubheader>
+                    }
+                >
+                    {context.test.map(jeu => (
+                            (selectedIndex) === jeu.idGame && <Accordion>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon/>}
+                                    aria-controls="panel1a-content"
+                                    id="panel1a-header"
+                                >
+                                    <Typography className={classes.heading}>Compte : {jeu.username_account}</Typography>
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <Typography>
+                                        <p>Username : {jeu.username_account}</p>
+                                        <p>Password : {jeu.password_account}</p>
+                                        <p>Description : {jeu.description}</p>
+                                    </Typography>
+                                </AccordionDetails>
+                            </Accordion>
+                        )
+                    )}
+                </List>
             </Grid>
         </div>
     );
