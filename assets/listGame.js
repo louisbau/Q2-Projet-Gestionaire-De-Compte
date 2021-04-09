@@ -66,27 +66,7 @@ export default function Test2() {
 
     )
     console.log(selectedIndex)
-    /*
-    const listeCompte = context.test.map(number =>
-        <Accordion>
-            <AccordionSummary
-                expandIcon={<ExpandMoreIcon/>}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-            >
-                <Typography className={classes.heading}>Compte : {number.username_account}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-                <Typography>
-                    Username : {number.username_account}
-                    Password : {number.password_account}
-                    Description : {number.description}
-                </Typography>
-            </AccordionDetails>
-        </Accordion>
 
-    )
-    */
     return (
         <div>
             <Grid item xs={6} className={classes.game}>
