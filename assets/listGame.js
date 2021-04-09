@@ -54,7 +54,7 @@ export default function Test2() {
     }
 
     const list = lister.map((number,index) =>
-        <ListItem button
+        <ListItem key={index} button
                   selected={selectedIndex === idjeux[index]}
                   onClick={(event) => handleListItemClick(event, idjeux[index])}
         >
@@ -93,8 +93,8 @@ export default function Test2() {
                         </ListSubheader>
                     }
                 >
-                    {context.test.map(jeu => (
-                            (selectedIndex) === jeu.idGame && <Accordion>
+                    {context.test.map((jeu, index) => (
+                            (selectedIndex) === jeu.idGame && <Accordion key={index}>
                                 <AccordionSummary
                                     expandIcon={<ExpandMoreIcon/>}
                                     aria-controls="panel1a-content"
@@ -104,9 +104,9 @@ export default function Test2() {
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <Typography>
-                                        <p>Username : {jeu.username_account}</p>
-                                        <p>Password : {jeu.password_account}</p>
-                                        <p>Description : {jeu.description}</p>
+                                        Username : {jeu.username_account}<br></br>
+                                        Password : {jeu.password_account}<br></br>
+                                        Description : {jeu.description}<br></br>
                                     </Typography>
                                 </AccordionDetails>
                             </Accordion>
