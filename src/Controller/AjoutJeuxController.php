@@ -34,4 +34,58 @@ class AjoutJeuxController extends AbstractController
 
         return new Response('Saved new product with id '.$game->getId());
     }
+    #[Route('/ajoutclient', name: 'ajout_client')]
+    public function ajoutClient() : Response
+    {
+        $faker = \Faker\Factory::create('fr_FR');
+        $client = new Client();
+        $client->setUsername($faker ->userName);
+        $client->setPassword($faker ->password);
+        $client->setEmail($faker ->freeEmail);
+        $entityManager = $this->getDoctrine()->getManager();
+
+        $entityManager->persist($client);
+        $entityManager->flush();
+
+        return new Response(
+            ' and new client with id: '.$client->getId()
+        );
+    }
+    #[Route('/comptejeux/{idgame}/{idclient}', name: 'compte_jeux')]
+    public function ajoutCompteJeux(int $idgame, int $idclient) : Response
+    {
+        $game = $this->getDoctrine()
+            ->getRepository(Game::class)
+            ->find($idgame);
+        $client = $this->getDoctrine()
+            ->getRepository(Client::class)
+            ->find($idclient);
+
+        if (!$game) {
+            throw $this->createNotFoundException(
+                'No product found for id '.$idgame
+            );
+        }
+        if (!$client) {
+            throw $this->createNotFoundException(
+                'No product found for id '.$idclient
+            );
+        }
+        $faker = \Faker\Factory::create('fr_FR');
+        $accountclient = new AccountClient();
+        $accountclient->setUsernameAccount($faker->userName);
+        $accountclient->setPasswordAccount($faker->password);
+        $accountclient->setDescription("zoicjzijcizjicjzc");
+        $accountclient->setGameId($game);
+        $accountclient->setAccountId($client);
+        $entityManager=$this->getDoctrine()->getManager();
+
+        $entityManager->persist($accountclient);
+        $entityManager->flush();
+        return new Response(
+            'username: '.$accountclient->getUsernameAccount()
+            .' password : '.$accountclient->getPasswordAccount()
+            .' description : '.$accountclient->getDescription()
+        );
+    }
 }

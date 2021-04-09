@@ -12,8 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 
-#[Route('/api/recept', name: 'recept')]
-class ReceptController extends AbstractController
+#[Route('/api', name: 'api')]
+class ApiController extends AbstractController
 {
     /**
      * @var EntityManagerInterface
