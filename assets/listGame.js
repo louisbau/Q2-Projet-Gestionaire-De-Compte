@@ -9,7 +9,9 @@ import DraftsIcon from '@material-ui/icons/Drafts';
 import {Fab, Tooltip} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import axios from "axios";
-import {ListeContext} from "./contexts/ListeContext";
+import {TestContext} from "./contexts/TestContext";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import {indexOf} from "core-js";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -23,70 +25,46 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function SelectedListItem() {
-    const context = useContext(ListeContext);
+export default function Test2() {
+    const context = useContext(TestContext);
     const classes = useStyles();
     const [selectedIndex, setSelectedIndex] = React.useState(1);
 
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
     };
+    const lister =[];
 
+    for (let a of context.test) {
+        if (lister[lister.length-1] !== a.name_game){
+            lister.push(a.name_game)
+        }
+    }
+    const list = lister.map((number,index) =>
+        <ListItem button
+                  selected={selectedIndex === index}
+                  onClick={(event) => handleListItemClick(event, index)}
+        >
+            <ListItemIcon>
+                <InboxIcon/>
+            </ListItemIcon>
+            <ListItemText primary={number}/>
+        </ListItem>
+
+    )
     return (
         <div className={classes.root}>
-
-            <List component="nav" aria-label="main mailbox folders">
-                <ListItem
-                    button
-                    selected={selectedIndex === 0}
-                    onClick={(event) => handleListItemClick(event, 0)}
-                >
-                    <ListItemIcon>
-                        <InboxIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="fortnite"/>
-                </ListItem>
-
-                <ListItem
-                    button
-                    selected={selectedIndex === 1}
-                    onClick={(event) => handleListItemClick(event, 1)}
-                >
-                    <ListItemIcon>
-                        <DraftsIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="League of Legend"/>
-                </ListItem>
-                <ListItem
-                    button
-                    selected={selectedIndex === 2}
-                    onClick={(event) => handleListItemClick(event, 2)}
-                >
-                    <ListItemIcon>
-                        <DraftsIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="Rocket League"/>
-                </ListItem>
-                <ListItem
-                    button
-                    selected={selectedIndex === 3}
-                    onClick={(event) => handleListItemClick(event, 3)}
-                >
-                    <ListItemIcon>
-                        <DraftsIcon/>
-                    </ListItemIcon>
-                    <ListItemText primary="add games"/>
-                    <Tooltip title="Add" aria-label="add">
-                        <Fab color="primary" className={classes.fab}>
-                            <AddIcon/>
-                        </Fab>
-                    </Tooltip>
-                </ListItem>
+            <List
+                component="nav"
+                aria-label="nested-list-subheader"
+                subheader={
+                    <ListSubheader component="div" id="nested-list-subheader">
+                        Liste de Jeux
+                    </ListSubheader>
+                }
+            >
+                {list}
             </List>
-            <div>
-                {context.listeJeux.map(jeu => (<div>{jeu.jeux}</div>))}
-            </div>
-
         </div>
     );
 }

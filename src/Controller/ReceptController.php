@@ -79,8 +79,25 @@ class ReceptController extends AbstractController
     {
         $accountClient = $this->getDoctrine()
             ->getRepository(AccountClient::class)
-            ->findByExampleField($client);
+            ->findJeux($client);
         return $this->json($accountClient);
     }
 
+    #[Route('/test/{client}')]
+    public function receivetest(int $client)
+    {
+        $accountClient = $this->getDoctrine()
+            ->getRepository(AccountClient::class)
+            ->findtest($client);
+        return $this->json($accountClient);
+    }
+
+    #[Route('/liste/{client}/{jeux}')]
+    public function receiveCompte(int $client, int $jeux)
+    {
+        $accountClient = $this->getDoctrine()
+            ->getRepository(AccountClient::class)
+            ->findCompte($client, $jeux);
+        return $this->json($accountClient);
+    }
 }

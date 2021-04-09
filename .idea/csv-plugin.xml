@@ -10,6 +10,20 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\assets\listGame.js">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\assets\separateur.js">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\assets\test.js">
           <value>
             <Attribute>

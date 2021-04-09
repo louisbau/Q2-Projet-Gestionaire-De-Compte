@@ -11,19 +11,23 @@ import SimpleAccordion from "./listCompte";
 import ListeContextProvider, {ListeContext} from "./contexts/ListeContext";
 import TestListe from "./testliste";
 import Alaide from "./testaccordion";
-
+import ListeCompteContextProvider, {ListeCompteContext} from "./contexts/ListeCompteContext";
+import TestContextProvider from "./contexts/TestContext";
+import Test2 from "./listGame";
 
 export default function SpacingGrid() {
-
 
     return (
         <Grid container>
             <Grid item xs={6}>
-                <ListeContextProvider>
-                    <TestListe />
-                </ListeContextProvider>
+               <TestContextProvider>
+                   <Test2 />
+               </TestContextProvider>
             </Grid>
             <Grid item xs={6}>
+                <TestContextProvider>
+                    <SimpleAccordion />
+                </TestContextProvider>
             </Grid>
         </Grid>
     );

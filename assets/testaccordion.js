@@ -7,7 +7,8 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import {Fab, Tooltip} from "@material-ui/core";
 import AddIcon from '@material-ui/icons/Add';
-import {ListeContext} from "./contexts/ListeContext";
+import {ListeCompteContext} from "./contexts/ListeCompteContext";
+import {number} from "prop-types";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,30 +27,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Alaide() {
-    const context = useContext(ListeContext);
+    const context = useContext(ListeCompteContext);
     const classes = useStyles();
-    const liste = context.listeJeux;
-    console.log(Object.keys(liste['sunt']));
-    const displayCompte = Object.keys(context.listeJeux).map((number) =>
-        <Accordion>
-            <AccordionSummary
-                expandIcon={<ExpandMoreIcon/>}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-            >
-                <Typography className={classes.heading}>{number}</Typography>
-            </AccordionSummary>
-            <AccordionDetails>
-                <Typography>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                    sit amet blandit leo lobortis eget.
-                </Typography>
-            </AccordionDetails>
-        </Accordion>
-    )
+
     return (
         <div className={classes.root}>
-            {displayCompte}
+            {context.listeCompte.map(jeu => (
+                <Accordion>
+                    <AccordionSummary
+                        expandIcon={<ExpandMoreIcon/>}
+                        aria-controls="panel1a-content"
+                        id="panel1a-header"
+                    >
+                        <Typography className={classes.heading}>Compte : {jeu.username_account}</Typography>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                        <Typography>
+                            <p>Username : {jeu.username_account}</p>
+                            <p>Password : {jeu.password_account}</p>
+                            <p>Description : {jeu.description}</p>
+                        </Typography>
+                    </AccordionDetails>
+                </Accordion>
+                )
+            )}
         </div>
     );
 }

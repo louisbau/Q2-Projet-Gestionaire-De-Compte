@@ -1,28 +1,30 @@
 import React, {createContext} from 'react';
 import axios from "axios";
 
-export const ListeContext = createContext();
+export const ListeCompteContext = createContext();
 
 
-class ListeContextProvider extends React.Component {
+class ListeCompteContextProvider extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            listeJeux: [],
+            listeCompte: [],
         };
-        //this.updateListe();
         this.readListe();
+        //this.updateListe();
     }
     //create
     //read
 
     readListe() {
-        axios.get('/api/recept/liste/1')
+
+        axios.get('/api/recept/liste/1/1')
             .then(response => {
+
                 /*
                 const dict = {}
                 for (let a=0; a<response.data.length; a++) {
-                    dict[response.data[a].name_game] = [];
+                    dict[] = [];
                 }
 
                 for (let a=0; a<response.data.length; a++) {
@@ -31,10 +33,10 @@ class ListeContextProvider extends React.Component {
 
                  */
                 this.setState({
-                    listeJeux: response.data,
+                    listeCompte: response.data,
                 });
             }).catch(error => {
-                console.error(error);
+            console.error(error);
         })
     }
     //update
@@ -48,7 +50,7 @@ class ListeContextProvider extends React.Component {
 
     render() {
         return (
-            <ListeContext.Provider value={{
+            <ListeCompteContext.Provider value={{
                 ...this.state,
                 readListe: this.readListe.bind(this),
                 updateListe: this.updateListe.bind(this),
@@ -57,11 +59,11 @@ class ListeContextProvider extends React.Component {
 
             }}>
                 {this.props.children}
-            </ListeContext.Provider>
+            </ListeCompteContext.Provider>
         );
     }
 }
 
 
 
-export default ListeContextProvider;
+export default ListeCompteContextProvider;

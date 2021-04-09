@@ -1,23 +1,23 @@
 import React, {createContext} from 'react';
 import axios from "axios";
 
-export const ListeContext = createContext();
+export const TestContext = createContext();
 
 
-class ListeContextProvider extends React.Component {
+class TestContextProvider extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            listeJeux: [],
+            test: [],
         };
-        //this.updateListe();
+        this.updateListe();
         this.readListe();
     }
     //create
     //read
 
     readListe() {
-        axios.get('/api/recept/liste/1')
+        axios.get('/api/recept/test/1')
             .then(response => {
                 /*
                 const dict = {}
@@ -26,16 +26,20 @@ class ListeContextProvider extends React.Component {
                 }
 
                 for (let a=0; a<response.data.length; a++) {
-                    dict[response.data[a].name_game].push({'username_account': response.data[a].username_account, 'password_account': response.data[a].password_account, 'description': response.data[a].description});
+                    dict[response.data[a].name_game].push({username_account: response.data[a].username_account, password_account: response.data[a].password_account, description: response.data[a].description, id: response.data[a].id});
                 }
 
                  */
                 this.setState({
-                    listeJeux: response.data,
+                    test: response.data,
                 });
+                console.log(this.state)
+
             }).catch(error => {
-                console.error(error);
+            console.error(error);
         })
+
+
     }
     //update
     updateListe() {
@@ -48,7 +52,7 @@ class ListeContextProvider extends React.Component {
 
     render() {
         return (
-            <ListeContext.Provider value={{
+            <TestContext.Provider value={{
                 ...this.state,
                 readListe: this.readListe.bind(this),
                 updateListe: this.updateListe.bind(this),
@@ -57,11 +61,11 @@ class ListeContextProvider extends React.Component {
 
             }}>
                 {this.props.children}
-            </ListeContext.Provider>
+            </TestContext.Provider>
         );
     }
 }
 
 
 
-export default ListeContextProvider;
+export default TestContextProvider;

@@ -9,14 +9,9 @@ import DraftsIcon from '@material-ui/icons/Drafts';
 import {Fab, Tooltip} from "@material-ui/core";
 import ListSubheader from '@material-ui/core/ListSubheader'
 import AddIcon from "@material-ui/icons/Add";
-import axios from "axios";
+
 import {ListeContext} from "./contexts/ListeContext";
-import {number, object} from "prop-types";
-import {indexOf} from "core-js";
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
-import StarBorder from '@material-ui/icons/StarBorder';
-import Collapse from '@material-ui/core/Collapse';
+
 
 
 
@@ -47,23 +42,11 @@ const useStyles = makeStyles((theme) => ({
 export default function TestListe() {
     const context = useContext(ListeContext);
     const classes = useStyles();
-    const [open, setOpen] = React.useState(true);
-    const handleClick = () => {
-        setOpen(!open);
+    const [selectedIndex, setSelectedIndex] = React.useState(1);
+    const handleListItemClick = (event, index) => {
+        setSelectedIndex(index);
     };
-    const indexGame = Object.keys(context.listeJeux)
-    const table = [];
 
-    const displayGame = Object.keys(context.listeJeux).map((number) =>
-
-        <ListItem button>
-            <ListItemIcon>
-                <InboxIcon/>
-            </ListItemIcon>
-            <ListItemText primary={number}/>
-        </ListItem>,
-        <div id={number}/>
-    )
 
     return (
         <div className={classes.root}>
@@ -76,7 +59,18 @@ export default function TestListe() {
                     </ListSubheader>
                 }
             >
-                {displayGame}
+                {context.listeJeux.map(number => (
+                    <ListItem button
+                              selected={selectedIndex === number.id}
+                              onClick={(event) => handleListItemClick(event, number.id)}
+                    >
+                        <ListItemIcon>
+                            <InboxIcon/>
+                        </ListItemIcon>
+                        <ListItemText primary={number.name_game}/>
+                    </ListItem>
+                    )
+                )}
             </List>
         </div>
     );

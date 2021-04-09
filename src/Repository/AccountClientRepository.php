@@ -23,12 +23,12 @@ class AccountClientRepository extends ServiceEntityRepository
      * @return AccountClient[] Returns an array of AccountClient objects
      */
 
-    public function findByExampleField(int $client): array
+    public function findJeux(int $client): array
     {
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
-            'SELECT T1.id, T1.username, T3.name_game, T2.username_account, T2.password_account, T2.description
+            'SELECT Distinct T3.name_game, T3.id
              FROM App\Entity\Client AS T1, App\Entity\AccountClient AS T2, App\Entity\Game as T3
              where T1.id = T2.account_id and T2.game_id = T3.id and T1.id = ?1'
         )->setParameter('1', $client);
@@ -38,15 +38,34 @@ class AccountClientRepository extends ServiceEntityRepository
     }
 
 
-    /*
-    public function findOneBySomeField($value): ?AccountClient
+    public function findtest(int $client): array
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT T3.name_game, T3.id, T2.username_account, T2.password_account, T2.description, T2.id
+             FROM App\Entity\Client AS T1, App\Entity\AccountClient AS T2, App\Entity\Game as T3
+             where T1.id = T2.account_id and T2.game_id = T3.id and T1.id = ?1'
+        )->setParameter('1', $client);
+
+        // returns an array of Product objects
+        return $query->getResult();
     }
-    */
+
+    public function findCompte(int $client, int $jeux): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT T2.username_account, T2.password_account, T2.description
+             FROM App\Entity\Client AS T1, App\Entity\AccountClient AS T2, App\Entity\Game as T3
+             where T1.id = T2.account_id and T2.game_id = T3.id and T1.id = ?1 and T3.id = ?2'
+        )->setParameter('1', $client)
+            ->setParameter('2', $jeux)
+        ;
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
+
 }
