@@ -104,9 +104,9 @@ export default function Test2() {
                                 </AccordionSummary>
                                 <AccordionDetails>
                                     <Typography>
-                                        Username : {jeu.username_account}<br></br>
-                                        Password : {jeu.password_account}<br></br>
-                                        Description : {jeu.description}<br></br>
+                                        Username : {jeu.username_account}<br/>
+                                        Password : {jeu.password_account}<br/>
+                                        Description : {jeu.description}<br/>
                                     </Typography>
                                 </AccordionDetails>
                             </Accordion>

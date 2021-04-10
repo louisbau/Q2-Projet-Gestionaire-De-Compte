@@ -38,7 +38,6 @@ function SimpleMenu() {
                         <ProfileContextProvider><CustomizedDialogs /></ProfileContextProvider>
 
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>My account</MenuItem>
                     <MenuItem onClick={handleClose}>Logout</MenuItem>
                 </Menu>
             </Toolbar>
