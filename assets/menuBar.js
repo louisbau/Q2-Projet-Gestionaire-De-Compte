@@ -5,6 +5,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import {AppBar, Toolbar} from "@material-ui/core";
 import CustomizedDialogs from "./Dialogue";
 import ProfileContextProvider from "./contexts/ProfileContext";
+import Link from '@material-ui/core/Link';
 
 function SimpleMenu() {
     const [anchorEl, setAnchorEl] = React.useState(null);
@@ -36,9 +37,8 @@ function SimpleMenu() {
                 >
                     <MenuItem onClick={handleClose}>
                         <ProfileContextProvider><CustomizedDialogs /></ProfileContextProvider>
-
                     </MenuItem>
-                    <MenuItem onClick={handleClose}>Logout</MenuItem>
+                    <MenuItem onClick={handleClose}><Link href="/">Logout</Link></MenuItem>
                 </Menu>
             </Toolbar>
 
