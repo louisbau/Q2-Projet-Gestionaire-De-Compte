@@ -119,4 +119,10 @@ class Client
     {
         return ['id' => $this-> id, 'username'=>$this->username];
     }
+
+    public function toArrayFull()
+    {
+        return ['id' => $this-> id, 'username'=>$this->username,'email'=>$this->email];
+    }
 }
+

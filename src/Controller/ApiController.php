@@ -74,6 +74,16 @@ class ApiController extends AbstractController
         return $this->json($arrayLogin);
     }
 
+    #[Route('/profile/{id}')]
+    public function receiveProfile(int $id)
+    {
+        $Profiles = $this->clientRepository->find($id);
+        $arrayProfiles = [];
+        $arrayProfiles[] = $Profiles->toArrayFull();
+
+        return $this->json($arrayProfiles);
+    }
+
     #[Route('/liste/{client}')]
     public function receiveListe(int $client)
     {
