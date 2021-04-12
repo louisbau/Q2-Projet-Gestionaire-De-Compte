@@ -73,7 +73,8 @@ class TestContextProvider extends React.Component {
         console.log(this.state)
     }
     //delete
-    deleteListe() {
+    deleteListe(idDel) {
+        console.log(idDel)
 
     }
 
@@ -85,7 +86,7 @@ class TestContextProvider extends React.Component {
                 createListeJeux : this.createListeJeux.bind(this),
                 readListe: this.readListe.bind(this),
                 updateListe: this.updateListe.bind(this),
-                //deleteListe: this.deleteListe.bind(this),
+                deleteListe: this.deleteListe.bind(this),
 
 
             }}>

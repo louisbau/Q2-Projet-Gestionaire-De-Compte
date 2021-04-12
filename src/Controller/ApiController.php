@@ -107,7 +107,7 @@ class ApiController extends AbstractController
         return $this->json($accountClient);
     }
 
-    #[Route('/test/createCompte', name: 'api_test_createCompte')]
+    #[Route('/test/createCompte', name: 'api_test_createCompte', methods: ['POST'])]
     public function AjouterCompte(Request $request)
     {
         $content = json_decode($request->getContent());
@@ -151,7 +151,7 @@ class ApiController extends AbstractController
 
     }
 
-    #[Route('/test/createJeux', name: 'api_test_createJeux')]
+    #[Route('/test/createJeux', name: 'api_test_createJeux', methods: ['POST'])]
     public function AjouterJeux(Request $request)
     {
 

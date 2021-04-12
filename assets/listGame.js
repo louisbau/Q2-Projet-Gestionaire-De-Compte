@@ -50,13 +50,13 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
     },
     ju: {
-        width:'0px',
-        padding:'0',
-        border:'0',
+        width: '0px',
+        padding: '0',
+        border: '0',
 
     },
     table: {
-        display:"inline",
+        display: "inline",
         width: 'auto',
 
         backgroundColor: theme.palette.background.paper,
@@ -80,9 +80,10 @@ export default function Test2() {
     const [addUser, setAddUser] = React.useState('');
     const [addPass, setAddPass] = React.useState('');
     const [addDes, setAddDes] = React.useState('');
-    const [addGame, setAddGame] = React.useState('')
+    const [addGame, setAddGame] = React.useState('');
     const [visible, setVisible] = React.useState('0');
     const [open, setOpen] = React.useState(false);
+    const [deleteCompte, setDeleteCompte] = React.useState('');
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -113,24 +114,41 @@ export default function Test2() {
     const handleSubmit = (e) => {
         e.preventDefault();
         context.createListe(
-            {name_game: selectedGame, username_account: addUser, password_account: addPass, description: addDes, idGame: selectedIndex, idClient: idclient},
+            {
+                name_game: selectedGame,
+                username_account: addUser,
+                password_account: addPass,
+                description: addDes,
+                idGame: selectedIndex,
+                idClient: idclient
+            },
         );
     }
     const handleSubmitJeux = (e) => {
         e.preventDefault();
         setOpen(false);
         context.createListeJeux(
-            {name_game: addGame, username_account: addUser, password_account: addPass, description: addDes, idClient: idclient},
+            {
+                name_game: addGame,
+                username_account: addUser,
+                password_account: addPass,
+                description: addDes,
+                idClient: idclient
+            },
         );
         console.log(idclient)
     }
     const handleEdit = (e) => {
-        if(visible ==="1"){
+        if (visible === "1") {
             setVisible("0")
-        }
-        else {
+        } else {
             setVisible("1")
         }
+
+    };
+    const handleDelete = (e) => {
+        setDeleteCompte(e.target.value)
+        console.log(e.target.value)
 
     };
 
@@ -139,7 +157,7 @@ export default function Test2() {
     const idjeux = [];
     let idclient = '';
     for (let a of context.test) {
-        if (lister[lister.length-1] !== a.name_game){
+        if (lister[lister.length - 1] !== a.name_game) {
             lister.push(a.name_game);
             idjeux.push(a.idGame)
             idclient = a.idClient
@@ -158,7 +176,7 @@ export default function Test2() {
                 id="Addjeux"
                 label="ajouter un jeux : "
                 fullWidth
-                onChange={(e) =>handleChangeGame(e)}
+                onChange={(e) => handleChangeGame(e)}
 
             />
             <TextField
@@ -167,7 +185,7 @@ export default function Test2() {
                 id="Addusername"
                 label="ajouter un username: "
                 fullWidth
-                onChange={(e) =>handleChangeUser(e)}
+                onChange={(e) => handleChangeUser(e)}
             />
             <TextField
                 autoFocus
@@ -175,7 +193,7 @@ export default function Test2() {
                 id="Addpassword"
                 label="ajouter un mot de passe : "
                 fullWidth
-                onChange={(e) =>handleChangePass(e)}
+                onChange={(e) => handleChangePass(e)}
             />
             <TextField
                 autoFocus
@@ -183,14 +201,14 @@ export default function Test2() {
                 id="Adddescription"
                 label="ajouter une description"
                 fullWidth
-                onChange={(e) =>handleChangeDes(e)}
+                onChange={(e) => handleChangeDes(e)}
             />
         </DialogContent>
         <DialogActions>
             <Button onClick={handleClose} color="primary">
                 Cancel
             </Button>
-            <Button onClick={(e) =>handleSubmitJeux(e)} color="primary">
+            <Button onClick={(e) => handleSubmitJeux(e)} color="primary">
                 Submit
             </Button>
         </DialogActions>
@@ -205,7 +223,6 @@ export default function Test2() {
                 {number}
             </TableCell>
         </TableRow>
-
     )
     console.log(selectedIndex)
     return (
@@ -219,7 +236,11 @@ export default function Test2() {
                     </TableHead>
                     <TableBody>
                         {listz}
-                        {visible === '1' ? <TableRow><TableCell align={'center'}><Fab size="small" color="primary"  aria-label="add" className={classes.margin} onClick={handleClickOpen}><AddIcon /></Fab>{dialo}</TableCell></TableRow>: ""}
+                        {visible === '1' ?
+                            <TableRow><TableCell align={'center'}><Fab size="small" color="primary" aria-label="add"
+                                                                       className={classes.margin}
+                                                                       onClick={handleClickOpen}><AddIcon/></Fab>{dialo}
+                            </TableCell></TableRow> : ""}
                     </TableBody>
                 </Table>
                 <Table className={classes.table}>
@@ -229,8 +250,8 @@ export default function Test2() {
                                 Liste de Compte
                             </TableCell>
                             <TableCell>
-                                <Fab color="primary" aria-label="edit"  size={"small"} onClick={(e) =>handleEdit(e)}>
-                                    <EditIcon />
+                                <Fab color="primary" aria-label="edit" size={"small"} onClick={(e) => handleEdit(e)}>
+                                    <EditIcon/>
                                 </Fab>
                             </TableCell>
                         </TableRow>
@@ -238,27 +259,29 @@ export default function Test2() {
                     <TableBody>
                         {context.test.map((jeu, index) => (
                                 (selectedIndex) === jeu.idGame &&
-                                    <TableRow key={index}>
-                                        <TableCell>
-                                            <Accordion>
-                                                <AccordionSummary
-                                                    expandIcon={<ExpandMoreIcon/>}
-                                                    aria-controls="panel1a-content"
-                                                    id="panel1a-header"
-                                                >
-                                                    <Typography>{jeu.username_account}</Typography>
-                                                </AccordionSummary>
-                                                <AccordionDetails>
-                                                    <Typography>
-                                                        Username : {jeu.username_account}<br/>
-                                                        Password : {jeu.password_account}<br/>
-                                                        Description : {jeu.description}<br/>
-                                                    </Typography>
-                                                </AccordionDetails>
-                                            </Accordion>
-                                        </TableCell>
-                                        {visible === '1' ? <TableCell><IconButton aria-label="delete"><DeleteIcon fontSize="small" /></IconButton></TableCell> : <TableCell />}
-                                    </TableRow>
+                                <TableRow key={index}>
+                                    <TableCell>
+                                        <Accordion>
+                                            <AccordionSummary
+                                                expandIcon={<ExpandMoreIcon/>}
+                                                aria-controls="panel1a-content"
+                                                id="panel1a-header"
+                                            >
+                                                <Typography>{jeu.username_account}</Typography>
+                                            </AccordionSummary>
+                                            <AccordionDetails>
+                                                <Typography>
+                                                    Username : {jeu.username_account}<br/>
+                                                    Password : {jeu.password_account}<br/>
+                                                    Description : {jeu.description}<br/>
+                                                </Typography>
+                                            </AccordionDetails>
+                                        </Accordion>
+                                    </TableCell>
+                                    {visible === '1' ? <TableCell><Fab size="small" color="secondary" aria-label="delete" value={jeu.id} onClick={(e)=>handleDelete(e)}>
+                                        <DeleteIcon />
+                                    </Fab></TableCell > : <TableCell value={jeu.id}/>}
+                                </TableRow>
                             )
                         )}
                         {visible === '1' ?
@@ -274,10 +297,13 @@ export default function Test2() {
                                         </AccordionSummary>
                                         <AccordionDetails>
                                             <form>
-                                                <TextField id="addUsernamefff"  label="Add username" onChange={(e) =>handleChangeUser(e)}/>
-                                                <TextField id="addPassword"   label="Add password" onChange={(e) =>handleChangePass(e)}/>
-                                                <TextField id="addDescription"  label="Add description" onChange={(e) =>handleChangeDes(e)}/>
-                                                <Button color="primary" type="submit" onClick={(e) =>handleSubmit(e)}>
+                                                <TextField id="addUsernamefff" label="Add username"
+                                                           onChange={(e) => handleChangeUser(e)}/>
+                                                <TextField id="addPassword" label="Add password"
+                                                           onChange={(e) => handleChangePass(e)}/>
+                                                <TextField id="addDescription" label="Add description"
+                                                           onChange={(e) => handleChangeDes(e)}/>
+                                                <Button color="primary" type="submit" onClick={(e) => handleSubmit(e)}>
                                                     ADD
                                                 </Button>
                                             </form>
