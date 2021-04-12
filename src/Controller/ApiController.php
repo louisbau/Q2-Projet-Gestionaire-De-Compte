@@ -3,11 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\AccountClient;
+use App\Entity\Client;
+use App\Entity\Game;
 use App\Repository\AccountClientRepository;
 use App\Repository\ClientRepository;
 use App\Repository\GameRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -40,7 +44,7 @@ class ApiController extends AbstractController
         $this->clientRepository = $clientRepository;
         $this->gameRepository = $gameRepository;
     }
-    #[Route('/comptejeux')]
+    #[Route('/comptejeux', name: 'api_comptejeux')]
     public function receiveAccountGame()
     {
         $comptes = $this->accountClientRepository->findALl();
@@ -51,7 +55,8 @@ class ApiController extends AbstractController
         return $this->json($arrayCompte);
     }
 
-    #[Route('/game')]
+
+    #[Route('/game', name: 'api_game')]
     public function receiveGame()
     {
         $games = $this->gameRepository->findALl();
@@ -62,7 +67,7 @@ class ApiController extends AbstractController
         return $this->json($arrayGame);
     }
 
-    #[Route('/login')]
+    #[Route('/login',  name: 'api_login')]
     public function receiveLogin()
     {
         $logins = $this->clientRepository->findAll();
@@ -74,7 +79,7 @@ class ApiController extends AbstractController
         return $this->json($arrayLogin);
     }
 
-    #[Route('/profile/{id}')]
+    #[Route('/profile/{id}',  name: 'api_profile_id')]
     public function receiveProfile(int $id)
     {
         $Profiles = $this->clientRepository->find($id);
@@ -84,7 +89,7 @@ class ApiController extends AbstractController
         return $this->json($arrayProfiles);
     }
 
-    #[Route('/liste/{client}')]
+    #[Route('/liste/{client}',  name: 'api_liste_client')]
     public function receiveListe(int $client)
     {
         $accountClient = $this->getDoctrine()
@@ -93,7 +98,7 @@ class ApiController extends AbstractController
         return $this->json($accountClient);
     }
 
-    #[Route('/test/{client}')]
+    #[Route('/test/read/{client}', name: 'api_test_client')]
     public function receivetest(int $client)
     {
         $accountClient = $this->getDoctrine()
@@ -102,7 +107,51 @@ class ApiController extends AbstractController
         return $this->json($accountClient);
     }
 
-    #[Route('/liste/{client}/{jeux}')]
+    #[Route('/test/create', name: 'api_test_create')]
+    public function AjouterCompte(Request $request)
+    {
+        $content = json_decode($request->getContent());
+        $game = $this->getDoctrine()
+            ->getRepository(Game::class)
+            ->find($content->idGame);
+        $client = $this->getDoctrine()
+            ->getRepository(Client::class)
+            ->find($content->idClient);
+        if (!$game) {
+            throw $this->createNotFoundException(
+                'No product found for id'.$content->idGame
+            );
+        }
+        if (!$client) {
+            throw $this->createNotFoundException(
+                'No product found for id'.$content->idClient
+            );
+        }
+
+        $nvCompte = New AccountClient();
+        $nvCompte->setUsernameAccount($content->username_account);
+        $nvCompte->setPasswordAccount($content->password_account);
+        $nvCompte->setDescription($content->description);
+        $nvCompte->setGameId($game);
+        $nvCompte->setAccountId($client);
+        $entityManager=$this->getDoctrine()->getManager();
+        try {
+            $entityManager->persist($nvCompte);
+            $entityManager->flush();
+            return $this->json([
+                'nvCompte' => $nvCompte->toArray(),
+            ]);
+        } catch (Exception) {
+            return $this->json([
+                'nvCompte' => "error",
+            ]);
+            //error
+        }
+
+
+    }
+
+    #[Route('/liste/{client}/{jeux}', name: 'api_liste_client_jeux')]
     public function receiveCompte(int $client, int $jeux)
     {
         $accountClient = $this->getDoctrine()
@@ -110,4 +159,7 @@ class ApiController extends AbstractController
             ->findCompte($client, $jeux);
         return $this->json($accountClient);
     }
+
+
+
 }
