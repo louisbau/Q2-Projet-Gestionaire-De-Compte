@@ -20,14 +20,14 @@ class TestContextProvider extends React.Component {
             .then(response => {
 
                 let data = [...this.state.test];
-                data.push(compte)
-
-                data.sort((a,b) => a.idGame > b.idGame ? 1 : -1)
-                console.log(data)
+                data.push(response.data[0]);
+                data.sort((a,b) => a.idGame > b.idGame ? 1 : -1);
+                console.log(data);
                 this.setState({
                     test: data,
                 })
-                console.log(this.state)
+                console.log(this.state);
+
 
             }).catch(error => {
                 console.error(error);
@@ -43,6 +43,7 @@ class TestContextProvider extends React.Component {
             .then(response => {
                 let read = response.data
                 read.sort((a,b) => a.idGame > b.idGame ? 1 : -1)
+
                 this.setState({
                     test: read,
                 });

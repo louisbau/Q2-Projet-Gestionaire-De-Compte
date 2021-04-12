@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
 export default function Test2() {
     const context = useContext(TestContext);
     const classes = useStyles();
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
+    const [selectedIndex, setSelectedIndex] = React.useState("");
     const [selectedGame, setSelectedGame] = React.useState('')
     const [addUser, setAddUser] = React.useState('');
     const [addPass, setAddPass] = React.useState('');

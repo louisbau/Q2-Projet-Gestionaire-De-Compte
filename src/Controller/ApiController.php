@@ -135,18 +135,17 @@ class ApiController extends AbstractController
         $nvCompte->setGameId($game);
         $nvCompte->setAccountId($client);
         $entityManager=$this->getDoctrine()->getManager();
+        $entityManager->persist($nvCompte);
+        $entityManager->flush();
         try {
-            $entityManager->persist($nvCompte);
-            $entityManager->flush();
-            return $this->json([
-                'nvCompte' => $nvCompte->toArray(),
-            ]);
+            $accountNvCompte = $this->getDoctrine()
+                ->getRepository(AccountClient::class)
+                ->findNvCompte($content->idClient, $content->idGame,$content->username_account);
+            return $this->json($accountNvCompte);
         } catch (Exception) {
-            return $this->json([
-                'nvCompte' => "error",
-            ]);
-            //error
+            return $this->json(['error'=>'error']);
         }
+
 
 
     }
