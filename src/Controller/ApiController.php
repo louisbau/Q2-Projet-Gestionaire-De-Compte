@@ -107,7 +107,7 @@ class ApiController extends AbstractController
         return $this->json($accountClient);
     }
 
-    #[Route('/test/create', name: 'api_test_create')]
+    #[Route('/test/createCompte', name: 'api_test_createCompte')]
     public function AjouterCompte(Request $request)
     {
         $content = json_decode($request->getContent());
@@ -128,6 +128,7 @@ class ApiController extends AbstractController
             );
         }
 
+
         $nvCompte = New AccountClient();
         $nvCompte->setUsernameAccount($content->username_account);
         $nvCompte->setPasswordAccount($content->password_account);
@@ -145,6 +146,81 @@ class ApiController extends AbstractController
         } catch (Exception) {
             return $this->json(['error'=>'error']);
         }
+
+
+
+    }
+
+    #[Route('/test/createJeux', name: 'api_test_createJeux')]
+    public function AjouterJeux(Request $request)
+    {
+
+        $content = json_decode($request->getContent());
+        $faker = \Faker\Factory::create('fr_FR');
+
+        $client = $this->getDoctrine()
+            ->getRepository(Client::class)
+            ->find($content->idClient);
+        if (!$client) {
+            throw $this->createNotFoundException(
+                'No product found for id'.$content->idClient
+            );
+        }
+        $game = $this->getDoctrine()
+            ->getRepository(Game::class)
+            ->findOneBy(['name_game' => $content->name_game]);
+
+        if (!$game) {
+            $Nvgame = new Game();
+            $Nvgame->setNameGame($content->name_game);
+            $Nvgame->setPicture($faker ->imageUrl());
+            $entityManager=$this->getDoctrine()->getManager();
+            $entityManager->persist($Nvgame);
+            $entityManager->flush();
+            $lolgame = $this->getDoctrine()
+                ->getRepository(Game::class)
+                ->findOneBy(['name_game' => $content->name_game]);
+            $nvCompte = New AccountClient();
+            $nvCompte->setUsernameAccount($content->username_account);
+            $nvCompte->setPasswordAccount($content->password_account);
+            $nvCompte->setDescription($content->description);
+            $nvCompte->setGameId($lolgame);
+            $nvCompte->setAccountId($client);
+            $entityManager=$this->getDoctrine()->getManager();
+            $entityManager->persist($nvCompte);
+            $entityManager->flush();
+            try {
+                $accountNvCompte = $this->getDoctrine()
+                    ->getRepository(AccountClient::class)
+                    ->findNvCompte($content->idClient, $lolgame->getId(),$content->username_account);
+                return $this->json($accountNvCompte);
+            } catch (Exception) {
+                return $this->json(['error'=>'error']);
+            }
+
+        }
+        else {
+            $nvCompte = New AccountClient();
+            $nvCompte->setUsernameAccount($content->username_account);
+            $nvCompte->setPasswordAccount($content->password_account);
+            $nvCompte->setDescription($content->description);
+            $nvCompte->setGameId($game);
+            $nvCompte->setAccountId($client);
+            $entityManager=$this->getDoctrine()->getManager();
+            $entityManager->persist($nvCompte);
+            $entityManager->flush();
+            try {
+                $accountNvCompte = $this->getDoctrine()
+                    ->getRepository(AccountClient::class)
+                    ->findNvCompte($content->idClient, $game->getId(),$content->username_account);
+                return $this->json($accountNvCompte);
+            } catch (Exception) {
+                return $this->json(['error'=>'error']);
+            }
+        }
+
+
+
 
 
 

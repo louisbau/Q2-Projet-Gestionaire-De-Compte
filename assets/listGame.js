@@ -7,7 +7,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import {
-    Collapse,
+    Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
     Fab,
     Table,
     TableBody,
@@ -36,6 +36,7 @@ import Icon from '@material-ui/core/Icon';
 import EditIcon from '@material-ui/icons/Edit';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import {RecentActorsTwoTone} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     game: {
@@ -74,11 +75,22 @@ const useStyles = makeStyles((theme) => ({
 export default function Test2() {
     const context = useContext(TestContext);
     const classes = useStyles();
-    const [selectedIndex, setSelectedIndex] = React.useState("");
+    const [selectedIndex, setSelectedIndex] = React.useState('');
     const [selectedGame, setSelectedGame] = React.useState('')
     const [addUser, setAddUser] = React.useState('');
     const [addPass, setAddPass] = React.useState('');
     const [addDes, setAddDes] = React.useState('');
+    const [addGame, setAddGame] = React.useState('')
+    const [visible, setVisible] = React.useState('0');
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     const handleListItemClick = (event, index, game) => {
         setSelectedIndex(index);
@@ -95,12 +107,32 @@ export default function Test2() {
     const handleChangeDes = (e) => {
         setAddDes(e.target.value)
     }
+    const handleChangeGame = (e) => {
+        setAddGame(e.target.value)
+    }
     const handleSubmit = (e) => {
         e.preventDefault();
         context.createListe(
             {name_game: selectedGame, username_account: addUser, password_account: addPass, description: addDes, idGame: selectedIndex, idClient: idclient},
         );
     }
+    const handleSubmitJeux = (e) => {
+        e.preventDefault();
+        setOpen(false);
+        context.createListeJeux(
+            {name_game: addGame, username_account: addUser, password_account: addPass, description: addDes, idClient: idclient},
+        );
+        console.log(idclient)
+    }
+    const handleEdit = (e) => {
+        if(visible ==="1"){
+            setVisible("0")
+        }
+        else {
+            setVisible("1")
+        }
+
+    };
 
 
     const lister = [];
@@ -113,6 +145,56 @@ export default function Test2() {
             idclient = a.idClient
         }
     }
+    const dialo = <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogContent>
+            <DialogContentText>
+                To subscribe to this website, please enter your email address here. We will send updates
+                occasionally.
+            </DialogContentText>
+            <TextField
+                autoFocus
+                margin="dense"
+                id="Addjeux"
+                label="ajouter un jeux : "
+                fullWidth
+                onChange={(e) =>handleChangeGame(e)}
+
+            />
+            <TextField
+                autoFocus
+                margin="dense"
+                id="Addusername"
+                label="ajouter un username: "
+                fullWidth
+                onChange={(e) =>handleChangeUser(e)}
+            />
+            <TextField
+                autoFocus
+                margin="dense"
+                id="Addpassword"
+                label="ajouter un mot de passe : "
+                fullWidth
+                onChange={(e) =>handleChangePass(e)}
+            />
+            <TextField
+                autoFocus
+                margin="dense"
+                id="Adddescription"
+                label="ajouter une description"
+                fullWidth
+                onChange={(e) =>handleChangeDes(e)}
+            />
+        </DialogContent>
+        <DialogActions>
+            <Button onClick={handleClose} color="primary">
+                Cancel
+            </Button>
+            <Button onClick={(e) =>handleSubmitJeux(e)} color="primary">
+                Submit
+            </Button>
+        </DialogActions>
+    </Dialog>
 
     const listz = lister.map((number, index) =>
         <TableRow hover
@@ -137,6 +219,7 @@ export default function Test2() {
                     </TableHead>
                     <TableBody>
                         {listz}
+                        {visible === '1' ? <TableRow><TableCell align={'center'}><Fab size="small" color="primary"  aria-label="add" className={classes.margin} onClick={handleClickOpen}><AddIcon /></Fab>{dialo}</TableCell></TableRow>: ""}
                     </TableBody>
                 </Table>
                 <Table className={classes.table}>
@@ -145,9 +228,11 @@ export default function Test2() {
                             <TableCell align={"center"}>
                                 Liste de Compte
                             </TableCell>
-                            <Fab color="primary" aria-label="edit"  size={"small"}>
-                                <EditIcon />
-                            </Fab>
+                            <TableCell>
+                                <Fab color="primary" aria-label="edit"  size={"small"} onClick={(e) =>handleEdit(e)}>
+                                    <EditIcon />
+                                </Fab>
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -172,32 +257,34 @@ export default function Test2() {
                                                 </AccordionDetails>
                                             </Accordion>
                                         </TableCell>
+                                        {visible === '1' ? <TableCell><IconButton aria-label="delete"><DeleteIcon fontSize="small" /></IconButton></TableCell> : <TableCell />}
                                     </TableRow>
                             )
                         )}
-                        <TableRow>
-                            <TableCell>
-                                <Accordion>
-                                    <AccordionSummary
-                                        expandIcon={<AddIcon/>}
-                                        aria-controls="panel1a-content"
-                                        id="panel1a-header"
-                                    >
-                                        <Typography className={classes.heading}>Ajouter un compte</Typography>
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                        <form>
-                                            <TextField id="addUsernamefff"  label="Add username" onChange={(e) =>handleChangeUser(e)}/>
-                                            <TextField id="addPassword"   label="Add password" onChange={(e) =>handleChangePass(e)}/>
-                                            <TextField id="addDescription"  label="Add description" onChange={(e) =>handleChangeDes(e)}/>
-                                            <Button color="primary" type="submit" onClick={(e) =>handleSubmit(e)}>
-                                                ADD
-                                            </Button>
-                                        </form>
-                                    </AccordionDetails>
-                                </Accordion>
-                            </TableCell>
-                        </TableRow>
+                        {visible === '1' ?
+                            <TableRow>
+                                <TableCell>
+                                    <Accordion>
+                                        <AccordionSummary
+                                            expandIcon={<AddIcon/>}
+                                            aria-controls="panel1a-content"
+                                            id="panel1a-header"
+                                        >
+                                            <Typography className={classes.heading}>Ajouter un compte</Typography>
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <form>
+                                                <TextField id="addUsernamefff"  label="Add username" onChange={(e) =>handleChangeUser(e)}/>
+                                                <TextField id="addPassword"   label="Add password" onChange={(e) =>handleChangePass(e)}/>
+                                                <TextField id="addDescription"  label="Add description" onChange={(e) =>handleChangeDes(e)}/>
+                                                <Button color="primary" type="submit" onClick={(e) =>handleSubmit(e)}>
+                                                    ADD
+                                                </Button>
+                                            </form>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                </TableCell>
+                            </TableRow> : ""}
 
                     </TableBody>
                 </Table>
