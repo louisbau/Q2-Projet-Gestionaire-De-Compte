@@ -10,23 +10,46 @@ class TestContextProvider extends React.Component {
         this.state = {
             test: [],
         };
-        this.updateListe();
         this.readListe();
     }
     //create
-    //read
+    createListe(compte) {
+        console.log(compte)
 
-    readListe() {
-        axios.get('/api/test/1')
+        axios.post('/api/test/create', compte)
             .then(response => {
+
+                let data = [...this.state.test];
+                data.push(compte)
+
+                data.sort((a,b) => a.idGame > b.idGame ? 1 : -1)
+                console.log(data)
                 this.setState({
-                    test: response.data,
-                });
+                    test: data,
+                })
                 console.log(this.state)
 
             }).catch(error => {
-            console.error(error);
+                console.error(error);
         })
+
+
+    }
+
+
+    //read
+    readListe() {
+        axios.get('/api/test/read/1')
+            .then(response => {
+                let read = response.data
+                read.sort((a,b) => a.idGame > b.idGame ? 1 : -1)
+                this.setState({
+                    test: read,
+                });
+
+            }).catch(error => {
+            console.error(error);
+        });
     }
     //update
     updateListe() {
@@ -41,6 +64,7 @@ class TestContextProvider extends React.Component {
         return (
             <TestContext.Provider value={{
                 ...this.state,
+                createListe: this.createListe.bind(this),
                 readListe: this.readListe.bind(this),
                 updateListe: this.updateListe.bind(this),
                 //deleteListe: this.deleteListe.bind(this),

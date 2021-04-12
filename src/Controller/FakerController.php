@@ -13,6 +13,8 @@ use Faker\Factory;
 
 class FakerController extends AbstractController
 {
+    private $clientRepository;
+
     #[Route('/ajoutjeux', name: 'ajout_jeux')]
     public function ajoutJeux(): Response
     {
@@ -87,5 +89,14 @@ class FakerController extends AbstractController
             .' password : '.$accountclient->getPasswordAccount()
             .' description : '.$accountclient->getDescription()
         );
+    }
+    
+    #[Route('/?email={email}&password={pass}')]
+    public function check($email, $pass)
+    {
+        $Profiles = $this->clientRepository->findOneBy(['email'=>$email, 'password'=>$pass]);
+        $arrayProfiles = [];
+        $arrayProfiles[] = $Profiles->toArrayFull();
+        return $this->render('index/index.html.twig');
     }
 }
