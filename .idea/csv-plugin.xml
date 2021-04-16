@@ -10,6 +10,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\assets\contexts\ProfileContext.js">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\assets\listGame.js">
           <value>
             <Attribute>

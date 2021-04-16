@@ -40,24 +40,7 @@ class ApiLoginController extends AbstractController
         $this->gameRepository = $gameRepository;
     }
 
-    #[Route('/email/{email}/password/{pass}')]
-    public function check($email, $pass)
-    {
-        //$Profiles = $this->clientRepository->findOneBy(['email'=>$email, 'password'=>$pass]);
-        //$arrayProfiles = [];
 
-        //$arrayProfiles[] = $Profiles->toArrayFull();
-
-        if ($email === "DosSantos.Francoise@voila.fr" and $pass === "ph~sX%3w>O(;") {
-            return $this->render('index/index.html.twig');
-
-        }
-        else {
-            return $this->render('index/index.html.twig');
-        }
-        //
-
-    }
 
 
 

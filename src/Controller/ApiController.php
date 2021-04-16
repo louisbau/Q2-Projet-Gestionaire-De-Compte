@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 #[Route('/api', name: 'api')]
 class ApiController extends AbstractController
@@ -219,12 +219,58 @@ class ApiController extends AbstractController
             }
         }
 
+    }
 
+    #[Route('/email/{email}/password/{pass}')]
+    public function check($email, $pass)
+    {
+        //$Profiles = $this->clientRepository->findOneBy(['email'=>$email, 'password'=>$pass]);
+        //$arrayProfiles = [];
 
+        //$arrayProfiles[] = $Profiles->toArrayFull();
+        $checkLogin = $this->getDoctrine()
+            ->getRepository(Client::class)
+            ->findOneBy(
+                [
+                    'email' => $email,
+                    'password' => $pass,
+                    ]);
+        if (!$checkLogin) {
+            return $this->json(['error' => 1, 'raison' => 'mauvais mots de passe ou mot de passe']);
 
+        }
+        else {
+            return $this->json(['id' => $checkLogin->getId(), 'username'=>$checkLogin->getUsername(),'email'=>$checkLogin->getEmail(), 'error'=>0]);
+        }
 
 
     }
+    #[Route('/addemail/{email}/addusername/{username}/addpassword/{pass}')]
+    public function AddProfile($email, $username, $pass)
+    {
+        $addclient = $this->getDoctrine()
+            ->getRepository(Client::class)
+            ->findOneBy(
+                [
+                    'email' => $email,
+                    'username' => $username,
+                ]);
+        if (!$addclient) {
+            $client = new Client();
+            $client->setUsername($username);
+            $client->setPassword($pass);
+            $client->setEmail($email);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($client);
+            $entityManager->flush();
+            return $this->json(['id' => $client->getId(), 'username'=>$client->getUsername(),'email'=>$client->getEmail(), 'error'=>0]);
+        }
+        else {
+            return $this->json(['error' => 1, 'raison' => 'compte deja existant']);
+        }
+
+    }
+
 
     #[Route('/liste/{client}/{jeux}', name: 'api_liste_client_jeux')]
     public function receiveCompte(int $client, int $jeux)

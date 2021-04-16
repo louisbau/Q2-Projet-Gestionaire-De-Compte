@@ -2,11 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import './styles/app.css';
 
-import SignIn from "./loginCode.js";
-
+import SignIn from "./loginCode";
+import ProfileContextProvider from "./contexts/ProfileContext";
 ReactDOM.render(
     <div>
-        <SignIn/>
+        <ProfileContextProvider><SignIn /></ProfileContextProvider>
     </div>,
-    document.getElementById('teste')
+    document.getElementById('tes')
 );

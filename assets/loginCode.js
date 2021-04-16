@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,7 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import SignUp from "./signUp";
+import {ProfileContext} from "./contexts/ProfileContext";
 
 function Copyright() {
     return (
@@ -49,6 +49,21 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
     const classes = useStyles();
+    const context = useContext(ProfileContext);
+    const [addEmail, setAddEmail] = React.useState('');
+    const [addPass, setAddPass] = React.useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        return context.checkLogin(addEmail, addPass);
+    }
+    const handleChangeEmail = (e) => {
+        setAddEmail(e.target.value)
+    }
+    const handleChangePass = (e) => {
+        setAddPass(e.target.value)
+    }
+
 
     return (
         <Container component="main" maxWidth="xs">
@@ -60,7 +75,7 @@ export default function SignIn() {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form >
                     <TextField
                         variant="outlined"
                         margin="normal"
@@ -69,8 +84,8 @@ export default function SignIn() {
                         id="email"
                         label="Email Address"
                         name="email"
-                        autoComplete="email"
-                        autoFocus
+
+                        onChange={(e) => handleChangeEmail(e)}
                     />
                     <TextField
                         variant="outlined"
@@ -81,19 +96,14 @@ export default function SignIn() {
                         label="Password"
                         type="password"
                         id="password"
-                        autoComplete="current-password"
-                    />
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary"/>}
-                        label="Remember me"
+                        onChange={(e) => handleChangePass(e)}
                     />
                     <Button
-                        type="submit"
                         fullWidth
                         variant="contained"
                         color="primary"
                         className={classes.submit}
-                        href={'/index'}
+                        onClick={(e) => handleSubmit(e)}
                     >
                         Sign In
                     </Button>

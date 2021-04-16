@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import {ProfileContext} from "./contexts/ProfileContext";
 
 function Copyright() {
     return (
@@ -48,6 +49,24 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignUp() {
     const classes = useStyles();
+    const context = useContext(ProfileContext);
+    const [addEmail, setAddEmail] = React.useState('');
+    const [addPass, setAddPass] = React.useState('');
+    const [addUsername, setAddUsername] = React.useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        context.AddLogin(addEmail, addUsername ,addPass);
+    }
+    const handleChangeUsername = (e) => {
+        setAddUsername(e.target.value)
+    }
+    const handleChangeEmail = (e) => {
+        setAddEmail(e.target.value)
+    }
+    const handleChangePass = (e) => {
+        setAddPass(e.target.value)
+    }
 
     return (
         <Container component="main" maxWidth="xs">
@@ -59,31 +78,8 @@ export default function SignUp() {
                 <Typography component="h1" variant="h5">
                     Sign up
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form>
                     <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                autoComplete="fname"
-                                name="firstName"
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="firstName"
-                                label="First Name"
-                                autoFocus
-                            />
-                        </Grid>
-                        <Grid item xs={12} sm={6}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
-                                id="lastName"
-                                label="Last Name"
-                                name="lastName"
-                                autoComplete="lname"
-                            />
-                        </Grid>
                         <Grid item xs={12}>
                             <TextField
                                 variant="outlined"
@@ -92,7 +88,19 @@ export default function SignUp() {
                                 id="email"
                                 label="Email Address"
                                 name="email"
-                                autoComplete="email"
+                                onChange={(e) => handleChangeEmail(e)}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <TextField
+                                variant="outlined"
+                                required
+                                fullWidth
+                                name="username"
+                                label="username"
+                                type="username"
+                                id="username"
+                                onChange={(e) => handleChangeUsername(e)}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -104,22 +112,15 @@ export default function SignUp() {
                                 label="Password"
                                 type="password"
                                 id="password"
-                                autoComplete="current-password"
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <FormControlLabel
-                                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                                label="I want to receive inspiration, marketing promotions and updates via email."
+                                onChange={(e) => handleChangePass(e)}
                             />
                         </Grid>
                     </Grid>
                     <Button
-                        type="submit"
                         fullWidth
                         variant="contained"
                         color="primary"
-                        className={classes.submit}
+                        onClick={(e) => handleSubmit(e)}
                     >
                         Sign Up
                     </Button>

@@ -11,12 +11,48 @@ class ProfileContextProvider extends React.Component {
             profile: [],
         };
         this.updateListe();
-        this.readListe();
     }
     //create
     //read
 
-    readListe() {
+    checkLogin(email, pass) {
+        axios.get('api/email/'+ email +'/password/'+ pass)
+            .then(response => {
+                console.log(response.data)
+                if(!response.data.error) {
+                    this.setState({
+                        profile: response.data,
+                    });
+                    window.location = '/index';
+                }
+                else {
+                    console.log(response.data.raison);
+                }
+
+            })
+    }
+
+    AddLogin(email, username, pass) {
+        axios.get('api/addemail/'+ email +'/addusername/'+ username +'/addpassword/'+ pass)
+            .then(response => {
+                console.log(email)
+                console.log(pass)
+                if(!response.data.error) {
+                    this.setState({
+                        profile: response.data,
+                    });
+                    window.location = '/index';
+                }
+                else {
+                    console.log(response.data.raison);
+                }
+
+            }).catch(error => {
+            console.error(error);
+        })
+    }
+    //update
+    updateListe() {
         axios.get('/api/profile/1')
             .then(response => {
                 this.setState({
@@ -27,12 +63,6 @@ class ProfileContextProvider extends React.Component {
             }).catch(error => {
             console.error(error);
         })
-
-
-    }
-    //update
-    updateListe() {
-        console.log(this.state)
     }
     //delete
     deleteListe() {
@@ -43,8 +73,9 @@ class ProfileContextProvider extends React.Component {
         return (
             <ProfileContext.Provider value={{
                 ...this.state,
-                readListe: this.readListe.bind(this),
+                checkLogin: this.checkLogin.bind(this),
                 updateListe: this.updateListe.bind(this),
+                AddLogin: this.AddLogin.bind(this),
                 //deleteListe: this.deleteListe.bind(this),
 
 

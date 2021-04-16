@@ -3,10 +3,11 @@ import ReactDOM from "react-dom";
 import './styles/app.css';
 
 import SignUp from "./signUp";
+import ProfileContextProvider from "./contexts/ProfileContext";
 
 ReactDOM.render(
     <div>
-        <SignUp/>
+        <ProfileContextProvider><SignUp/></ProfileContextProvider>
     </div>,
     document.getElementById('signUp')
 );

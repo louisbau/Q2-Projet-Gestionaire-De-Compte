@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\AccountClient;
+
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,8 +16,6 @@ class IndexController extends AbstractController
             'controller_name' => 'IndexController',
         ]);
     }
-
-
     #[Route('/', name: 'login')]
     public function login(): Response
     {
@@ -25,7 +23,8 @@ class IndexController extends AbstractController
             'controller_name' => 'IndexController',
         ]);
     }
-    #[Route('/signUp', name: 'sign_up')]
+
+    #[Route('/signUp', name: 'signUp')]
     public function SignUp(): Response
     {
         return $this->render('sign_up/index.html.twig', [
