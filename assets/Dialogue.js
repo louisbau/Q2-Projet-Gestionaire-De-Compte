@@ -1,5 +1,5 @@
 import React, {useContext, useEffect} from 'react';
-import { withStyles } from '@material-ui/core/styles';
+import {withStyles} from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
@@ -25,13 +25,13 @@ const styles = (theme) => ({
 });
 
 const DialogTitle = withStyles(styles)((props) => {
-    const { children, classes, onClose, ...other } = props;
+    const {children, classes, onClose, ...other} = props;
     return (
         <MuiDialogTitle disableTypography className={classes.root} {...other}>
             <Typography variant="h6">{children}</Typography>
             {onClose ? (
                 <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-                    <CloseIcon />
+                    <CloseIcon/>
                 </IconButton>
             ) : null}
         </MuiDialogTitle>
@@ -63,7 +63,6 @@ export default function CustomizedDialogs() {
     };
 
 
-
     return (
         <div>
             <Button onClick={handleClickOpen}>
@@ -74,12 +73,10 @@ export default function CustomizedDialogs() {
                     Informations
                 </DialogTitle>
                 <DialogContent dividers>
-                    {context.profile.map((user,index) => (
-                        <Typography gutterBottom key={index}>
-                            Username : {user.username}<br/>
-                            Email : {user.email}
-                        </Typography>
-                        ))}
+                    <Typography gutterBottom>
+                        Username : {context.profile.username}<br/>
+                        Email : {context.profile.email}
+                    </Typography>
                 </DialogContent>
             </Dialog>
         </div>

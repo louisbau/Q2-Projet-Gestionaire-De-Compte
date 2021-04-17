@@ -10,22 +10,21 @@ class ProfileContextProvider extends React.Component {
         this.state = {
             profile: [],
         };
-        this.updateListe();
     }
+
     //create
     //read
 
     checkLogin(email, pass) {
-        axios.get('api/email/'+ email +'/password/'+ pass)
+        axios.get('api/email/' + email + '/password/' + pass)
             .then(response => {
                 console.log(response.data)
-                if(!response.data.error) {
+                if (!response.data.error) {
                     this.setState({
                         profile: response.data,
                     });
                     window.location = '/index';
-                }
-                else {
+                } else {
                     console.log(response.data.raison);
                 }
 
@@ -33,17 +32,17 @@ class ProfileContextProvider extends React.Component {
     }
 
     AddLogin(email, username, pass) {
-        axios.get('api/addemail/'+ email +'/addusername/'+ username +'/addpassword/'+ pass)
+        axios.get('api/addemail/' + email + '/addusername/' + username + '/addpassword/' + pass)
             .then(response => {
                 console.log(email)
                 console.log(pass)
-                if(!response.data.error) {
+                if (!response.data.error) {
                     this.setState({
                         profile: response.data,
                     });
+
                     window.location = '/index';
-                }
-                else {
+                } else {
                     console.log(response.data.raison);
                 }
 
@@ -51,19 +50,25 @@ class ProfileContextProvider extends React.Component {
             console.error(error);
         })
     }
+
     //update
-    updateListe() {
-        axios.get('/api/profile/1')
+
+    updateListe(idNav) {
+        axios.get('/api/profile/' + idNav)
             .then(response => {
+                let read = response.data
+
                 this.setState({
-                    profile: response.data,
+                    profile: read,
                 });
-                console.log(this.state)
 
             }).catch(error => {
             console.error(error);
-        })
+        });
+
+
     }
+
     //delete
     deleteListe() {
 
@@ -77,15 +82,12 @@ class ProfileContextProvider extends React.Component {
                 updateListe: this.updateListe.bind(this),
                 AddLogin: this.AddLogin.bind(this),
                 //deleteListe: this.deleteListe.bind(this),
-
-
             }}>
                 {this.props.children}
             </ProfileContext.Provider>
         );
     }
 }
-
 
 
 export default ProfileContextProvider;

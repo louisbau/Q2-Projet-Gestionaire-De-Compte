@@ -82,11 +82,10 @@ class ApiController extends AbstractController
     #[Route('/profile/{id}',  name: 'api_profile_id')]
     public function receiveProfile(int $id)
     {
-        $Profiles = $this->clientRepository->find($id);
-        $arrayProfiles = [];
-        $arrayProfiles[] = $Profiles->toArrayFull();
-
-        return $this->json($arrayProfiles);
+        $client = $this->getDoctrine()
+            ->getRepository(Client::class)
+            ->find($id);
+        return $this->json(['id' => $client->getId(), 'username'=>$client->getUsername(),'email'=>$client->getEmail(), 'error'=>0]);
     }
 
     #[Route('/liste/{client}',  name: 'api_liste_client')]
@@ -104,7 +103,52 @@ class ApiController extends AbstractController
         $accountClient = $this->getDoctrine()
             ->getRepository(AccountClient::class)
             ->findtest($client);
-        return $this->json($accountClient);
+        $faker = \Faker\Factory::create('fr_FR');
+        if(!$accountClient){
+            $accountclient2 = $this->getDoctrine()
+                ->getRepository(Client::class)
+                ->find($client);
+            $game = $this->getDoctrine()
+                ->getRepository(Game::class)
+                ->findOneBy(['name_game' => 'Exemple']);
+            if (!$game) {
+                $Nvgame = new Game();
+                $Nvgame->setNameGame('Exemple');
+                $Nvgame->setPicture($faker->imageUrl());
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($Nvgame);
+                $entityManager->flush();
+                $CompteInitialisation = New AccountClient();
+                $CompteInitialisation->setUsernameAccount('exemple');
+                $CompteInitialisation->setPasswordAccount('123');
+                $CompteInitialisation->setDescription('exemple of account');
+                $CompteInitialisation->setGameId($Nvgame);
+                $CompteInitialisation->setAccountId($accountclient2);
+                $entityManager=$this->getDoctrine()->getManager();
+                $entityManager->persist($CompteInitialisation);
+                $entityManager->flush();
+            }
+            else {
+                $CompteInitialisation = New AccountClient();
+                $CompteInitialisation->setUsernameAccount('exemple');
+                $CompteInitialisation->setPasswordAccount('123');
+                $CompteInitialisation->setDescription('exemple of account');
+                $CompteInitialisation->setGameId($game);
+                $CompteInitialisation->setAccountId($accountclient2);
+                $entityManager=$this->getDoctrine()->getManager();
+                $entityManager->persist($CompteInitialisation);
+                $entityManager->flush();
+            }
+
+            $accountClient3 = $this->getDoctrine()
+                ->getRepository(AccountClient::class)
+                ->findtest($client);
+            return $this->json($accountClient3);
+        }
+        else {
+            return $this->json($accountClient);
+        }
+
     }
 
     #[Route('/test/createCompte', name: 'api_test_createCompte', methods: ['POST'])]
@@ -151,7 +195,7 @@ class ApiController extends AbstractController
 
     }
 
-    #[Route('/test/createJeux', name: 'api_test_createJeux', methods: ['POST'])]
+    #[Route('/test/createJeux', name: 'api_test_createJeux')]
     public function AjouterJeux(Request $request)
     {
 
@@ -280,6 +324,18 @@ class ApiController extends AbstractController
             ->findCompte($client, $jeux);
         return $this->json($accountClient);
     }
+
+    #[Route('/del/{idAccount}', name: 'api_del_account')]
+    public function delCompte(int $idAccount)
+    {
+        $accountClient = $this->getDoctrine()
+            ->getRepository(AccountClient::class)
+            ->find($idAccount);
+        $this->entityManager->remove($accountClient);
+        $this->entityManager->flush();
+        return $this->json('ca marche');
+    }
+
 
 
 

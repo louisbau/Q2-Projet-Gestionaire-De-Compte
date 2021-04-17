@@ -83,8 +83,7 @@ export default function Test2() {
     const [addGame, setAddGame] = React.useState('');
     const [visible, setVisible] = React.useState('0');
     const [open, setOpen] = React.useState(false);
-    const [deleteCompte, setDeleteCompte] = React.useState('');
-
+    const [selectedclient, setselectedclient] = React.useState(localStorage.getItem('profile'));
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -95,10 +94,8 @@ export default function Test2() {
 
     const handleListItemClick = (event, index, game) => {
         setSelectedIndex(index);
-        console.log(event);
         setSelectedGame(game);
     };
-    console.log(selectedIndex);
     const handleChangeUser = (e) => {
         setAddUser(e.target.value)
     }
@@ -113,6 +110,7 @@ export default function Test2() {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
+
         context.createListe(
             {
                 name_game: selectedGame,
@@ -120,7 +118,7 @@ export default function Test2() {
                 password_account: addPass,
                 description: addDes,
                 idGame: selectedIndex,
-                idClient: idclient
+                idClient: selectedclient
             },
         );
     }
@@ -133,10 +131,9 @@ export default function Test2() {
                 username_account: addUser,
                 password_account: addPass,
                 description: addDes,
-                idClient: idclient
+                idClient: selectedclient
             },
         );
-        console.log(idclient)
     }
     const handleEdit = (e) => {
         if (visible === "1") {
@@ -147,20 +144,16 @@ export default function Test2() {
 
     };
     const handleDelete = (e) => {
-        setDeleteCompte(e.target.value)
-        console.log(e.target.value)
+        context.deleteListe(e)
 
     };
 
-
     const lister = [];
     const idjeux = [];
-    let idclient = '';
     for (let a of context.test) {
         if (lister[lister.length - 1] !== a.name_game) {
             lister.push(a.name_game);
             idjeux.push(a.idGame)
-            idclient = a.idClient
         }
     }
     const dialo = <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -224,7 +217,6 @@ export default function Test2() {
             </TableCell>
         </TableRow>
     )
-    console.log(selectedIndex)
     return (
         <div>
             <TableContainer className={classes.compte}>
@@ -278,9 +270,13 @@ export default function Test2() {
                                             </AccordionDetails>
                                         </Accordion>
                                     </TableCell>
-                                    {visible === '1' ? <TableCell><Fab size="small" color="secondary" aria-label="delete" value={jeu.id} onClick={(e)=>handleDelete(e)}>
-                                        <DeleteIcon />
-                                    </Fab></TableCell > : <TableCell value={jeu.id}/>}
+                                    <TableCell value={jeu.id}>
+                                        {visible === '1' ?
+                                            <Fab size="small" color="secondary" aria-label="delete" className={classes.margin} onClick={()=>handleDelete(jeu.id)}>
+                                                <DeleteIcon />
+                                            </Fab> : ""}
+                                    </TableCell>
+
                                 </TableRow>
                             )
                         )}
@@ -311,7 +307,6 @@ export default function Test2() {
                                     </Accordion>
                                 </TableCell>
                             </TableRow> : ""}
-
                     </TableBody>
                 </Table>
             </TableContainer>

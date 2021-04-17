@@ -1,10 +1,10 @@
-import React from "react";
+import React, {useContext} from "react";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import {AppBar, fade, InputBase, Toolbar} from "@material-ui/core";
 import CustomizedDialogs from "./Dialogue";
-import ProfileContextProvider from "./contexts/ProfileContext";
+import ProfileContextProvider, {ProfileContext} from "./contexts/ProfileContext";
 import Link from '@material-ui/core/Link';
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
@@ -80,7 +80,10 @@ const useStyles = makeStyles((theme) => ({
 function SimpleMenu() {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
-
+    const context = useContext(ProfileContext);
+    if (context.profile.username === undefined) {
+        context.updateListe(localStorage.getItem('profile'))
+    }
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -107,7 +110,7 @@ function SimpleMenu() {
                     onClose={handleClose}
                 >
                     <MenuItem onClick={handleClose}>
-                        <ProfileContextProvider><CustomizedDialogs /></ProfileContextProvider>
+                        <CustomizedDialogs/>
                     </MenuItem>
                     <MenuItem onClick={handleClose}><Link href="/">Logout</Link></MenuItem>
                 </Menu>
@@ -116,7 +119,7 @@ function SimpleMenu() {
                 </Typography>
                 <div className={classes.search}>
                     <div className={classes.searchIcon}>
-                        <SearchIcon />
+                        <SearchIcon/>
                     </div>
                     <InputBase
                         placeholder="Search…"
@@ -124,13 +127,12 @@ function SimpleMenu() {
                             root: classes.inputRoot,
                             input: classes.inputInput,
                         }}
-                        inputProps={{ 'aria-label': 'search' }}
+                        inputProps={{'aria-label': 'search'}}
                     />
                 </div>
-                <div className={classes.grow} />
-                <Button color="inherit">Login</Button>
+                <div className={classes.grow}/>
+                <div>{context.profile.username}</div>
             </Toolbar>
-
         </AppBar>
     );
 }

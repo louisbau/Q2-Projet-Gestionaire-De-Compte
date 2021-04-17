@@ -13,7 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import {makeStyles} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import SignUp from "./signUp";
-import { useForm } from "react-hook-form";
+import {useForm} from "react-hook-form";
 import axios from "axios";
 import List from "@material-ui/core/List";
 import ListSubheader from "@material-ui/core/ListSubheader";
@@ -26,16 +26,13 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import AddIcon from "@material-ui/icons/Add";
 
 
-
-
-
 export default function SignIn() {
     const classes = useStyles();
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const {register, handleSubmit, formState: {errors}} = useForm();
     const onSubmit = (data => {
         console.log(data.password);
         console.log(data.email);
-        let a = 'http://127.0.0.1:8000/email/'+data.email+'/password/'+data.password;
+        let a = 'http://127.0.0.1:8000/email/' + data.email + '/password/' + data.password;
         console.log(a);
         axios.get(a).then(r => console.log(r))
     });
@@ -52,9 +49,9 @@ export default function SignIn() {
                     Sign in
                 </Typography>
                 <form onSubmit={handleSubmit(onSubmit)}>
-                    <input {...register("email")} placeholder="Adresse email" />
-                    <input {...register("password")} placeholder="Password" />
-                    <input type="submit" />
+                    <input {...register("email")} placeholder="Adresse email"/>
+                    <input {...register("password")} placeholder="Password"/>
+                    <input type="submit"/>
                 </form>
             </div>
             <Box mt={8}>

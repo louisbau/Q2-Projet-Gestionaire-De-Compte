@@ -46,16 +46,16 @@ const useStyles = makeStyles((theme) => ({
         margin: theme.spacing(3, 0, 2),
     },
 }));
-
 export default function SignIn() {
+
     const classes = useStyles();
     const context = useContext(ProfileContext);
     const [addEmail, setAddEmail] = React.useState('');
     const [addPass, setAddPass] = React.useState('');
-
+    localStorage.setItem('profile', context.profile.id);
     const handleSubmit = (e) => {
         e.preventDefault();
-        return context.checkLogin(addEmail, addPass);
+        context.checkLogin(addEmail, addPass);
     }
     const handleChangeEmail = (e) => {
         setAddEmail(e.target.value)
@@ -75,7 +75,7 @@ export default function SignIn() {
                 <Typography component="h1" variant="h5">
                     Sign in
                 </Typography>
-                <form >
+                <form>
                     <TextField
                         variant="outlined"
                         margin="normal"
