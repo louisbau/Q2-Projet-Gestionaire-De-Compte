@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Entity\Client;
 use App\Repository\AccountClientRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -9,6 +10,10 @@ use App\Entity\Game;
 
 /**
  * @ORM\Entity(repositoryClass=AccountClientRepository::class)
+ * @ApiResource(
+ *     collectionOperations={"get"},
+ *     itemOperations={"get"}
+ * )
  */
 class AccountClient
 {

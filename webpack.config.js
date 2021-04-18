@@ -24,6 +24,7 @@ Encore
     .addEntry('loginApp', './assets/loginApp.js')
     .addEntry('SignUpApp', './assets/SignUpApp.js')
     .addEntry('mail', './assets/mail.js')
+    .addEntry('SecurityLogin', './assets/SecurityLogin.js')
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
 
