@@ -13,11 +13,18 @@ export default function LoginSecurity() {
         <form method="post">
             <h1>Please sign in</h1>
             <label htmlFor="inputEmail" className="sr-only">Email address</label>
-            <input type="email"  name="email" id="inputEmail" placeholder="Email address" required autoFocus autoComplete="{{ last_username }}"/>
+            <input type="email"  name="email" id="inputEmail" value={document.getElementById('last_username').value} placeholder="Email address" required autoFocus/>
             <label htmlFor="inputPassword">Password</label>
             <input type="password" name="password" id="inputPassword" placeholder="Password" required />
-            <input type="hidden" name="_csrf_token"
-                   value="{{ csrf_token('authenticate') }}"/>
+            <input type="hidden" id='token' name="_csrf_token"
+                   value={document.getElementById('token').value}
+            />
+            <div>
+                <label>
+
+                    <input type="checkbox" name="_remember_me"/> Remember me
+                </label>
+            </div>
             <button type="submit">
                 Sign in
             </button>

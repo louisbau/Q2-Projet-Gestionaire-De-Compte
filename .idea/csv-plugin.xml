@@ -3,6 +3,13 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
+        <entry key="\assets\SecurityLoginCode.js">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\assets\app.js">
           <value>
             <Attribute>
@@ -73,6 +80,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\src\Controller\SecurityController.php">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\src\DataFixtures\UserFixtures.php">
           <value>
             <Attribute>
@@ -84,6 +98,13 @@
           <value>
             <Attribute>
               <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\templates\security\login.html.twig">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>
