@@ -15,25 +15,5 @@ class AppFixtures extends Fixture
     {
         $faker = \Faker\Factory::create('fr_FR');
 
-        //creer trois compte
-        for($i = 1; $i <=3; $i++) {
-            $client = new Client();
-            $client->setUsername($faker ->userName)
-                  ->setPassword($faker ->password)
-                  ->setEmail($faker ->freeEmail);
-            $manager->persist($client);
-
-        }
-        for($i = 1; $i <=5; $i++) {
-
-            $game = new Game();
-            $game->setNameGame($faker->word )
-                 ->setPicture($faker ->imageUrl());
-            $manager->persist($game);
-
-        }
-
-
-        $manager->flush();
     }
 }

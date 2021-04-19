@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -33,6 +35,16 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity=AccountApp::class, mappedBy="account_id", orphanRemoval=true)
+     */
+    private $accountApps;
+
+    public function __construct()
+    {
+        $this->accountApps = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -113,5 +125,35 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|AccountApp[]
+     */
+    public function getAccountApps(): Collection
+    {
+        return $this->accountApps;
+    }
+
+    public function addAccountApp(AccountApp $accountApp): self
+    {
+        if (!$this->accountApps->contains($accountApp)) {
+            $this->accountApps[] = $accountApp;
+            $accountApp->setAccountId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAccountApp(AccountApp $accountApp): self
+    {
+        if ($this->accountApps->removeElement($accountApp)) {
+            // set the owning side to null (unless already changed)
+            if ($accountApp->getAccountId() === $this) {
+                $accountApp->setAccountId(null);
+            }
+        }
+
+        return $this;
     }
 }

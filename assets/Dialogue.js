@@ -74,8 +74,7 @@ export default function CustomizedDialogs() {
                 </DialogTitle>
                 <DialogContent dividers>
                     <Typography gutterBottom>
-                        Username : {context.profile.username}<br/>
-                        Email : {context.profile.email}
+                        Username : {context.profile.email}<br/>
                     </Typography>
                 </DialogContent>
             </Dialog>

@@ -10,29 +10,14 @@ class ProfileContextProvider extends React.Component {
         this.state = {
             profile: [],
         };
+        this.updateLogin()
     }
 
     //create
     //read
 
-    checkLogin(email, pass) {
-        axios.get('api/email/' + email + '/password/' + pass)
-            .then(response => {
-                console.log(response.data)
-                if (!response.data.error) {
-                    this.setState({
-                        profile: response.data,
-                    });
-                    window.location = '/index';
-                } else {
-                    console.log(response.data.raison);
-                }
-
-            })
-    }
-
-    AddLogin(email, username, pass) {
-        axios.get('api/addemail/' + email + '/addusername/' + username + '/addpassword/' + pass)
+    AddLogin(email, pass) {
+        axios.get('api/addemail/' + email + '/addpassword/' + pass)
             .then(response => {
                 console.log(email)
                 console.log(pass)
@@ -41,7 +26,7 @@ class ProfileContextProvider extends React.Component {
                         profile: response.data,
                     });
 
-                    window.location = '/index';
+                    window.location = '/';
                 } else {
                     console.log(response.data.raison);
                 }
@@ -53,8 +38,8 @@ class ProfileContextProvider extends React.Component {
 
     //update
 
-    updateListe(idNav) {
-        axios.get('/api/profile/' + idNav)
+    updateLogin() {
+        axios.get('/api/profile')
             .then(response => {
                 let read = response.data
 
@@ -65,8 +50,6 @@ class ProfileContextProvider extends React.Component {
             }).catch(error => {
             console.error(error);
         });
-
-
     }
 
     //delete
@@ -78,8 +61,7 @@ class ProfileContextProvider extends React.Component {
         return (
             <ProfileContext.Provider value={{
                 ...this.state,
-                checkLogin: this.checkLogin.bind(this),
-                updateListe: this.updateListe.bind(this),
+                updateListe: this.updateLogin.bind(this),
                 AddLogin: this.AddLogin.bind(this),
                 //deleteListe: this.deleteListe.bind(this),
             }}>

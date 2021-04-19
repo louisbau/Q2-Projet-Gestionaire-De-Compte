@@ -34,9 +34,7 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from '@material-ui/icons/Delete';
 import Icon from '@material-ui/core/Icon';
 import EditIcon from '@material-ui/icons/Edit';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
-import {RecentActorsTwoTone} from "@material-ui/icons";
+
 
 const useStyles = makeStyles((theme) => ({
     game: {
@@ -72,6 +70,8 @@ const useStyles = makeStyles((theme) => ({
 
 }));
 
+
+
 export default function Test2() {
     const context = useContext(TestContext);
     const classes = useStyles();
@@ -83,7 +83,6 @@ export default function Test2() {
     const [addGame, setAddGame] = React.useState('');
     const [visible, setVisible] = React.useState('0');
     const [open, setOpen] = React.useState(false);
-    const [selectedclient, setselectedclient] = React.useState(localStorage.getItem('profile'));
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -113,12 +112,11 @@ export default function Test2() {
 
         context.createListe(
             {
-                name_game: selectedGame,
+                name_app: selectedGame,
                 username_account: addUser,
                 password_account: addPass,
                 description: addDes,
-                idGame: selectedIndex,
-                idClient: selectedclient
+                idApp: selectedIndex,
             },
         );
     }
@@ -127,11 +125,10 @@ export default function Test2() {
         setOpen(false);
         context.createListeJeux(
             {
-                name_game: addGame,
+                name_app: addGame,
                 username_account: addUser,
                 password_account: addPass,
                 description: addDes,
-                idClient: selectedclient
             },
         );
     }
@@ -147,15 +144,25 @@ export default function Test2() {
         context.deleteListe(e)
 
     };
-
-    const lister = [];
-    const idjeux = [];
+    const listApp = [];
+    const listIdApp = [];
     for (let a of context.test) {
-        if (lister[lister.length - 1] !== a.name_game) {
-            lister.push(a.name_game);
-            idjeux.push(a.idGame)
+        if (listApp[listApp.length - 1] !== a.name_app) {
+            listApp.push(a.name_app);
+            listIdApp.push(a.idApp)
         }
     }
+
+    const list = listApp.map((number, index) =>
+        <TableRow hover
+                  key={index}
+                  selected={selectedIndex === listIdApp[index]}
+                  onClick={(event) => handleListItemClick(event, listIdApp[index], listApp[index])}>
+            <TableCell align={"center"}>
+                {number}
+            </TableCell>
+        </TableRow>
+    )
     const dialo = <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
         <DialogContent>
@@ -207,16 +214,9 @@ export default function Test2() {
         </DialogActions>
     </Dialog>
 
-    const listz = lister.map((number, index) =>
-        <TableRow hover
-                  key={index}
-                  selected={selectedIndex === idjeux[index]}
-                  onClick={(event) => handleListItemClick(event, idjeux[index], lister[index])}>
-            <TableCell align={"center"}>
-                {number}
-            </TableCell>
-        </TableRow>
-    )
+
+
+
     return (
         <div>
             <TableContainer className={classes.compte}>
@@ -227,7 +227,7 @@ export default function Test2() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {listz}
+                        {list}
                         {visible === '1' ?
                             <TableRow><TableCell align={'center'}><Fab size="small" color="primary" aria-label="add"
                                                                        className={classes.margin}
@@ -250,7 +250,7 @@ export default function Test2() {
                     </TableHead>
                     <TableBody>
                         {context.test.map((jeu, index) => (
-                                (selectedIndex) === jeu.idGame &&
+                                (selectedIndex) === jeu.idApp &&
                                 <TableRow key={index}>
                                     <TableCell>
                                         <Accordion>

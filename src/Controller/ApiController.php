@@ -3,7 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\AccountClient;
+use App\Entity\AccountApp;
+use App\Entity\Application;
 use App\Entity\Client;
+use App\Entity\User;
 use App\Entity\Game;
 use App\Repository\AccountClientRepository;
 use App\Repository\ClientRepository;
@@ -15,6 +18,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Psr\Log\LoggerInterface;
 
 #[Route('/api', name: 'api')]
 class ApiController extends AbstractController
@@ -36,14 +41,251 @@ class ApiController extends AbstractController
      */
     private GameRepository $gameRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, AccountClientRepository $accountClientRepository, ClientRepository $clientRepository, GameRepository $gameRepository)
-    {
+    private UserPasswordEncoderInterface $passwordEncoder;
 
+    public function __construct(EntityManagerInterface $entityManager, AccountClientRepository $accountClientRepository, ClientRepository $clientRepository, GameRepository $gameRepository, UserPasswordEncoderInterface $passwordEncoder)
+    {
         $this->entityManager = $entityManager;
         $this->accountClientRepository = $accountClientRepository;
         $this->clientRepository = $clientRepository;
         $this->gameRepository = $gameRepository;
+        $this->passwordEncoder = $passwordEncoder;
     }
+    /////// Fait ///////
+    #[Route('/addemail/{email}/addpassword/{pass}')]
+    public function AddProfile($email, $pass)
+    {
+        $addclient = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findOneBy(['email' => $email]);
+
+        $faker = \Faker\Factory::create('fr_FR');
+        if (!$addclient) {
+            $user = new User();
+            $user->setPassword($this->passwordEncoder->encodePassword($user,$pass));
+            $user->setEmail($email);
+            $user->setRoles(['ROLE_USER']); //changer ca si vous voulez etre admin ROLE_ADMIN
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+
+            $game = $this->getDoctrine()
+                ->getRepository(Application::class)
+                ->findOneBy(['name_app' => 'Exemple']);
+            if (!$game) {
+                $Nvgame = new Application();
+                $Nvgame->setNameApp('Exemple');
+                $Nvgame->setPicture($faker->imageUrl());
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($Nvgame);
+                $entityManager->flush();
+
+            }
+            $gameCreer = $this->getDoctrine()
+                ->getRepository(Application::class)
+                ->findOneBy(['name_app' => 'Exemple']);
+
+            $CompteInitialisation = new AccountApp();
+            $CompteInitialisation->setUsernameAccount('exemple');
+            $CompteInitialisation->setPasswordAccount('123');
+            $CompteInitialisation->setDescription('exemple of account');
+            $CompteInitialisation->setAppId($gameCreer);
+            $CompteInitialisation->setAccountId($user);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($CompteInitialisation);
+            $entityManager->flush();
+
+            return $this->json(['id' => $user->getId(), 'email' => $user->getEmail(), 'error' => 0]);
+        } else {
+            return $this->json(['error' => 1, 'raison' => 'email deja utilisé']);
+        }
+
+    }
+
+    #[Route('/session', name: 'api_sessio,')]
+    public function receiveSession(LoggerInterface $logger)
+    {
+        return $this->json($this->getUser()->getUsername());
+    }
+    #[Route('/profile', name: 'api_profile_id')]
+    public function receiveProfile(LoggerInterface $logger)
+    {
+        $email = $this->getUser()->getUsername();
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findOneBy(['email' => $email]);
+        return $this->json(['id' => $user->getId(),'email'=>$user->getEmail(), 'error'=>0]);
+    }
+
+    #[Route('/test/read', name: 'api_test_client')]
+    public function updateListFull(LoggerInterface $logger)
+    {
+        $email = $this->getUser()->getUsername();
+        //$faker = \Faker\Factory::create('fr_FR');
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findOneBy(['email' => $email]);
+        $accountClient = $this->getDoctrine()
+            ->getRepository(AccountApp::class)
+            ->findAccountApp($user->getId());
+        return $this->json($accountClient);
+
+    }
+
+
+
+
+    #[Route('/test/createCompte', name: 'api_test_createCompte', methods: ['POST'])]
+    public function AjouterCompte(Request $request, LoggerInterface $logger)
+    {
+        $content = json_decode($request->getContent());
+        $email = $this->getUser()->getUsername();
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findOneBy(['email' => $email]);
+        $game = $this->getDoctrine()
+            ->getRepository(Application::class)
+            ->find($content->idApp);
+        $client = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->find($user->getId());
+        if (!$game) {
+            throw $this->createNotFoundException(
+                'No product found for id' . $content->idApp
+            );
+        }
+        if (!$client) {
+            throw $this->createNotFoundException(
+                'No product found for id' . $user->getId()
+            );
+        }
+        $nvCompte = new AccountApp();
+        $nvCompte->setUsernameAccount($content->username_account);
+        $nvCompte->setPasswordAccount($content->password_account);
+        $nvCompte->setDescription($content->description);
+        $nvCompte->setAppId($game);
+        $nvCompte->setAccountId($client);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($nvCompte);
+        $entityManager->flush();
+        try {
+            $accountNvCompte = $this->getDoctrine()
+                ->getRepository(AccountApp::class)
+                ->findNvCompte($user->getId(), $content->idApp, $content->username_account);
+            return $this->json($accountNvCompte);
+        } catch (Exception) {
+            return $this->json(['error' => 'error']);
+        }
+
+
+    }
+    //////// pas fait ///////
+
+    #[Route('/test/createJeux', name: 'api_test_createJeux')]
+    public function AjouterJeux(Request $request)
+    {
+
+        $content = json_decode($request->getContent());
+        $faker = \Faker\Factory::create('fr_FR');
+        $email = $this->getUser()->getUsername();
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findOneBy(['email' => $email]);
+
+        if (!$user) {
+            throw $this->createNotFoundException(
+                'No product found for email' . $email
+            );
+        }
+        $game = $this->getDoctrine()
+            ->getRepository(Application::class)
+            ->findOneBy(['name_app' => $content->name_app]);
+
+        if (!$game) {
+            $Nvgame = new Application();
+            $Nvgame->setNameApp($content->name_app);
+            $Nvgame->setPicture($faker->imageUrl());
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($Nvgame);
+            $entityManager->flush();
+            //de trop
+            $lolgame = $this->getDoctrine()
+                ->getRepository(Application::class)
+                ->findOneBy(['name_app' => $content->name_app]);
+            //de trop
+            $nvCompte = new AccountApp();
+            $nvCompte->setUsernameAccount($content->username_account);
+            $nvCompte->setPasswordAccount($content->password_account);
+            $nvCompte->setDescription($content->description);
+            $nvCompte->setAppId($lolgame);
+            $nvCompte->setAccountId($user);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($nvCompte);
+            $entityManager->flush();
+            try {
+                $accountNvCompte = $this->getDoctrine()
+                    ->getRepository(AccountApp::class)
+                    ->findNvCompte($user->getId(), $lolgame->getId(), $content->username_account);
+                return $this->json($accountNvCompte);
+            } catch (Exception) {
+                return $this->json(['error' => 'error']);
+            }
+
+        } else {
+            $nvCompte = new AccountApp();
+            $nvCompte->setUsernameAccount($content->username_account);
+            $nvCompte->setPasswordAccount($content->password_account);
+            $nvCompte->setDescription($content->description);
+            $nvCompte->setAppId($game);
+            $nvCompte->setAccountId($user);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($nvCompte);
+            $entityManager->flush();
+            try {
+                $accountNvCompte = $this->getDoctrine()
+                    ->getRepository(AccountApp::class)
+                    ->findNvCompte($user->getId(), $game->getId(), $content->username_account);
+                return $this->json($accountNvCompte);
+            } catch (Exception) {
+                return $this->json(['error' => 'error']);
+            }
+        }
+
+    }
+
+    #[Route('/del/{idAccount}', name: 'api_del_account')]
+    public function delCompte(int $idAccount)
+    {
+        $accountClient = $this->getDoctrine()
+            ->getRepository(AccountApp::class)
+            ->find($idAccount);
+        $this->entityManager->remove($accountClient);
+        $this->entityManager->flush();
+        return $this->json('ca marche');
+    }
+
+
+
+    /////// pas utilisé
+    ///
+    /*
+    #[Route('/liste/{client}', name: 'api_liste_client')]
+    public function receiveListe(int $client)
+    {
+        $accountClient = $this->getDoctrine()
+            ->getRepository(AccountClient::class)
+            ->findJeux($client);
+        return $this->json($accountClient);
+    }
+
+    #[Route('/liste/{client}/{jeux}', name: 'api_liste_client_jeux')]
+    public function receiveCompte(int $client, int $jeux)
+    {
+        $accountClient = $this->getDoctrine()
+            ->getRepository(AccountClient::class)
+            ->findCompte($client, $jeux);
+        return $this->json($accountClient);
+    }
+
     #[Route('/comptejeux', name: 'api_comptejeux')]
     public function receiveAccountGame()
     {
@@ -55,10 +297,10 @@ class ApiController extends AbstractController
         return $this->json($arrayCompte);
     }
 
-
     #[Route('/game', name: 'api_game')]
     public function receiveGame()
     {
+        $this->denyAccessUnlessGranted('ROLE_USER'); ////////attt
         $games = $this->gameRepository->findALl();
         $arrayGame = [];
         foreach ($games as $game){
@@ -78,263 +320,7 @@ class ApiController extends AbstractController
         }
         return $this->json($arrayLogin);
     }
-
-    #[Route('/profile/{id}',  name: 'api_profile_id')]
-    public function receiveProfile(int $id)
-    {
-        $client = $this->getDoctrine()
-            ->getRepository(Client::class)
-            ->find($id);
-        return $this->json(['id' => $client->getId(), 'username'=>$client->getUsername(),'email'=>$client->getEmail(), 'error'=>0]);
-    }
-
-    #[Route('/liste/{client}',  name: 'api_liste_client')]
-    public function receiveListe(int $client)
-    {
-        $accountClient = $this->getDoctrine()
-            ->getRepository(AccountClient::class)
-            ->findJeux($client);
-        return $this->json($accountClient);
-    }
-
-    #[Route('/test/read/{client}', name: 'api_test_client')]
-    public function receivetest(int $client)
-    {
-        $accountClient = $this->getDoctrine()
-            ->getRepository(AccountClient::class)
-            ->findtest($client);
-        $faker = \Faker\Factory::create('fr_FR');
-        if(!$accountClient){
-            $accountclient2 = $this->getDoctrine()
-                ->getRepository(Client::class)
-                ->find($client);
-            $game = $this->getDoctrine()
-                ->getRepository(Game::class)
-                ->findOneBy(['name_game' => 'Exemple']);
-            if (!$game) {
-                $Nvgame = new Game();
-                $Nvgame->setNameGame('Exemple');
-                $Nvgame->setPicture($faker->imageUrl());
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($Nvgame);
-                $entityManager->flush();
-                $CompteInitialisation = New AccountClient();
-                $CompteInitialisation->setUsernameAccount('exemple');
-                $CompteInitialisation->setPasswordAccount('123');
-                $CompteInitialisation->setDescription('exemple of account');
-                $CompteInitialisation->setGameId($Nvgame);
-                $CompteInitialisation->setAccountId($accountclient2);
-                $entityManager=$this->getDoctrine()->getManager();
-                $entityManager->persist($CompteInitialisation);
-                $entityManager->flush();
-            }
-            else {
-                $CompteInitialisation = New AccountClient();
-                $CompteInitialisation->setUsernameAccount('exemple');
-                $CompteInitialisation->setPasswordAccount('123');
-                $CompteInitialisation->setDescription('exemple of account');
-                $CompteInitialisation->setGameId($game);
-                $CompteInitialisation->setAccountId($accountclient2);
-                $entityManager=$this->getDoctrine()->getManager();
-                $entityManager->persist($CompteInitialisation);
-                $entityManager->flush();
-            }
-
-            $accountClient3 = $this->getDoctrine()
-                ->getRepository(AccountClient::class)
-                ->findtest($client);
-            return $this->json($accountClient3);
-        }
-        else {
-            return $this->json($accountClient);
-        }
-
-    }
-
-    #[Route('/test/createCompte', name: 'api_test_createCompte', methods: ['POST'])]
-    public function AjouterCompte(Request $request)
-    {
-        $content = json_decode($request->getContent());
-        $game = $this->getDoctrine()
-            ->getRepository(Game::class)
-            ->find($content->idGame);
-        $client = $this->getDoctrine()
-            ->getRepository(Client::class)
-            ->find($content->idClient);
-        if (!$game) {
-            throw $this->createNotFoundException(
-                'No product found for id'.$content->idGame
-            );
-        }
-        if (!$client) {
-            throw $this->createNotFoundException(
-                'No product found for id'.$content->idClient
-            );
-        }
-
-
-        $nvCompte = New AccountClient();
-        $nvCompte->setUsernameAccount($content->username_account);
-        $nvCompte->setPasswordAccount($content->password_account);
-        $nvCompte->setDescription($content->description);
-        $nvCompte->setGameId($game);
-        $nvCompte->setAccountId($client);
-        $entityManager=$this->getDoctrine()->getManager();
-        $entityManager->persist($nvCompte);
-        $entityManager->flush();
-        try {
-            $accountNvCompte = $this->getDoctrine()
-                ->getRepository(AccountClient::class)
-                ->findNvCompte($content->idClient, $content->idGame,$content->username_account);
-            return $this->json($accountNvCompte);
-        } catch (Exception) {
-            return $this->json(['error'=>'error']);
-        }
-
-
-
-    }
-
-    #[Route('/test/createJeux', name: 'api_test_createJeux')]
-    public function AjouterJeux(Request $request)
-    {
-
-        $content = json_decode($request->getContent());
-        $faker = \Faker\Factory::create('fr_FR');
-
-        $client = $this->getDoctrine()
-            ->getRepository(Client::class)
-            ->find($content->idClient);
-        if (!$client) {
-            throw $this->createNotFoundException(
-                'No product found for id'.$content->idClient
-            );
-        }
-        $game = $this->getDoctrine()
-            ->getRepository(Game::class)
-            ->findOneBy(['name_game' => $content->name_game]);
-
-        if (!$game) {
-            $Nvgame = new Game();
-            $Nvgame->setNameGame($content->name_game);
-            $Nvgame->setPicture($faker ->imageUrl());
-            $entityManager=$this->getDoctrine()->getManager();
-            $entityManager->persist($Nvgame);
-            $entityManager->flush();
-            $lolgame = $this->getDoctrine()
-                ->getRepository(Game::class)
-                ->findOneBy(['name_game' => $content->name_game]);
-            $nvCompte = New AccountClient();
-            $nvCompte->setUsernameAccount($content->username_account);
-            $nvCompte->setPasswordAccount($content->password_account);
-            $nvCompte->setDescription($content->description);
-            $nvCompte->setGameId($lolgame);
-            $nvCompte->setAccountId($client);
-            $entityManager=$this->getDoctrine()->getManager();
-            $entityManager->persist($nvCompte);
-            $entityManager->flush();
-            try {
-                $accountNvCompte = $this->getDoctrine()
-                    ->getRepository(AccountClient::class)
-                    ->findNvCompte($content->idClient, $lolgame->getId(),$content->username_account);
-                return $this->json($accountNvCompte);
-            } catch (Exception) {
-                return $this->json(['error'=>'error']);
-            }
-
-        }
-        else {
-            $nvCompte = New AccountClient();
-            $nvCompte->setUsernameAccount($content->username_account);
-            $nvCompte->setPasswordAccount($content->password_account);
-            $nvCompte->setDescription($content->description);
-            $nvCompte->setGameId($game);
-            $nvCompte->setAccountId($client);
-            $entityManager=$this->getDoctrine()->getManager();
-            $entityManager->persist($nvCompte);
-            $entityManager->flush();
-            try {
-                $accountNvCompte = $this->getDoctrine()
-                    ->getRepository(AccountClient::class)
-                    ->findNvCompte($content->idClient, $game->getId(),$content->username_account);
-                return $this->json($accountNvCompte);
-            } catch (Exception) {
-                return $this->json(['error'=>'error']);
-            }
-        }
-
-    }
-
-    #[Route('/email/{email}/password/{pass}')]
-    public function check($email, $pass)
-    {
-        //$Profiles = $this->clientRepository->findOneBy(['email'=>$email, 'password'=>$pass]);
-        //$arrayProfiles = [];
-
-        //$arrayProfiles[] = $Profiles->toArrayFull();
-        $checkLogin = $this->getDoctrine()
-            ->getRepository(Client::class)
-            ->findOneBy(
-                [
-                    'email' => $email,
-                    'password' => $pass,
-                    ]);
-        if (!$checkLogin) {
-            return $this->json(['error' => 1, 'raison' => 'mauvais mots de passe ou mot de passe']);
-
-        }
-        else {
-            return $this->json(['id' => $checkLogin->getId(), 'username'=>$checkLogin->getUsername(),'email'=>$checkLogin->getEmail(), 'error'=>0]);
-        }
-
-
-    }
-    #[Route('/addemail/{email}/addusername/{username}/addpassword/{pass}')]
-    public function AddProfile($email, $username, $pass)
-    {
-        $addclient = $this->getDoctrine()
-            ->getRepository(Client::class)
-            ->findOneBy(
-                [
-                    'email' => $email,
-                    'username' => $username,
-                ]);
-        if (!$addclient) {
-            $client = new Client();
-            $client->setUsername($username);
-            $client->setPassword($pass);
-            $client->setEmail($email);
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($client);
-            $entityManager->flush();
-            return $this->json(['id' => $client->getId(), 'username'=>$client->getUsername(),'email'=>$client->getEmail(), 'error'=>0]);
-        }
-        else {
-            return $this->json(['error' => 1, 'raison' => 'compte deja existant']);
-        }
-
-    }
-
-
-    #[Route('/liste/{client}/{jeux}', name: 'api_liste_client_jeux')]
-    public function receiveCompte(int $client, int $jeux)
-    {
-        $accountClient = $this->getDoctrine()
-            ->getRepository(AccountClient::class)
-            ->findCompte($client, $jeux);
-        return $this->json($accountClient);
-    }
-
-    #[Route('/del/{idAccount}', name: 'api_del_account')]
-    public function delCompte(int $idAccount)
-    {
-        $accountClient = $this->getDoctrine()
-            ->getRepository(AccountClient::class)
-            ->find($idAccount);
-        $this->entityManager->remove($accountClient);
-        $this->entityManager->flush();
-        return $this->json('ca marche');
-    }
+    */
 
 
 

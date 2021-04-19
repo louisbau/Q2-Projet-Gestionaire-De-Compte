@@ -81,9 +81,6 @@ function SimpleMenu() {
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const context = useContext(ProfileContext);
-    if (context.profile.username === undefined) {
-        context.updateListe(localStorage.getItem('profile'))
-    }
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -112,7 +109,7 @@ function SimpleMenu() {
                     <MenuItem onClick={handleClose}>
                         <CustomizedDialogs/>
                     </MenuItem>
-                    <MenuItem onClick={handleClose}><Link href="/">Logout</Link></MenuItem>
+                    <MenuItem onClick={handleClose}><Link href={"/logout"}>Logout</Link></MenuItem>
                 </Menu>
                 <Typography className={classes.title}>
                     Gestionnaire
@@ -131,7 +128,8 @@ function SimpleMenu() {
                     />
                 </div>
                 <div className={classes.grow}/>
-                <div>{context.profile.username}</div>
+                <div><Link href={"/logout"}>Logout</Link></div>
+                <div>{context.profile.email}</div>
             </Toolbar>
         </AppBar>
     );

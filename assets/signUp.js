@@ -52,14 +52,10 @@ export default function SignUp() {
     const context = useContext(ProfileContext);
     const [addEmail, setAddEmail] = React.useState('');
     const [addPass, setAddPass] = React.useState('');
-    const [addUsername, setAddUsername] = React.useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        context.AddLogin(addEmail, addUsername, addPass);
-    }
-    const handleChangeUsername = (e) => {
-        setAddUsername(e.target.value)
+        context.AddLogin(addEmail, addPass);
     }
     const handleChangeEmail = (e) => {
         setAddEmail(e.target.value)
@@ -96,18 +92,6 @@ export default function SignUp() {
                                 variant="outlined"
                                 required
                                 fullWidth
-                                name="username"
-                                label="username"
-                                type="username"
-                                id="username"
-                                onChange={(e) => handleChangeUsername(e)}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <TextField
-                                variant="outlined"
-                                required
-                                fullWidth
                                 name="password"
                                 label="Password"
                                 type="password"
@@ -124,13 +108,9 @@ export default function SignUp() {
                     >
                         Sign Up
                     </Button>
-                    <Grid container justify="flex-end">
-                        <Grid item>
-                            <Link href="/" variant="body2">
-                                Already have an account? Sign in
-                            </Link>
-                        </Grid>
-                    </Grid>
+                    <Link href={"app_login"} variant="body2">
+                        Already have an account? Sign in
+                    </Link>
                 </form>
             </div>
             <Box mt={5}>
