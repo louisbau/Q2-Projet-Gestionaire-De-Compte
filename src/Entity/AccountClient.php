@@ -10,10 +10,7 @@ use App\Entity\Game;
 
 /**
  * @ORM\Entity(repositoryClass=AccountClientRepository::class)
- * @ApiResource(
- *     collectionOperations={"get"},
- *     itemOperations={"get"}
- * )
+ *
  */
 class AccountClient
 {

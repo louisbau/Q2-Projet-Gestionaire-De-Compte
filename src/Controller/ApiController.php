@@ -52,7 +52,7 @@ class ApiController extends AbstractController
         $this->passwordEncoder = $passwordEncoder;
     }
     /////// Fait ///////
-    #[Route('/addemail/{email}/addpassword/{pass}')]
+    #[Route('/profile/email={email}&password={pass}', name: 'api_profile_email_password')]
     public function AddProfile($email, $pass)
     {
         $addclient = $this->getDoctrine()
@@ -101,13 +101,8 @@ class ApiController extends AbstractController
 
     }
 
-    #[Route('/session', name: 'api_sessio,')]
-    public function receiveSession(LoggerInterface $logger)
-    {
-        return $this->json($this->getUser()->getUsername());
-    }
     #[Route('/profile', name: 'api_profile_id')]
-    public function receiveProfile(LoggerInterface $logger)
+    public function receiveProfile()
     {
         $email = $this->getUser()->getUsername();
         $user = $this->getDoctrine()
@@ -116,8 +111,8 @@ class ApiController extends AbstractController
         return $this->json(['id' => $user->getId(),'email'=>$user->getEmail(), 'roles'=>$user->getRoles(), 'error'=>0]);
     }
 
-    #[Route('/test/read', name: 'api_test_client')]
-    public function updateListFull(LoggerInterface $logger)
+    #[Route('/list/read', name: 'api_list_client')]
+    public function updateListFull()
     {
         $email = $this->getUser()->getUsername();
         //$faker = \Faker\Factory::create('fr_FR');
@@ -134,7 +129,7 @@ class ApiController extends AbstractController
 
 
 
-    #[Route('/test/createCompte', name: 'api_test_createCompte', methods: ['POST'])]
+    #[Route('/list/account', name: 'api_list_account', methods: ['POST'])]
     public function AjouterCompte(Request $request, LoggerInterface $logger)
     {
         $content = json_decode($request->getContent());
@@ -178,9 +173,8 @@ class ApiController extends AbstractController
 
 
     }
-    //////// pas fait ///////
 
-    #[Route('/test/createJeux', name: 'api_test_createJeux')]
+    #[Route('/list/app', name: 'api_list_app')]
     public function AjouterJeux(Request $request)
     {
 
@@ -252,7 +246,7 @@ class ApiController extends AbstractController
 
     }
 
-    #[Route('/del/{idAccount}', name: 'api_del_account')]
+    #[Route('/list/remove/{idAccount}', name: 'api_list_remove_account')]
     public function delCompte(int $idAccount)
     {
         $accountClient = $this->getDoctrine()

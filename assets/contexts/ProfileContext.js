@@ -17,7 +17,7 @@ class ProfileContextProvider extends React.Component {
     //read
 
     AddLogin(email, pass) {
-        axios.get('api/addemail/' + email + '/addpassword/' + pass)
+        axios.get('/api/profile/email=' + email + '&password=' + pass)
             .then(response => {
                 console.log(email)
                 console.log(pass)

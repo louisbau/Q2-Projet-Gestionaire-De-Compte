@@ -14,6 +14,7 @@ use App\Repository\GameRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -57,7 +58,7 @@ class ApiAdminController extends AbstractController
         $this->passwordEncoder = $passwordEncoder;
     }
     //renvoie tout les jeux
-    #[Route('/listApp', name: 'ApiAdmin_listApp')]
+    #[Route('/list/app', name: 'ApiAdmin_listApp')]
     public function ListApp()
     {
         $apps = $this->applicationRepository->findAll();
@@ -68,7 +69,7 @@ class ApiAdminController extends AbstractController
         return $this->json($arrayApp);
     }
     //renvoie tout les jeux d'utilisateur
-    #[Route('/listApp/user={client}', name: 'ApiAdmin_listApp_user')]
+    #[Route('/list/app/id={client}', name: 'ApiAdmin_listApp_user')]
     public function ListAppUser(int $client)
     {
         $accountClient = $this->getDoctrine()
@@ -77,7 +78,7 @@ class ApiAdminController extends AbstractController
         return $this->json($accountClient);
     }
     //renvoie liste de compte d'un user
-    #[Route('/listAccount/user={client}', name: 'ApiAdmin_ListAccountUser')]
+    #[Route('/list/account/id={client}', name: 'ApiAdmin_ListAccountUser')]
     public function ListAccountUser(int $client)
     {
         $accountClient = $this->getDoctrine()
@@ -86,7 +87,7 @@ class ApiAdminController extends AbstractController
         return $this->json($accountClient);
     }
     //renvoie tout les user
-    #[Route('/listUser', name: 'ApiAdmin_listUser')]
+    #[Route('/list/user', name: 'ApiAdmin_listUser')]
     public function ListUser()
     {
         $users = $this->userRepository->findAll();
@@ -97,7 +98,7 @@ class ApiAdminController extends AbstractController
         return $this->json($arrayUser);
     }
     //renvoie les info d'user
-    #[Route('/infoUser/user={client}', name: 'ApiAdmin_infoUser')]
+    #[Route('/info/user/id={client}', name: 'ApiAdmin_infoUser')]
     public function InfoUser(int $client)
     {
         $user = $this->getDoctrine()
@@ -113,61 +114,5 @@ class ApiAdminController extends AbstractController
         return $this->json($this->getUser()->getUsername());
     }
 
-    /////// pas utilisé
-    ///
-    /*
-    #[Route('/liste/{client}', name: 'api_liste_client')]
-    public function receiveListe(int $client)
-    {
-        $accountClient = $this->getDoctrine()
-            ->getRepository(AccountClient::class)
-            ->findJeux($client);
-        return $this->json($accountClient);
-    }
-
-    #[Route('/liste/{client}/{jeux}', name: 'api_liste_client_jeux')]
-    public function receiveCompte(int $client, int $jeux)
-    {
-        $accountClient = $this->getDoctrine()
-            ->getRepository(AccountClient::class)
-            ->findCompte($client, $jeux);
-        return $this->json($accountClient);
-    }
-
-    #[Route('/comptejeux', name: 'api_comptejeux')]
-    public function receiveAccountGame()
-    {
-        $comptes = $this->accountClientRepository->findALl();
-        $arrayCompte = [];
-        foreach ($comptes as $compte){
-            $arrayCompte[] = $compte->toArray();
-        }
-        return $this->json($arrayCompte);
-    }
-
-    #[Route('/game', name: 'api_game')]
-    public function receiveGame()
-    {
-        $this->denyAccessUnlessGranted('ROLE_USER'); ////////attt
-        $games = $this->gameRepository->findALl();
-        $arrayGame = [];
-        foreach ($games as $game){
-            $arrayGame[] = $game->toArray();
-        }
-        return $this->json($arrayGame);
-    }
-
-    #[Route('/login',  name: 'api_login')]
-    public function receiveLogin()
-    {
-        $logins = $this->clientRepository->findAll();
-        $arrayLogin = [];
-
-        foreach ($logins as $login){
-            $arrayLogin[] = $login->toArray();
-        }
-        return $this->json($arrayLogin);
-    }
-    */
 
 }

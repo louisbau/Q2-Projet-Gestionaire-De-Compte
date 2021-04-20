@@ -15,7 +15,7 @@ class TestContextProvider extends React.Component {
 
     //read
     readListe() {
-        axios.get('/api/test/read/')
+        axios.get('/api/list/read/')
             .then(response => {
                 let read = response.data
                 if (read.length > 1) {
@@ -35,7 +35,7 @@ class TestContextProvider extends React.Component {
 
     //create
     createListe(compte) {
-        axios.post('/api/test/createCompte', compte)
+        axios.post('/api/list/account', compte)
             .then(response => {
                 let data = [...this.state.test];
                 data.push(response.data[0]);
@@ -52,7 +52,7 @@ class TestContextProvider extends React.Component {
 
     createListeJeux(compte) {
         console.log(compte)
-        axios.post('/api/test/createJeux', compte)
+        axios.post('/api/list/app', compte)
             .then(response => {
                 let data2 = [...this.state.test];
                 data2.push(response.data[0]);
@@ -76,7 +76,7 @@ class TestContextProvider extends React.Component {
     //delete
     deleteListe(idDel) {
         console.log(idDel)
-        axios.get('/api/del/' + idDel)
+        axios.get('/api/list/remove/' + idDel)
             .then(response => {
                 let data = [...this.state.test];
                 let datas = data.find(datas => {
