@@ -156,4 +156,9 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function toArray()
+    {
+        return ['id' => $this-> id, 'email'=>$this->email, 'roles' =>$this->roles];
+    }
 }

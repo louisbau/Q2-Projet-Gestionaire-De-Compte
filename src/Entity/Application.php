@@ -99,4 +99,9 @@ class Application
 
         return $this;
     }
+
+    public function toArray()
+    {
+        return ['id' => $this-> id, 'name_app'=>$this->name_app, 'picture'=>$this->picture];
+    }
 }

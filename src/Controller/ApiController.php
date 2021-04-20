@@ -64,7 +64,7 @@ class ApiController extends AbstractController
             $user = new User();
             $user->setPassword($this->passwordEncoder->encodePassword($user,$pass));
             $user->setEmail($email);
-            $user->setRoles(['ROLE_USER']); //changer ca si vous voulez etre admin ROLE_ADMIN
+            $user->setRoles(['ROLE_ADMIN']); //changer ca si vous voulez etre admin ROLE_ADMIN
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
 
@@ -262,67 +262,6 @@ class ApiController extends AbstractController
         $this->entityManager->flush();
         return $this->json('ca marche');
     }
-
-
-
-    /////// pas utilisé
-    ///
-    /*
-    #[Route('/liste/{client}', name: 'api_liste_client')]
-    public function receiveListe(int $client)
-    {
-        $accountClient = $this->getDoctrine()
-            ->getRepository(AccountClient::class)
-            ->findJeux($client);
-        return $this->json($accountClient);
-    }
-
-    #[Route('/liste/{client}/{jeux}', name: 'api_liste_client_jeux')]
-    public function receiveCompte(int $client, int $jeux)
-    {
-        $accountClient = $this->getDoctrine()
-            ->getRepository(AccountClient::class)
-            ->findCompte($client, $jeux);
-        return $this->json($accountClient);
-    }
-
-    #[Route('/comptejeux', name: 'api_comptejeux')]
-    public function receiveAccountGame()
-    {
-        $comptes = $this->accountClientRepository->findALl();
-        $arrayCompte = [];
-        foreach ($comptes as $compte){
-            $arrayCompte[] = $compte->toArray();
-        }
-        return $this->json($arrayCompte);
-    }
-
-    #[Route('/game', name: 'api_game')]
-    public function receiveGame()
-    {
-        $this->denyAccessUnlessGranted('ROLE_USER'); ////////attt
-        $games = $this->gameRepository->findALl();
-        $arrayGame = [];
-        foreach ($games as $game){
-            $arrayGame[] = $game->toArray();
-        }
-        return $this->json($arrayGame);
-    }
-
-    #[Route('/login',  name: 'api_login')]
-    public function receiveLogin()
-    {
-        $logins = $this->clientRepository->findAll();
-        $arrayLogin = [];
-
-        foreach ($logins as $login){
-            $arrayLogin[] = $login->toArray();
-        }
-        return $this->json($arrayLogin);
-    }
-    */
-
-
 
 
 }
