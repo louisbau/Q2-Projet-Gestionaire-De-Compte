@@ -64,7 +64,7 @@ class ApiController extends AbstractController
             $user = new User();
             $user->setPassword($this->passwordEncoder->encodePassword($user,$pass));
             $user->setEmail($email);
-            $user->setRoles(['ROLE_ADMIN']); //changer ca si vous voulez etre admin ROLE_ADMIN
+            $user->setRoles(['ROLE_USER']); //changer ca si vous voulez etre admin ROLE_ADMIN
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
 
