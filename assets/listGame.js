@@ -8,7 +8,7 @@ import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import {
     Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
-    Fab,
+    Fab, Slider,
     Table,
     TableBody,
     TableCell,
@@ -34,6 +34,8 @@ import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from '@material-ui/icons/Delete';
 import Icon from '@material-ui/core/Icon';
 import EditIcon from '@material-ui/icons/Edit';
+import VolumeDown from '@material-ui/icons/VolumeDown';
+import VolumeUp from '@material-ui/icons/VolumeUp';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -67,6 +69,9 @@ const useStyles = makeStyles((theme) => ({
             borderBottom: 'unset',
         },
     },
+    mic: {
+        width: 200,
+    },
 
 }));
 
@@ -86,7 +91,6 @@ export default function Test2() {
     const handleClickOpen = () => {
         setOpen(true);
     };
-
     const handleClose = () => {
         setOpen(false);
     };
@@ -104,6 +108,11 @@ export default function Test2() {
     const handleChangeDes = (e) => {
         setAddDes(e.target.value)
     }
+    const [value, setValue] = React.useState(30);
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
     const handleChangeGame = (e) => {
         setAddGame(e.target.value)
     }
@@ -219,97 +228,126 @@ export default function Test2() {
 
     return (
         <div>
-            <TableContainer className={classes.compte}>
-                <Table className={classes.table}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Liste de Jeux</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {list}
-                        {visible === '1' ?
-                            <TableRow><TableCell align={'center'}><Fab size="small" color="primary" aria-label="add"
-                                                                       className={classes.margin}
-                                                                       onClick={handleClickOpen}><AddIcon/></Fab>{dialo}
-                            </TableCell></TableRow> : ""}
-                    </TableBody>
-                </Table>
-                <Table className={classes.table}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell align={"center"}>
-                                Liste de Compte
-                            </TableCell>
-                            <TableCell>
-                                <Fab color="primary" aria-label="edit" size={"small"} onClick={(e) => handleEdit(e)}>
-                                    <EditIcon/>
-                                </Fab>
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {context.test.map((jeu, index) => (
-                                (selectedIndex) === jeu.idApp &&
-                                <TableRow key={index}>
-                                    <TableCell>
-                                        <Accordion>
-                                            <AccordionSummary
-                                                expandIcon={<ExpandMoreIcon/>}
-                                                aria-controls="panel1a-content"
-                                                id="panel1a-header"
-                                            >
-                                                <Typography>{jeu.username_account}</Typography>
-                                            </AccordionSummary>
-                                            <AccordionDetails>
-                                                <Typography>
-                                                    Username : {jeu.username_account}<br/>
-                                                    Password : {jeu.password_account}<br/>
-                                                    Description : {jeu.description}<br/>
-                                                </Typography>
-                                            </AccordionDetails>
-                                        </Accordion>
-                                    </TableCell>
-                                    <TableCell value={jeu.id}>
-                                        {visible === '1' ?
-                                            <Fab size="small" color="secondary" aria-label="delete" className={classes.margin} onClick={()=>handleDelete(jeu.id)}>
-                                                <DeleteIcon />
-                                            </Fab> : ""}
-                                    </TableCell>
-
+            <grid>
+                <grid>
+                    <TableContainer className={classes.compte}>
+                        <Table className={classes.table}>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Liste de Jeux</TableCell>
                                 </TableRow>
-                            )
-                        )}
-                        {visible === '1' ?
-                            <TableRow>
-                                <TableCell>
-                                    <Accordion>
-                                        <AccordionSummary
-                                            expandIcon={<AddIcon/>}
-                                            aria-controls="panel1a-content"
-                                            id="panel1a-header"
-                                        >
-                                            <Typography className={classes.heading}>Ajouter un compte</Typography>
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <form>
-                                                <TextField id="addUsernamefff" label="Add username"
-                                                           onChange={(e) => handleChangeUser(e)}/>
-                                                <TextField id="addPassword" label="Add password"
-                                                           onChange={(e) => handleChangePass(e)}/>
-                                                <TextField id="addDescription" label="Add description"
-                                                           onChange={(e) => handleChangeDes(e)}/>
-                                                <Button color="primary" type="submit" onClick={(e) => handleSubmit(e)}>
-                                                    ADD
-                                                </Button>
-                                            </form>
-                                        </AccordionDetails>
-                                    </Accordion>
-                                </TableCell>
-                            </TableRow> : ""}
-                    </TableBody>
-                </Table>
-            </TableContainer>
+                            </TableHead>
+                            <TableBody>
+                                {list}
+                                {visible === '1' ?
+                                    <TableRow><TableCell align={'center'}><Fab size="small" color="primary" aria-label="add"
+                                                                               className={classes.margin}
+                                                                               onClick={handleClickOpen}><AddIcon/></Fab>{dialo}
+                                    </TableCell></TableRow> : ""}
+                            </TableBody>
+                        </Table>
+                        <Table className={classes.table}>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell align={"center"}>
+                                        Liste de Compte
+                                    </TableCell>
+                                    <TableCell>
+                                        <Fab color="primary" aria-label="edit" size={"small"} onClick={(e) => handleEdit(e)}>
+                                            <EditIcon/>
+                                        </Fab>
+                                    </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {context.test.map((jeu, index) => (
+                                        (selectedIndex) === jeu.idApp &&
+                                        <TableRow key={index}>
+                                            <TableCell>
+                                                <Accordion>
+                                                    <AccordionSummary
+                                                        expandIcon={<ExpandMoreIcon/>}
+                                                        aria-controls="panel1a-content"
+                                                        id="panel1a-header"
+                                                    >
+                                                        <Typography>{jeu.username_account}</Typography>
+                                                    </AccordionSummary>
+                                                    <AccordionDetails>
+                                                        <Typography>
+                                                            Username : {jeu.username_account}<br/>
+                                                            Password : {jeu.password_account}<br/>
+                                                            Description : {jeu.description}<br/>
+                                                        </Typography>
+                                                    </AccordionDetails>
+                                                </Accordion>
+                                            </TableCell>
+                                            <TableCell value={jeu.id}>
+                                                {visible === '1' ?
+                                                    <Fab size="small" color="secondary" aria-label="delete" className={classes.margin} onClick={()=>handleDelete(jeu.id)}>
+                                                        <DeleteIcon />
+                                                    </Fab> : ""}
+                                            </TableCell>
+
+                                        </TableRow>
+                                    )
+                                )}
+                                {visible === '1' ?
+                                    <TableRow>
+                                        <TableCell>
+                                            <Accordion>
+                                                <AccordionSummary
+                                                    expandIcon={<AddIcon/>}
+                                                    aria-controls="panel1a-content"
+                                                    id="panel1a-header"
+                                                >
+                                                    <Typography className={classes.heading}>Ajouter un compte</Typography>
+                                                </AccordionSummary>
+                                                <AccordionDetails>
+                                                    <form>
+                                                        <TextField id="addUsernamefff" label="Add username"
+                                                                   onChange={(e) => handleChangeUser(e)}/>
+                                                        <TextField id="addPassword" label="Add password"
+                                                                   onChange={(e) => handleChangePass(e)}/>
+                                                        <TextField id="addDescription" label="Add description"
+                                                                   onChange={(e) => handleChangeDes(e)}/>
+                                                        <Button color="primary" type="submit" onClick={(e) => handleSubmit(e)}>
+                                                            ADD
+                                                        </Button>
+                                                    </form>
+                                                </AccordionDetails>
+                                            </Accordion>
+                                        </TableCell>
+                                    </TableRow> : ""}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </grid>
+                <grid>
+                    <iframe src="https://discord.com/widget?id=677883046359334930&theme=dark" width="350" height="500"
+                            allowTransparency="true" frameBorder="0"
+                            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts" />
+                    <iframe src="https://open.spotify.com/embed/playlist/6wj5KOqIvQl2fOSIT9UMyE" width="300" id="level"
+                            height="380" frameBorder="0" allowTransparency="true" allow="encrypted-media" />
+                    <div className={classes.mic}>
+                        <Typography id="continuous-slider" gutterBottom>
+                            Volume
+                        </Typography>
+                        <Grid container spacing={2}>
+                            <Grid item>
+                                <VolumeDown />
+                            </Grid>
+                            <Grid item xs>
+                                <Slider value={value} onChange={handleChange} aria-labelledby="continuous-slider" />
+                            </Grid>
+                            <Grid item>
+                                <VolumeUp />
+                            </Grid>
+                        </Grid>
+                    </div>
+                </grid>
+            </grid>
+
         </div>
+
     );
 }

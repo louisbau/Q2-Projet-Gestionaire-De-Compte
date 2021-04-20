@@ -94,7 +94,7 @@ class ApiController extends AbstractController
             $entityManager->persist($CompteInitialisation);
             $entityManager->flush();
 
-            return $this->json(['id' => $user->getId(), 'email' => $user->getEmail(), 'error' => 0]);
+            return $this->json(['id' => $user->getId(), 'email' => $user->getEmail(), 'roles'=>$user->getRoles(), 'error' => 0]);
         } else {
             return $this->json(['error' => 1, 'raison' => 'email deja utilisé']);
         }
@@ -113,7 +113,7 @@ class ApiController extends AbstractController
         $user = $this->getDoctrine()
             ->getRepository(User::class)
             ->findOneBy(['email' => $email]);
-        return $this->json(['id' => $user->getId(),'email'=>$user->getEmail(), 'error'=>0]);
+        return $this->json(['id' => $user->getId(),'email'=>$user->getEmail(), 'roles'=>$user->getRoles(), 'error'=>0]);
     }
 
     #[Route('/test/read', name: 'api_test_client')]

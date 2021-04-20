@@ -2,13 +2,18 @@ import React, {useContext} from "react";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import {AppBar, fade, InputBase, Toolbar} from "@material-ui/core";
+import {AppBar, Fab, fade, InputBase, TableCell, TableRow, Toolbar} from "@material-ui/core";
 import CustomizedDialogs from "./Dialogue";
 import ProfileContextProvider, {ProfileContext} from "./contexts/ProfileContext";
 import Link from '@material-ui/core/Link';
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
 import SearchIcon from '@material-ui/icons/Search';
+import Accordion from "@material-ui/core/Accordion";
+import AccordionSummary from "@material-ui/core/AccordionSummary";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import AccordionDetails from "@material-ui/core/AccordionDetails";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -92,25 +97,29 @@ function SimpleMenu() {
     return (
         <AppBar position="static">
             <Toolbar>
-                <Button
-                    aria-controls="simple-menu"
-                    aria-haspopup="true"
-                    onClick={handleClick}
-                >
-                    Open Menu
-                </Button>
-                <Menu
-                    id="simple-menu"
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                >
-                    <MenuItem onClick={handleClose}>
-                        <CustomizedDialogs/>
-                    </MenuItem>
-                    <MenuItem onClick={handleClose}><Link href={"/logout"}>Logout</Link></MenuItem>
-                </Menu>
+                {document.getElementById('role').value &&
+                    <div>
+                        <Button
+                            aria-controls="simple-menu"
+                            aria-haspopup="true"
+                            onClick={handleClick}
+                        >
+                            Open Menu
+                        </Button>
+                        <Menu
+                            id="simple-menu"
+                            anchorEl={anchorEl}
+                            keepMounted
+                            open={Boolean(anchorEl)}
+                            onClose={handleClose}
+                        >
+                            <MenuItem onClick={handleClose}>
+                                <ProfileContextProvider><CustomizedDialogs /></ProfileContextProvider>
+                            </MenuItem>
+                            <MenuItem onClick={handleClose}><Link href="/">Logout</Link></MenuItem>
+                        </Menu>
+                    </div>
+                }
                 <Typography className={classes.title}>
                     Gestionnaire
                 </Typography>
@@ -127,9 +136,7 @@ function SimpleMenu() {
                         inputProps={{'aria-label': 'search'}}
                     />
                 </div>
-                <div className={classes.grow}/>
-                <div><Link href={"/logout"}>Logout</Link></div>
-                <div>{context.profile.email}</div>
+                {document.getElementById('role').value ? <Typography><Link color={'#f5f5f5'} href={"/logout"}>Logout</Link>{context.profile.email}</Typography> : <Typography><Link href={"/"}>Logout</Link></Typography>}
             </Toolbar>
         </AppBar>
     );
