@@ -108,7 +108,7 @@ export default function SignUp() {
                     >
                         Sign Up
                     </Button>
-                    <Link href={"app_login"} variant="body2">
+                    <Link href={"/"} variant="body2">
                         Already have an account? Sign in
                     </Link>
                 </form>
