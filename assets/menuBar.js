@@ -136,7 +136,7 @@ function SimpleMenu() {
                         inputProps={{'aria-label': 'search'}}
                     />
                 </div>
-                {document.getElementById('role').value ? <Typography><Link color={'#f5f5f5'} href={"/logout"}>Logout</Link>{context.profile.email}</Typography> : <Typography><Link href={"/"}>Logout</Link></Typography>}
+                {document.getElementById('role').value ? <Typography><Link href={"/logout"}>Logout</Link>{context.profile.email}</Typography> : <Typography><Link href={"/"}>Logout</Link></Typography>}
             </Toolbar>
         </AppBar>
     );

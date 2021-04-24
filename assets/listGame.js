@@ -1,11 +1,5 @@
 import React, {useContext} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
 import {
     Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
     Fab, Slider,
@@ -19,7 +13,6 @@ import {
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import {TestContext} from "./contexts/TestContext";
-import ListSubheader from "@material-ui/core/ListSubheader";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -27,12 +20,8 @@ import Typography from "@material-ui/core/Typography";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
-import IconButton from "@material-ui/core/IconButton";
 import DeleteIcon from '@material-ui/icons/Delete';
-import Icon from '@material-ui/core/Icon';
 import EditIcon from '@material-ui/icons/Edit';
 import VolumeDown from '@material-ui/icons/VolumeDown';
 import VolumeUp from '@material-ui/icons/VolumeUp';
@@ -41,7 +30,6 @@ import VolumeUp from '@material-ui/icons/VolumeUp';
 const useStyles = makeStyles((theme) => ({
     game: {
         width: '20%',
-
         backgroundColor: theme.palette.background.paper,
     },
     compte: {
@@ -74,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
     },
 
 }));
-
 
 
 export default function Test2() {
@@ -228,8 +215,8 @@ export default function Test2() {
 
     return (
         <div>
-            <grid>
-                <grid>
+            <Grid>
+                <Grid>
                     <TableContainer className={classes.compte}>
                         <Table className={classes.table}>
                             <TableHead>
@@ -321,8 +308,8 @@ export default function Test2() {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                </grid>
-                <grid>
+                </Grid>
+                <Grid>
                     <iframe src="https://discord.com/widget?id=677883046359334930&theme=dark" width="350" height="500"
                             allowTransparency="true" frameBorder="0"
                             sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts" />
@@ -344,10 +331,8 @@ export default function Test2() {
                             </Grid>
                         </Grid>
                     </div>
-                </grid>
-            </grid>
-
+                </Grid>
+            </Grid>
         </div>
-
     );
 }

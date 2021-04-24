@@ -9,7 +9,6 @@ import LoginSecurity from "./SecurityLoginCode";
 ReactDOM.render(
     <div>
         <LoginSecurity />
-
     </div>,
     document.getElementById('login')
 );
