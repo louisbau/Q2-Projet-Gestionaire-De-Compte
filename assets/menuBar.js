@@ -2,18 +2,14 @@ import React, {useContext} from "react";
 import Button from "@material-ui/core/Button";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import {AppBar, Fab, fade, InputBase, TableCell, TableRow, Toolbar} from "@material-ui/core";
+import {AppBar, Fab, fade, IconButton, InputBase, TableCell, TableRow, Toolbar} from "@material-ui/core";
 import CustomizedDialogs from "./Dialogue";
 import ProfileContextProvider, {ProfileContext} from "./contexts/ProfileContext";
 import Link from '@material-ui/core/Link';
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
 import SearchIcon from '@material-ui/icons/Search';
-import Accordion from "@material-ui/core/Accordion";
-import AccordionSummary from "@material-ui/core/AccordionSummary";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import AccordionDetails from "@material-ui/core/AccordionDetails";
-import DeleteIcon from "@material-ui/icons/Delete";
+import MenuIcon from '@material-ui/icons/Menu';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
     },
     title: {
+        flexGrow: 0.5,
         display: 'none',
         [theme.breakpoints.up('sm')]: {
             display: 'block',
@@ -80,6 +77,11 @@ const useStyles = makeStyles((theme) => ({
             display: 'none',
         },
     },
+    RightButtonLogout: {
+        flexGrow: 0.5,
+        justifyContent: "flex-end",
+        alignItems: "flex-end",
+    },
 }));
 
 function SimpleMenu() {
@@ -98,30 +100,30 @@ function SimpleMenu() {
         <AppBar position="static">
             <Toolbar>
                 {document.getElementById('role').value &&
-                    <div>
-                        <Button
-                            aria-controls="simple-menu"
-                            aria-haspopup="true"
-                            onClick={handleClick}
-                        >
-                            Open Menu
-                        </Button>
-                        <Menu
-                            id="simple-menu"
-                            anchorEl={anchorEl}
-                            keepMounted
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
-                        >
-                            <MenuItem onClick={handleClose}>
-                                <ProfileContextProvider><CustomizedDialogs /></ProfileContextProvider>
-                            </MenuItem>
-                            <MenuItem onClick={handleClose}><Link href="/">Logout</Link></MenuItem>
-                        </Menu>
-                    </div>
+                <div>
+                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
+                                aria-controls="simple-menu"
+                                aria-haspopup="true"
+                                onClick={handleClick}>
+                        <MenuIcon/>
+                    </IconButton>
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
+                    >
+                        <MenuItem onClick={handleClose}>
+                            <ProfileContextProvider><CustomizedDialogs/></ProfileContextProvider>
+                        </MenuItem>
+                        <MenuItem onClick={handleClose}><Link variant="inherit" color={"inherit"} href={"/logout"}>Logout</Link></MenuItem>
+                        <MenuItem onClick={handleClose}><Link variant="inherit" color={"inherit"} href={"/contact"}>Contact</Link></MenuItem>
+                    </Menu>
+                </div>
                 }
-                <Typography className={classes.title}>
-                    Gestionnaire
+                <Typography className={classes.title} variant="h6">
+                    Unlocky
                 </Typography>
                 <div className={classes.search}>
                     <div className={classes.searchIcon}>
@@ -136,7 +138,13 @@ function SimpleMenu() {
                         inputProps={{'aria-label': 'search'}}
                     />
                 </div>
-                {document.getElementById('role').value ? <Typography><Link href={"/logout"}>Logout</Link>{context.profile.email}</Typography> : <Typography><Link href={"/"}>Logout</Link></Typography>}
+                {document.getElementById('role').value ?
+                    <Button className={classes.RightButtonLogout} color={"inherit"} href={"/logout"}>
+                        Logout
+                    </Button> :
+                    <Button color={"inherit"} href={"/"}>
+                        Login
+                    </Button>}
             </Toolbar>
         </AppBar>
     );
