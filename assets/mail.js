@@ -1,9 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import './styles/app.css';
-import Mail from "./mailCode";
-import ButtonAppBar from "./AppBarMail";
-import Footer from "./Footer";
+import Mail from "./js/mailCode";
+import ButtonAppBar from "./js/AppBarMail";
+import Footer from "./js/Footer";
 
 ReactDOM.render(
     <div>

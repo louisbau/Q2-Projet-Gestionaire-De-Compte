@@ -12,7 +12,7 @@ import {
     Tooltip, withStyles
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import {TestContext} from "./contexts/TestContext";
+import {TestContext} from "../contexts/TestContext";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -174,7 +174,7 @@ export default function Test2() {
         <DialogContent>
             <DialogContentText>
                 To subscribe to this website, please enter your email address here. We will send updates
-                occasionally.
+                occasionally.llolollol
             </DialogContentText>
             <TextField
                 autoFocus

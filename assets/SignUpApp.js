@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import './styles/app.css';
 
-import SignUp from "./signUp";
+import SignUp from "./js/signUp";
 import ProfileContextProvider from "./contexts/ProfileContext";
 
 ReactDOM.render(

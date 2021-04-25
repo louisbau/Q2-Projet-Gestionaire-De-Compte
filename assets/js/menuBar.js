@@ -4,7 +4,7 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import {AppBar, Fab, fade, IconButton, InputBase, TableCell, TableRow, Toolbar} from "@material-ui/core";
 import CustomizedDialogs from "./Dialogue";
-import ProfileContextProvider, {ProfileContext} from "./contexts/ProfileContext";
+import ProfileContextProvider, {ProfileContext} from "../contexts/ProfileContext";
 import Link from '@material-ui/core/Link';
 import {makeStyles} from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";

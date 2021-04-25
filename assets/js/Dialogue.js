@@ -9,7 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import axios from "axios";
-import {ProfileContext} from "./contexts/ProfileContext";
+import {ProfileContext} from "../contexts/ProfileContext";
 
 const styles = (theme) => ({
     root: {
