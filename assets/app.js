@@ -5,6 +5,7 @@ import SimpleMenu from "./menuBar.js";
 import Test2 from "./listGame";
 import TestContextProvider from "./contexts/TestContext";
 import ProfileContextProvider from "./contexts/ProfileContext";
+import Footer from "./Footer";
 
 ReactDOM.render(
     <div>
@@ -14,6 +15,7 @@ ReactDOM.render(
         <TestContextProvider>
             <Test2/>
         </TestContextProvider>
+        <Footer />
     </div>,
     document.getElementById('root')
 );

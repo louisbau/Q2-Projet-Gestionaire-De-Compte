@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {
     Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
-    Fab, Slider,
+    Fab, Paper, Slider,
     Table,
     TableBody,
     TableCell,
@@ -24,6 +24,8 @@ import Button from "@material-ui/core/Button";
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import Link from "@material-ui/core/Link";
+import Footer from "./Footer";
+import {TableChartRounded} from "@material-ui/icons";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -31,15 +33,13 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
     },
     table: {
-        width: '100%',
-
         backgroundColor: theme.palette.background.paper,
     },
     margin: {
         margin: theme.spacing(1),
     },
     fab: {
-        margin: theme.spacing(2),
+        margin: theme.spacing(1),
     },
     typo: {
         ...theme.typography.button,
@@ -164,7 +164,7 @@ export default function Test2() {
         <TableRow key={index} variant="contained" color="primary" selected={selectedIndex === listIdApp[index]}
                   className={classes.margin}
                   onClick={(event) => handleListItemClick(event, listIdApp[index], listApp[index])}>
-            <TableCell align={"center"} padding={'checkbox'}>
+            <TableCell align={"center"} component="th" scope="row">
                 {number}
             </TableCell>
         </TableRow>
@@ -218,106 +218,119 @@ export default function Test2() {
             </Button>
         </DialogActions>
     </Dialog>
-
+    const StyledTableCell = withStyles((theme) => ({
+        head: {
+            backgroundColor: theme.palette.info.light,
+            color: theme.palette.common.white,
+        },
+        body: {
+            fontSize: 14,
+        },
+    }))(TableCell);
 
     return (
         <div>
-            <Grid container className={classes.compte}>
+            <Grid container className={classes.compte} >
                 <Grid item sm={2} xs={12}>
-                    <Table className={classes.table}>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align={"center"}>Liste de Jeux</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {list}
-                            {visible === '1' ?
-                                <TableRow><TableCell align={'center'}><Fab size="small" color="primary" aria-label="add"
-                                                                           className={classes.margin}
-                                                                           onClick={handleClickOpen}><AddIcon/></Fab>{dialo}
-                                </TableCell></TableRow> : ""}
-                        </TableBody>
-                    </Table>
+                    <TableContainer className={classes.table} variant="outlined">
+                        <Table >
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell align={"center"}>Liste de Jeux</StyledTableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {list}
+                                {visible === '1' ?
+                                    <TableRow><TableCell align={'center'}><Fab size="small" color="primary" aria-label="add"
+                                                                               className={classes.margin}
+                                                                               onClick={handleClickOpen}><AddIcon/></Fab>{dialo}
+                                    </TableCell></TableRow> : ""}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </Grid>
                 <Grid item sm={6} xs={12}>
-                    <Table className={classes.table}>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align={"center"}>
-                                    Liste de Compte
-                                </TableCell>
-                                <TableCell>
-                                    <Fab color="primary" aria-label="edit" size={"small"}
-                                         onClick={(e) => handleEdit(e)}>
-                                        <EditIcon/>
-                                    </Fab>
-                                </TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {context.test.map((jeu, index) => (
-                                    (selectedIndex) === jeu.idApp &&
-                                    <TableRow key={index}>
+                    <TableContainer className={classes.table} component={'paper'}>
+                        <Table>
+                            <TableHead>
+                                <TableRow>
+                                    <StyledTableCell align={"center"}>
+                                        Liste de Compte
+                                    </StyledTableCell>
+                                    <TableCell>
+                                        <Fab color="primary" aria-label="edit" size={"small"}
+                                             onClick={(e) => handleEdit(e)}>
+                                            <EditIcon/>
+                                        </Fab>
+                                    </TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {context.test.map((jeu, index) => (
+                                        (selectedIndex) === jeu.idApp &&
+                                        <TableRow key={index}>
+                                            <TableCell>
+                                                <Accordion>
+                                                    <AccordionSummary
+                                                        expandIcon={<ExpandMoreIcon/>}
+                                                        aria-controls="panel1a-content"
+                                                        id="panel1a-header"
+                                                    >
+                                                        <Typography>{jeu.username_account}</Typography>
+                                                    </AccordionSummary>
+                                                    <AccordionDetails>
+                                                        <Typography>
+                                                            Username : {jeu.username_account}<br/>
+                                                            Password : {jeu.password_account}<br/>
+                                                            Description : {jeu.description}<br/>
+                                                        </Typography>
+                                                    </AccordionDetails>
+                                                </Accordion>
+                                            </TableCell>
+                                            <TableCell value={jeu.id}>
+                                                {visible === '1' ?
+                                                    <Fab size="small" color="secondary" aria-label="delete"
+                                                         className={classes.margin} onClick={() => handleDelete(jeu.id)}>
+                                                        <DeleteIcon/>
+                                                    </Fab> : ""}
+                                            </TableCell>
+
+                                        </TableRow>
+                                    )
+                                )}
+                                {visible === '1' ?
+                                    <TableRow>
                                         <TableCell>
                                             <Accordion>
                                                 <AccordionSummary
-                                                    expandIcon={<ExpandMoreIcon/>}
+                                                    expandIcon={<AddIcon/>}
                                                     aria-controls="panel1a-content"
                                                     id="panel1a-header"
                                                 >
-                                                    <Typography>{jeu.username_account}</Typography>
+                                                    <Typography className={classes.heading}>Ajouter un compte</Typography>
                                                 </AccordionSummary>
                                                 <AccordionDetails>
-                                                    <Typography>
-                                                        Username : {jeu.username_account}<br/>
-                                                        Password : {jeu.password_account}<br/>
-                                                        Description : {jeu.description}<br/>
-                                                    </Typography>
+                                                    <form>
+                                                        <TextField id="addUsernamefff" label="Add username"
+                                                                   onChange={(e) => handleChangeUser(e)}/>
+                                                        <TextField id="addPassword" label="Add password"
+                                                                   onChange={(e) => handleChangePass(e)}/>
+                                                        <TextField id="addDescription" label="Add description"
+                                                                   onChange={(e) => handleChangeDes(e)}/>
+                                                        <Button color="primary" type="submit"
+                                                                onClick={(e) => handleSubmit(e)}>
+                                                            ADD
+                                                        </Button>
+                                                    </form>
                                                 </AccordionDetails>
                                             </Accordion>
                                         </TableCell>
-                                        <TableCell value={jeu.id}>
-                                            {visible === '1' ?
-                                                <Fab size="small" color="secondary" aria-label="delete"
-                                                     className={classes.margin} onClick={() => handleDelete(jeu.id)}>
-                                                    <DeleteIcon/>
-                                                </Fab> : ""}
-                                        </TableCell>
+                                    </TableRow> : ""}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
 
-                                    </TableRow>
-                                )
-                            )}
-                            {visible === '1' ?
-                                <TableRow>
-                                    <TableCell>
-                                        <Accordion>
-                                            <AccordionSummary
-                                                expandIcon={<AddIcon/>}
-                                                aria-controls="panel1a-content"
-                                                id="panel1a-header"
-                                            >
-                                                <Typography className={classes.heading}>Ajouter un compte</Typography>
-                                            </AccordionSummary>
-                                            <AccordionDetails>
-                                                <form>
-                                                    <TextField id="addUsernamefff" label="Add username"
-                                                               onChange={(e) => handleChangeUser(e)}/>
-                                                    <TextField id="addPassword" label="Add password"
-                                                               onChange={(e) => handleChangePass(e)}/>
-                                                    <TextField id="addDescription" label="Add description"
-                                                               onChange={(e) => handleChangeDes(e)}/>
-                                                    <Button color="primary" type="submit"
-                                                            onClick={(e) => handleSubmit(e)}>
-                                                        ADD
-                                                    </Button>
-                                                </form>
-                                            </AccordionDetails>
-                                        </Accordion>
-                                    </TableCell>
-                                </TableRow> : ""}
-                        </TableBody>
-                    </Table>
                 </Grid>
                 <Grid item sm={4} xs={12}>
                     <Grid item xs={12}>
@@ -333,15 +346,6 @@ export default function Test2() {
                     </Grid>
                 </Grid>
             </Grid>
-            <footer className={classes.footer}>
-                <Typography variant="h6" align="center" gutterBottom>
-                    Footer
-                </Typography>
-                <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-                    Something here to give the footer a purpose!
-                </Typography>
-                <Copyright/>
-            </footer>
         </div>
     );
 }

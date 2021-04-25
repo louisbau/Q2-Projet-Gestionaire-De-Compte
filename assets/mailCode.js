@@ -8,10 +8,10 @@ import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        backgroundColor: theme.palette.background.paper,
     },
     avatar: {
         margin: theme.spacing(1),
@@ -56,7 +56,6 @@ export default function Mail() {
             <form>
                 <TextField
                     variant="outlined"
-
                     id="email"
                     type="email"
                     label="Email"
@@ -66,7 +65,6 @@ export default function Mail() {
                     fullWidth
                     onChange={(e) => handleChangeNom(e)}
                 />
-
                 <TextField
                     id="textarea"
                     label="Comments"
@@ -77,9 +75,7 @@ export default function Mail() {
                     onChange={(e) => handleChangeMessage(e)}
                     margin="normal"
                 />
-
                 <Button
-
                     variant="contained"
                     color="primary"
                     // className={classes.button}
@@ -90,6 +86,5 @@ export default function Mail() {
                 </Button>
             </form>
         </div>
-
     )
 }
