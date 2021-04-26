@@ -10,9 +10,10 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import {makeStyles} from '@material-ui/core/styles';
+import {createMuiTheme, makeStyles, ThemeProvider} from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import {ProfileContext} from "../contexts/ProfileContext";
+import {Paper, useMediaQuery} from "@material-ui/core";
 
 function Copyright() {
     return (
@@ -29,7 +30,7 @@ function Copyright() {
 
 const useStyles = makeStyles((theme) => ({
     paper: {
-        marginTop: theme.spacing(8),
+        margin: theme.spacing(8, 4),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -44,6 +45,17 @@ const useStyles = makeStyles((theme) => ({
     },
     submit: {
         margin: theme.spacing(3, 0, 2),
+    },
+    image: {
+        backgroundImage: 'url(https://source.unsplash.com/user/jackie/likes/1600x900)',
+        backgroundRepeat: 'no-repeat',
+        backgroundColor:
+            theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+    },
+    root: {
+        height: '100vh',
     },
 }));
 
@@ -63,33 +75,45 @@ export default function SignUp() {
     const handleChangePass = (e) => {
         setAddPass(e.target.value)
     }
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+
+    const theme = React.useMemo(
+        () =>
+            createMuiTheme({
+                palette: {
+                    type: prefersDarkMode ? 'dark' : 'light',
+                },
+            }),
+        [prefersDarkMode],
+    );
 
     return (
-        <Container component="main" maxWidth="xs">
+        <ThemeProvider theme={theme}>
             <CssBaseline/>
-            <div className={classes.paper}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon/>
-                </Avatar>
-                <Typography component="h1" variant="h5">
-                    Sign up
-                </Typography>
-                <form>
-                    <Grid container spacing={2}>
-                        <Grid item xs={12}>
+            <Grid container component="main" className={classes.root}>
+
+                <Grid item xs={false} sm={4} md={7} className={classes.image} />
+                <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                    <div className={classes.paper}>
+                        <Avatar className={classes.avatar}>
+                            <LockOutlinedIcon/>
+                        </Avatar>
+                        <Typography component="h1" variant="h5">
+                            Sign up
+                        </Typography>
+                        <form method="post" className={classes.form} noValidate>
                             <TextField
                                 variant="outlined"
+                                margin="normal"
                                 required
                                 fullWidth
                                 id="email"
                                 label="Email Address"
                                 name="email"
-                                onChange={(e) => handleChangeEmail(e)}
-                            />
-                        </Grid>
-                        <Grid item xs={12}>
+                                onChange={(e) => handleChangeEmail(e)}/>
                             <TextField
                                 variant="outlined"
+                                margin="normal"
                                 required
                                 fullWidth
                                 name="password"
@@ -98,24 +122,25 @@ export default function SignUp() {
                                 id="password"
                                 onChange={(e) => handleChangePass(e)}
                             />
-                        </Grid>
-                    </Grid>
-                    <Button
-                        fullWidth
-                        variant="contained"
-                        color="primary"
-                        onClick={(e) => handleSubmit(e)}
-                    >
-                        Sign Up
-                    </Button>
-                    <Link href={"/"} variant="body2">
-                        Already have an account? Sign in
-                    </Link>
-                </form>
-            </div>
-            <Box mt={5}>
-                <Copyright/>
-            </Box>
-        </Container>
+                            <FormControlLabel
+                                control={<input type="checkbox" name="_remember_me" color='primary'/>}
+                                label="Remember me"
+                            />
+                            <Button type="submit" fullWidth
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={(e) => handleSubmit(e)}>
+                                Sign up
+                            </Button>
+                            <Link to='/signUp' href={"/"} variant="body2">
+                                {"Already have an account? Sign in"}
+                            </Link>
+                        </form>
+                    </div>
+                </Grid>
+            </Grid>
+        </ThemeProvider>
+
     );
 }
+
