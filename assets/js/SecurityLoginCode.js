@@ -9,7 +9,7 @@ import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Container from "@material-ui/core/Container";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import {Paper, useMediaQuery} from "@material-ui/core";
+import {Checkbox, FormControlLabel, Paper, useMediaQuery} from "@material-ui/core";
 import {palette} from "@material-ui/system";
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
@@ -84,12 +84,10 @@ export default function LoginSecurity() {
                             <input type="hidden" id='token' name="_csrf_token"
                                    value={document.getElementById('token').value}
                             />
-                            <div>
-                                <label>
-
-                                    <input type="checkbox" name="_remember_me"/> Remember me
-                                </label>
-                            </div>
+                            <FormControlLabel
+                                control={<input type="checkbox" name="_remember_me" color='primary'/>}
+                                label="Remember me"
+                            />
                             <Button type="submit" fullWidth
                                     variant="contained"
                                     color="primary"
