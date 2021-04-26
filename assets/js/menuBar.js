@@ -92,8 +92,14 @@ function SimpleMenu() {
         setAnchorEl(event.currentTarget);
     };
 
-    const handleClose = () => {
+    const handleClose = (e) => {
         setAnchorEl(null);
+        if (e.target.id === "logout") {
+            window.location = '/logout';
+        }
+        if (e.target.id === "contact") {
+            window.location = '/contact';
+        }
     };
 
     return (
@@ -112,13 +118,11 @@ function SimpleMenu() {
                         anchorEl={anchorEl}
                         keepMounted
                         open={Boolean(anchorEl)}
-                        onClose={handleClose}
+                        onClose={(e)=>handleClose(e)}
                     >
-                        <MenuItem onClick={handleClose}>
-                            <ProfileContextProvider><CustomizedDialogs/></ProfileContextProvider>
-                        </MenuItem>
-                        <MenuItem onClick={handleClose}><Link variant="inherit" color={"inherit"} href={"/logout"}>Logout</Link></MenuItem>
-                        <MenuItem onClick={handleClose}><Link variant="inherit" color={"inherit"} href={"/contact"}>Contact</Link></MenuItem>
+                        <ProfileContextProvider><CustomizedDialogs/></ProfileContextProvider>
+                        <MenuItem onClick={(e)=>handleClose(e)} id={"logout"} align={"center"}>Logout</MenuItem>
+                        <MenuItem onClick={(e)=>handleClose(e)} id={"contact"} align={"center"}>Contact</MenuItem>
                     </Menu>
                 </div>
                 }

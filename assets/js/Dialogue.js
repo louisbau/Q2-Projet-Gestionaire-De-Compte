@@ -10,6 +10,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import axios from "axios";
 import {ProfileContext} from "../contexts/ProfileContext";
+import {MenuItem} from "@material-ui/core";
 
 const styles = (theme) => ({
     root: {
@@ -65,9 +66,9 @@ export default function CustomizedDialogs() {
 
     return (
         <div>
-            <Button onClick={handleClickOpen}>
+            <MenuItem onClick={handleClickOpen}>
                 Profile
-            </Button>
+            </MenuItem>
             <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
                 <DialogTitle id="customized-dialog-title" onClose={handleClose}>
                     Informations

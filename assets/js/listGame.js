@@ -173,8 +173,7 @@ export default function Test2() {
         <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
         <DialogContent>
             <DialogContentText>
-                To subscribe to this website, please enter your email address here. We will send updates
-                occasionally.llolollol
+                Ajouter un jeux avec un compte :
             </DialogContentText>
             <TextField
                 autoFocus
