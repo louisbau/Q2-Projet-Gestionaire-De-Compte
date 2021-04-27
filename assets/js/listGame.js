@@ -2,7 +2,7 @@ import React, {useContext} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {
     Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
-    Fab, Paper, Slider,
+    Fab, List, ListItem, ListItemIcon, ListItemText, ListSubheader, Paper, Slider,
     Table,
     TableBody,
     TableCell,
@@ -11,6 +11,8 @@ import {
     TableRow,
     Tooltip, withStyles
 } from "@material-ui/core";
+import InboxIcon from '@material-ui/icons/Inbox';
+import DraftsIcon from '@material-ui/icons/Drafts';
 import AddIcon from "@material-ui/icons/Add";
 import {TestContext} from "../contexts/TestContext";
 import Accordion from "@material-ui/core/Accordion";
@@ -26,7 +28,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import Link from "@material-ui/core/Link";
 import Footer from "./Footer";
 import {TableChartRounded} from "@material-ui/icons";
-
+import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
+import {palette} from "@material-ui/system";
 
 const useStyles = makeStyles((theme) => ({
     compte: {
@@ -55,8 +58,13 @@ const useStyles = makeStyles((theme) => ({
         width: 200,
     },
     footer: {
-        backgroundColor: theme.palette.background.paper,
+        backgroundColor: theme.palette.action.active,
         padding: theme.spacing(6),
+    },
+    list : {
+        borderRadius: 6,
+        color: theme.palette.text.secondary,
+        padding: '0.5rem 1rem',
     },
 
 }));
@@ -88,9 +96,11 @@ export default function Test2() {
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => {
         setOpen(true);
+        console.log("lol")
     };
     const handleClose = () => {
         setOpen(false);
+        console.log(open)
     };
 
     const handleListItemClick = (event, index, game) => {
@@ -169,6 +179,22 @@ export default function Test2() {
             </TableCell>
         </TableRow>
     )
+
+    const liste = listApp.map((number, index) =>
+        <ListItem
+            button
+            key={index}
+            selected={selectedIndex === listIdApp[index]}
+            onClick={(event) => handleListItemClick(event, listIdApp[index], listApp[index])}
+            className={classes.list}
+        >
+            <ListItemIcon>
+                <VideogameAssetIcon />
+            </ListItemIcon>
+            <ListItemText primary={number} />
+        </ListItem>
+    )
+
     const dialo = <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
         <DialogContent>
@@ -231,23 +257,29 @@ export default function Test2() {
         <div>
             <Grid container className={classes.compte} >
                 <Grid item sm={2} xs={12}>
-                    <TableContainer className={classes.table} variant="outlined">
-                        <Table >
-                            <TableHead>
-                                <TableRow>
-                                    <StyledTableCell align={"center"}>Liste de Jeux</StyledTableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {list}
-                                {visible === '1' ?
-                                    <TableRow><TableCell align={'center'}><Fab size="small" color="primary" aria-label="add"
-                                                                               className={classes.margin}
-                                                                               onClick={handleClickOpen}><AddIcon/></Fab>{dialo}
-                                    </TableCell></TableRow> : ""}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+                    <List component="nav"
+                          className={classes.list}
+                          aria-labelledby="nested-list-subheader"
+                          subheader={
+                              <ListSubheader component="div" id="nested-list-subheader">
+                                    Liste d'application
+                              </ListSubheader>
+                          }
+                    >
+                        {liste}
+                        {visible==='1'?
+                            <ListItem
+                                button
+                                onClick={handleClickOpen}
+                            >
+                                <ListItemIcon>
+                                    <AddIcon />
+                                </ListItemIcon>
+                                <ListItemText primary={'ajouter un jeux'} />
+
+                            </ListItem> : ""}
+                        {dialo}
+                    </List>
                 </Grid>
                 <Grid item sm={6} xs={12}>
                     <TableContainer className={classes.table} component={'paper'}>
