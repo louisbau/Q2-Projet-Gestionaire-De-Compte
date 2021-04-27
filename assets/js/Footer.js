@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.paper,
         padding: theme.spacing(6),
     },
+
 }));
 
 export default function Footer() {
@@ -32,11 +33,19 @@ export default function Footer() {
 
     return (
         <footer className={classes.footer}>
+            <nav role="navigation">
+                <ul className="nav justify-content-center">
+                    <li className="nav-item"><a className="nav-link" href="https://github.com/louisbau/Q2-Projet-Gestionaire-De-Compte"
+                                                title="Github"><i className="fab fa-github"></i><span
+                        className="menu-title sr-only">Github</span></a>
+                    </li>
+                </ul>
+            </nav>
             <Typography variant="h6" align="center" gutterBottom>
-                Footer
+                Unlocky
             </Typography>
             <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-                Something here to give the footer a purpose!
+                Bauchau Louis, Basnet Devashish, Beaufils Liam et Montalto Logan
             </Typography>
             <Copyright/>
         </footer>

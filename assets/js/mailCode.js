@@ -5,26 +5,54 @@ import {makeStyles} from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
+import Grid from "@material-ui/core/Grid";
+import {Paper} from "@material-ui/core";
+import Image from '../images/contact_us.jpg';
+import Link from "@material-ui/core/Link";
+import {lightBlue} from "@material-ui/core/colors";
+
+function Copyright() {
+    return (
+        <Typography variant="body2" color="textSecondary" align="center">
+            {'Copyright © '}
+            <Link color="inherit" href="https://material-ui.com/">
+                Your Website
+            </Link>{' '}
+            {new Date().getFullYear()}
+            {'.'}
+        </Typography>
+    );
+}
 
 const useStyles = makeStyles((theme) => ({
     paper: {
+        height:'90vh',
         display: 'flex',
+        color: 'lightBlue',
         flexDirection: 'column',
         alignItems: 'center',
+        justify: 'center',
+        backgroundImage: `url(${Image})`,
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        width: '100%',
         backgroundColor: theme.palette.background.paper,
     },
     avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
+        margin: theme.spacing(7),
+        backgroundColor: 'lightBlue',
     },
     form: {
         width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
+        marginTop: theme.spacing(6),
     },
 
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    contact: {
+        color: 'lightBlue',
+    }
 }));
 
 
@@ -50,11 +78,11 @@ export default function Mail() {
             <Avatar className={classes.avatar}>
                 <LockOutlinedIcon/>
             </Avatar>
-            <Typography component="h1" variant="h5">
-                Contact Us
+            <Typography className={classes.contact} component="h1" variant="h5">
+                        Contact Us
             </Typography>
             <form>
-                <TextField
+                <TextField className={classes.form}
                     variant="outlined"
                     id="email"
                     type="email"
@@ -65,7 +93,7 @@ export default function Mail() {
                     fullWidth
                     onChange={(e) => handleChangeNom(e)}
                 />
-                <TextField
+                <TextField className={classes.form}
                     id="textarea"
                     label="Comments"
                     placeholder="Your message"
@@ -74,10 +102,11 @@ export default function Mail() {
                     fullWidth
                     onChange={(e) => handleChangeMessage(e)}
                     margin="normal"
+
                 />
                 <Button
                     variant="contained"
-                    color="primary"
+                    background-color="lightblue"
                     // className={classes.button}
                     onClick={(e) => handleSubmit(e)}
                     className={classes.submit}
@@ -85,6 +114,15 @@ export default function Mail() {
                     Submit
                 </Button>
             </form>
+            <footer className={classes.footer}>
+                <Typography variant="h6" align="center" gutterBottom>
+                    By Unlocky
+                </Typography>
+                <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+                    Bauchau Louis, Basnet Devashish, Beaufils Liam et Montalto Logan
+                </Typography>
+                <Copyright/>
+            </footer>
         </div>
     )
 }

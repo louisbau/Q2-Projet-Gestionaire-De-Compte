@@ -9,7 +9,6 @@ ReactDOM.render(
     <div>
         <ButtonAppBar />
         <Mail />
-        <Footer />
     </div>,
     document.getElementById('mail')
 );
