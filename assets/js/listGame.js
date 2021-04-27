@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(6),
     },
     list : {
+        margin: theme.spacing(1),
         borderRadius: 6,
         color: theme.palette.text.secondary,
         padding: '0.5rem 1rem',
