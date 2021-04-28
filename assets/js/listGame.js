@@ -171,15 +171,6 @@ export default function Test2() {
             listIdApp.push(a.idApp)
         }
     }
-    const list = listApp.map((number, index) =>
-        <TableRow key={index} variant="contained" color="primary" selected={selectedIndex === listIdApp[index]}
-                  className={classes.margin}
-                  onClick={(event) => handleListItemClick(event, listIdApp[index], listApp[index])}>
-            <TableCell align={"center"} component="th" scope="row">
-                {number}
-            </TableCell>
-        </TableRow>
-    )
 
     const liste = listApp.map((number, index) =>
         <ListItem
