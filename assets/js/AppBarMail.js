@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     },
     menuButton: {
         marginRight: theme.spacing(2),
+        color: 'primary',
     },
     title: {
         flexGrow: 1,
@@ -28,7 +29,7 @@ export default function ButtonAppBar() {
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
-                    <IconButton href={'/index'}><HomeIcon /></IconButton>
+                    <IconButton className={classes.menuButton} color="inherit" href={'/index'}><HomeIcon /></IconButton>
                     <Typography variant="h6" className={classes.title}>
                         Contact
                     </Typography>
