@@ -26,14 +26,14 @@ class Extension
     private $user_id;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", length=255)
      */
-    private $spotify;
+    private $extension_name;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="text")
      */
-    private $discord;
+    private $url;
 
     public function getId(): ?int
     {
@@ -52,26 +52,26 @@ class Extension
         return $this;
     }
 
-    public function getSpotify(): ?string
+    public function getExtensionName(): ?string
     {
-        return $this->spotify;
+        return $this->extension_name;
     }
 
-    public function setSpotify(?string $spotify): self
+    public function setExtensionName(string $extension_name): self
     {
-        $this->spotify = $spotify;
+        $this->extension_name = $extension_name;
 
         return $this;
     }
 
-    public function getDiscord(): ?string
+    public function getUrl(): ?string
     {
-        return $this->discord;
+        return $this->url;
     }
 
-    public function setDiscord(?string $discord): self
+    public function setUrl(string $url): self
     {
-        $this->discord = $discord;
+        $this->url = $url;
 
         return $this;
     }
