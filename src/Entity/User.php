@@ -43,9 +43,15 @@ class User implements UserInterface
      */
     private $accountApps;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Extension::class, mappedBy="user_id", orphanRemoval=true)
+     */
+    private $user_id;
+
     public function __construct()
     {
         $this->accountApps = new ArrayCollection();
+        $this->user_id = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -162,5 +168,35 @@ class User implements UserInterface
     public function toArray()
     {
         return ['id' => $this-> id, 'email'=>$this->email, 'roles' =>$this->roles];
+    }
+
+    /**
+     * @return Collection|Extension[]
+     */
+    public function getUserId(): Collection
+    {
+        return $this->user_id;
+    }
+
+    public function addUserId(Extension $userId): self
+    {
+        if (!$this->user_id->contains($userId)) {
+            $this->user_id[] = $userId;
+            $userId->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserId(Extension $userId): self
+    {
+        if ($this->user_id->removeElement($userId)) {
+            // set the owning side to null (unless already changed)
+            if ($userId->getUserId() === $this) {
+                $userId->setUserId(null);
+            }
+        }
+
+        return $this;
     }
 }

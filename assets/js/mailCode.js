@@ -62,8 +62,7 @@ export default function Mail() {
     const [addmessage, setAddmessage] = React.useState('');
 
     const handleChangeNom = (e) => {
-
-        setAddnom(e.target.value)
+        setAddnom(e.target.value);
     }
     const handleChangeMessage = (e) => {
         setAddmessage(e.target.value)
