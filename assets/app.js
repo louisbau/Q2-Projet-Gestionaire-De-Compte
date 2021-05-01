@@ -6,15 +6,16 @@ import Test2 from "./js/listGame";
 import TestContextProvider from "./contexts/TestContext";
 import ProfileContextProvider from "./contexts/ProfileContext";
 import Footer from "./js/Footer";
+import AppContextProvider from "./contexts/AppContext";
 
 ReactDOM.render(
     <div>
         <ProfileContextProvider>
             <SimpleMenu/>
         </ProfileContextProvider>
-        <TestContextProvider>
+        <AppContextProvider>
             <Test2/>
-        </TestContextProvider>
+        </AppContextProvider>
         <Footer />
     </div>,
     document.getElementById('root')

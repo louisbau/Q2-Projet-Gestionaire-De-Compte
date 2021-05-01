@@ -1,15 +1,32 @@
 import React, {useContext} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import {
-    Collapse, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle,
-    Fab, List, ListItem, ListItemIcon, ListItemText, ListSubheader, Paper, Slider,
+    Collapse,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+    Fab,
+    FormControl,
+    InputLabel,
+    List,
+    ListItem,
+    ListItemIcon,
+    ListItemText,
+    ListSubheader,
+    MenuItem,
+    Paper,
+    Select,
+    Slider,
     Table,
     TableBody,
     TableCell,
     TableContainer,
     TableHead,
     TableRow,
-    Tooltip, withStyles
+    Tooltip,
+    withStyles
 } from "@material-ui/core";
 import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
@@ -30,10 +47,15 @@ import Footer from "./Footer";
 import {TableChartRounded} from "@material-ui/icons";
 import VideogameAssetIcon from '@material-ui/icons/VideogameAsset';
 import {palette} from "@material-ui/system";
+import {AppContext} from "../contexts/AppContext";
 
 const useStyles = makeStyles((theme) => ({
     compte: {
         backgroundColor: theme.palette.background.paper,
+    },
+    formControl: {
+        margin: theme.spacing(1),
+        minWidth: 120,
     },
     table: {
         backgroundColor: theme.palette.background.paper,
@@ -85,7 +107,7 @@ function Copyright() {
 
 
 export default function Test2() {
-    const context = useContext(TestContext);
+    const context = useContext(AppContext);
     const classes = useStyles();
     const [selectedIndex, setSelectedIndex] = React.useState('');
     const [selectedGame, setSelectedGame] = React.useState('')
@@ -163,27 +185,19 @@ export default function Test2() {
         context.deleteListe(e)
 
     };
-    const listApp = [];
-    const listIdApp = [];
-    for (let a of context.test) {
-        if (listApp[listApp.length - 1] !== a.name_app) {
-            listApp.push(a.name_app);
-            listIdApp.push(a.idApp)
-        }
-    }
 
-    const liste = listApp.map((number, index) =>
+    const liste = context.app.map((number, index) =>
         <ListItem
             button
             key={index}
-            selected={selectedIndex === listIdApp[index]}
-            onClick={(event) => handleListItemClick(event, listIdApp[index], listApp[index])}
+            selected={selectedIndex === number.idApp}
+            onClick={(event) => handleListItemClick(event, number.idApp, number.name_app)}
             className={classes.list}
         >
             <ListItemIcon>
                 <VideogameAssetIcon />
             </ListItemIcon>
-            <ListItemText primary={number} />
+            <ListItemText primary={number.name_app} />
         </ListItem>
     )
 
@@ -290,7 +304,7 @@ export default function Test2() {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {context.test.map((jeu, index) => (
+                                {context.app_account.map((jeu, index) => (
                                         (selectedIndex) === jeu.idApp &&
                                         <TableRow key={index}>
                                             <TableCell>
@@ -368,7 +382,21 @@ export default function Test2() {
                                 sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"/>
                     </Grid>
                     <Grid item xs={12}>
-
+                        <FormControl variant="filled" className={classes.formControl}>
+                            <InputLabel id="demo-simple-select-filled-label">Age</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-filled-label"
+                                id="demo-simple-select-filled"
+                                onChange={handleChange}
+                            >
+                                <MenuItem value="">
+                                    <em>None</em>
+                                </MenuItem>
+                                <MenuItem value={10}>Ten</MenuItem>
+                                <MenuItem value={20}>Twenty</MenuItem>
+                                <MenuItem value={30}>Thirty</MenuItem>
+                            </Select>
+                        </FormControl>
                     </Grid>
                 </Grid>
             </Grid>

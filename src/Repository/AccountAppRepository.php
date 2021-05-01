@@ -36,6 +36,19 @@ class AccountAppRepository extends ServiceEntityRepository
         // returns an array of Product objects
         return $query->getResult();
     }
+    public function findApp(int $client): array
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT DISTINCT T3.name_app, T3.id as idApp
+             FROM App\Entity\User AS T1, App\Entity\AccountApp AS T2, App\Entity\Application as T3
+             where T1.id = T2.account_id and T2.app_id = T3.id and T1.id = ?1'
+        )->setParameter('1', $client);
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
     public function findAppUser(int $client): array
     {
         $entityManager = $this->getEntityManager();

@@ -123,7 +123,19 @@ class ApiController extends AbstractController
             ->getRepository(AccountApp::class)
             ->findAccountApp($user->getId());
         return $this->json($accountClient);
-
+    }
+    #[Route('/list/read/app', name: 'api_listapp_client')]
+    public function updateListAppFull()
+    {
+        $email = $this->getUser()->getUsername();
+        //$faker = \Faker\Factory::create('fr_FR');
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findOneBy(['email' => $email]);
+        $accountClient = $this->getDoctrine()
+            ->getRepository(AccountApp::class)
+            ->findApp($user->getId());
+        return $this->json($accountClient);
     }
 
 
