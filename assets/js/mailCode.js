@@ -1,6 +1,6 @@
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
-import React from "react";
+import React, {useContext} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
@@ -10,6 +10,8 @@ import {Paper} from "@material-ui/core";
 import Image from '../images/contact_us.jpg';
 import Link from "@material-ui/core/Link";
 import {lightBlue} from "@material-ui/core/colors";
+import {TestContext} from "../contexts/TestContext";
+import Footer from "./Footer";
 
 function Copyright() {
     return (
@@ -23,6 +25,7 @@ function Copyright() {
         </Typography>
     );
 }
+
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -113,15 +116,7 @@ export default function Mail() {
                     Submit
                 </Button>
             </form>
-            <footer className={classes.footer}>
-                <Typography variant="h6" align="center" gutterBottom>
-                    By Unlocky
-                </Typography>
-                <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-                    Bauchau Louis, Basnet Devashish, Beaufils Liam et Montalto Logan
-                </Typography>
-                <Copyright/>
-            </footer>
+            <Footer />
         </div>
     )
 }

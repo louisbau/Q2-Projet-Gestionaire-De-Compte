@@ -104,11 +104,39 @@ class ApiController extends AbstractController
     #[Route('/profile', name: 'api_profile_id')]
     public function receiveProfile()
     {
-        $email = $this->getUser()->getUsername();
-        $user = $this->getDoctrine()
-            ->getRepository(User::class)
-            ->findOneBy(['email' => $email]);
-        return $this->json(['id' => $user->getId(),'email'=>$user->getEmail(), 'roles'=>$user->getRoles(), 'error'=>0]);
+        try {
+            if ($this->getUser()) {
+                $email = $this->getUser()->getUsername();
+                $user = $this->getDoctrine()
+                    ->getRepository(User::class)
+                    ->findOneBy(['email' => $email]);
+                return $this->json(['id' => $user->getId(),'email'=>$user->getEmail(), 'roles'=>$user->getRoles(), 'error'=>0]);
+            }
+            else {
+                return $this->json(['id' => 0,'email'=>"login", 'roles'=>'login', 'error'=>1]);
+            }
+        } catch (Exception) {
+            return $this->json(['id' => 0,'email'=>"login", 'roles'=>'login', 'error'=>1]);
+        }
+
+    }
+    #[Route('/session', name: 'api_session')]
+    public function receiveSession()
+    {
+        try {
+            if ($this->getUser()) {
+                $email = $this->getUser()->getUsername();
+                $user = $this->getDoctrine()
+                    ->getRepository(User::class)
+                    ->findOneBy(['email' => $email]);
+                return $this->json(['id' => $user->getId(),'email'=>$user->getEmail(), 'roles'=>$user->getRoles(), 'error'=>0]);
+            }
+            else {
+                return $this->json(['id' => 0,'email'=>"login", 'roles'=>'login', 'error'=>1]);
+            }
+        } catch (Exception) {
+            return $this->json(['id' => 0,'email'=>"login", 'roles'=>'login', 'error'=>1]);
+        }
     }
 
     #[Route('/list/read', name: 'api_list_client')]
@@ -182,8 +210,6 @@ class ApiController extends AbstractController
         } catch (Exception) {
             return $this->json(['error' => 'error']);
         }
-
-
     }
 
     #[Route('/list/app', name: 'api_list_app')]

@@ -108,6 +108,7 @@ function Copyright() {
 
 export default function Test2() {
     const context = useContext(AppContext);
+
     const classes = useStyles();
     const [selectedIndex, setSelectedIndex] = React.useState('');
     const [selectedGame, setSelectedGame] = React.useState('')
@@ -185,7 +186,6 @@ export default function Test2() {
         context.deleteListe(e)
 
     };
-
     const liste = context.app.map((number, index) =>
         <ListItem
             button
@@ -199,7 +199,8 @@ export default function Test2() {
             </ListItemIcon>
             <ListItemText primary={number.name_app} />
         </ListItem>
-    )
+    );
+
 
     const dialo = <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
@@ -231,6 +232,7 @@ export default function Test2() {
                 fullWidth
                 onChange={(e) => handleChangePass(e)}
             />
+
             <TextField
                 autoFocus
                 margin="dense"
@@ -258,7 +260,6 @@ export default function Test2() {
             fontSize: 14,
         },
     }))(TableCell);
-
     return (
         <div>
             <Grid container className={classes.compte} >
@@ -268,7 +269,7 @@ export default function Test2() {
                           aria-labelledby="nested-list-subheader"
                           subheader={
                               <ListSubheader component="div" id="nested-list-subheader">
-                                    Liste d'application
+                                  Liste d'application
                               </ListSubheader>
                           }
                     >

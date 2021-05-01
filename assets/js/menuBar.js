@@ -10,6 +10,8 @@ import {makeStyles} from '@material-ui/core/styles';
 import Typography from "@material-ui/core/Typography";
 import SearchIcon from '@material-ui/icons/Search';
 import MenuIcon from '@material-ui/icons/Menu';
+import {TestContext} from "../contexts/TestContext";
+
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -84,7 +86,18 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+
 function SimpleMenu() {
+    const cont = useContext(TestContext);
+    const lol = () => {
+        if (cont.test === 'ROLE_USER' || cont.test === 'ROLE_USER') {
+            return true;
+        }
+        else {
+            return false
+        }
+    }
+
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
     const context = useContext(ProfileContext);
@@ -105,26 +118,26 @@ function SimpleMenu() {
     return (
         <AppBar position="static">
             <Toolbar>
-                {document.getElementById('role').value &&
-                <div>
-                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
-                                aria-controls="simple-menu"
-                                aria-haspopup="true"
-                                onClick={handleClick}>
-                        <MenuIcon/>
-                    </IconButton>
-                    <Menu
-                        id="simple-menu"
-                        anchorEl={anchorEl}
-                        keepMounted
-                        open={Boolean(anchorEl)}
-                        onClose={(e)=>handleClose(e)}
-                    >
-                        <ProfileContextProvider><CustomizedDialogs/></ProfileContextProvider>
-                        <MenuItem onClick={(e)=>handleClose(e)} id={"logout"} align={"center"}>Logout</MenuItem>
-                        <MenuItem onClick={(e)=>handleClose(e)} id={"contact"} align={"center"}>Contact</MenuItem>
-                    </Menu>
-                </div>
+                {lol === 1 ?
+                    <div>
+                        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
+                                    aria-controls="simple-menu"
+                                    aria-haspopup="true"
+                                    onClick={handleClick}>
+                            <MenuIcon/>
+                        </IconButton>
+                        <Menu
+                            id="simple-menu"
+                            anchorEl={anchorEl}
+                            keepMounted
+                            open={Boolean(anchorEl)}
+                            onClose={(e)=>handleClose(e)}
+                        >
+                            <ProfileContextProvider><CustomizedDialogs/></ProfileContextProvider>
+                            <MenuItem onClick={(e)=>handleClose(e)} id={"logout"} align={"center"}>Logout</MenuItem>
+                            <MenuItem onClick={(e)=>handleClose(e)} id={"contact"} align={"center"}>Contact</MenuItem>
+                        </Menu>
+                    </div> : ""
                 }
                 <Typography className={classes.title} variant="h6">
                     Unlocky
@@ -142,11 +155,11 @@ function SimpleMenu() {
                         inputProps={{'aria-label': 'search'}}
                     />
                 </div>
-                {document.getElementById('role').value ?
+                {lol === 1 ?
                     <Button className={classes.RightButtonLogout} color={"inherit"} href={"/logout"}>
                         Logout
                     </Button> :
-                    <Button color={"inherit"} href={"/"}>
+                    <Button className={classes.RightButtonLogout} color={"inherit"} href={"/"}>
                         Login
                     </Button>}
             </Toolbar>

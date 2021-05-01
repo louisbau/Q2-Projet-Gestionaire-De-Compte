@@ -108,6 +108,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\templates\contact\index.html.twig">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\templates\security\login.html.twig">
           <value>
             <Attribute>
