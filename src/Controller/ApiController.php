@@ -6,10 +6,12 @@ use App\Entity\AccountClient;
 use App\Entity\AccountApp;
 use App\Entity\Application;
 use App\Entity\Client;
+use App\Entity\Extension;
 use App\Entity\User;
 use App\Entity\Game;
 use App\Repository\AccountClientRepository;
 use App\Repository\ClientRepository;
+use App\Repository\ExtensionRepository;
 use App\Repository\GameRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
@@ -42,13 +44,18 @@ class ApiController extends AbstractController
     private GameRepository $gameRepository;
 
     private UserPasswordEncoderInterface $passwordEncoder;
+    /**
+     * @var ExtensionRepository
+     */
+    private ExtensionRepository $extensionRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, AccountClientRepository $accountClientRepository, ClientRepository $clientRepository, GameRepository $gameRepository, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(EntityManagerInterface $entityManager, AccountClientRepository $accountClientRepository, ClientRepository $clientRepository, GameRepository $gameRepository, UserPasswordEncoderInterface $passwordEncoder, ExtensionRepository $extensionRepository)
     {
         $this->entityManager = $entityManager;
         $this->accountClientRepository = $accountClientRepository;
         $this->clientRepository = $clientRepository;
         $this->gameRepository = $gameRepository;
+        $this->extensionRepository = $extensionRepository;
         $this->passwordEncoder = $passwordEncoder;
     }
     /////// Fait ///////
@@ -96,9 +103,8 @@ class ApiController extends AbstractController
 
             return $this->json(['id' => $user->getId(), 'email' => $user->getEmail(), 'roles'=>$user->getRoles(), 'error' => 0]);
         } else {
-            return $this->json(['error' => 1, 'raison' => 'email deja utilisé']);
+            return $this->json(['id' => $addclient->getId(), 'email' => $addclient->getEmail(), 'roles'=>$addclient->getRoles(), 'error' => 0]);
         }
-
     }
 
     #[Route('/profile', name: 'api_profile_id')]
@@ -120,23 +126,40 @@ class ApiController extends AbstractController
         }
 
     }
-    #[Route('/session', name: 'api_session')]
-    public function receiveSession()
+    #[Route('/extension', name: 'api_extension')]
+    public function receiveExtension()
     {
-        try {
-            if ($this->getUser()) {
-                $email = $this->getUser()->getUsername();
-                $user = $this->getDoctrine()
-                    ->getRepository(User::class)
-                    ->findOneBy(['email' => $email]);
-                return $this->json(['id' => $user->getId(),'email'=>$user->getEmail(), 'roles'=>$user->getRoles(), 'error'=>0]);
-            }
-            else {
-                return $this->json(['id' => 0,'email'=>"login", 'roles'=>'login', 'error'=>1]);
-            }
-        } catch (Exception) {
-            return $this->json(['id' => 0,'email'=>"login", 'roles'=>'login', 'error'=>1]);
-        }
+        $email = $this->getUser()->getUsername();
+        //$faker = \Faker\Factory::create('fr_FR');
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findOneBy(['email' => $email]);
+        $extension = $this->getDoctrine()
+            ->getRepository(Extension::class)
+            ->findExtension($user->getId());
+        return $this->json($extension);
+    }
+    #[Route('/extension/{lien}/{name}/{playlist}', name: 'api_extension_ajou')]
+    public function addExtension($lien, $name, $playlist)
+    {
+        $email = $this->getUser()->getUsername();
+        //$faker = \Faker\Factory::create('fr_FR');
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findOneBy(['email' => $email]);
+        $client = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->find($user->getId());
+        $nvExtension = new Extension();
+        $nvExtension->setExtensionName($name);
+        $nvExtension->setUrl($lien);
+        $nvExtension->setPlaylistName($playlist);
+        $nvExtension->setUserId($client);
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($nvExtension);
+        $entityManager->flush();
+
+        return $this->json(['extension_name' => $name, 'url'=> $lien]);
     }
 
     #[Route('/list/read', name: 'api_list_client')]
@@ -195,7 +218,7 @@ class ApiController extends AbstractController
         }
         $nvCompte = new AccountApp();
         $nvCompte->setUsernameAccount($content->username_account);
-        $nvCompte->setPasswordAccount($content->password_account);
+        $nvCompte->setPasswordAccount($content->username_account);
         $nvCompte->setDescription($content->description);
         $nvCompte->setAppId($game);
         $nvCompte->setAccountId($client);

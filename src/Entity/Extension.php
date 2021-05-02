@@ -35,6 +35,11 @@ class Extension
      */
     private $url;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $playlist_name;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -72,6 +77,17 @@ class Extension
     public function setUrl(string $url): self
     {
         $this->url = $url;
+
+        return $this;
+    }
+    public function getPlaylistName(): ?string
+    {
+        return $this->playlist_name;
+    }
+
+    public function setPlaylistName(string $playlist_name): self
+    {
+        $this->url = $playlist_name;
 
         return $this;
     }

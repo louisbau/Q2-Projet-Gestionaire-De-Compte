@@ -88,19 +88,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 function SimpleMenu() {
-    const cont = useContext(TestContext);
-    const lol = () => {
-        if (cont.test === 'ROLE_USER' || cont.test === 'ROLE_USER') {
-            return true;
-        }
-        else {
-            return false
-        }
-    }
-
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState(null);
-    const context = useContext(ProfileContext);
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -118,7 +107,7 @@ function SimpleMenu() {
     return (
         <AppBar position="static">
             <Toolbar>
-                {lol === 1 ?
+                { document.getElementById("role").value &&
                     <div>
                         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu"
                                     aria-controls="simple-menu"
@@ -137,31 +126,34 @@ function SimpleMenu() {
                             <MenuItem onClick={(e)=>handleClose(e)} id={"logout"} align={"center"}>Logout</MenuItem>
                             <MenuItem onClick={(e)=>handleClose(e)} id={"contact"} align={"center"}>Contact</MenuItem>
                         </Menu>
-                    </div> : ""
-                }
-                <Typography className={classes.title} variant="h6">
-                    Unlocky
-                </Typography>
-                <div className={classes.search}>
-                    <div className={classes.searchIcon}>
-                        <SearchIcon/>
                     </div>
-                    <InputBase
-                        placeholder="Search…"
-                        classes={{
-                            root: classes.inputRoot,
-                            input: classes.inputInput,
-                        }}
-                        inputProps={{'aria-label': 'search'}}
-                    />
+                }
+
+            <Typography className={classes.title} variant="h6">
+                Unlocky
+            </Typography>
+            <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                    <SearchIcon/>
                 </div>
-                {lol === 1 ?
-                    <Button className={classes.RightButtonLogout} color={"inherit"} href={"/logout"}>
-                        Logout
-                    </Button> :
-                    <Button className={classes.RightButtonLogout} color={"inherit"} href={"/"}>
-                        Login
-                    </Button>}
+                <InputBase
+                    placeholder="Search…"
+                    classes={{
+                        root: classes.inputRoot,
+                        input: classes.inputInput,
+                    }}
+                    inputProps={{'aria-label': 'search'}}
+                />
+            </div>
+                {
+                    document.getElementById("role").value ?
+                        <Button className={classes.RightButtonLogout} color={"inherit"} href={"/logout"}>
+                            Logout
+                        </Button> :
+                        <Button className={classes.RightButtonLogout} color={"inherit"} href={"/"}>
+                            Login
+                        </Button>
+                }
             </Toolbar>
         </AppBar>
     );

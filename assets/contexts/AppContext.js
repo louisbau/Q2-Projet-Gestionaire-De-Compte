@@ -74,7 +74,6 @@ class AppContextProvider extends React.Component {
                 let data2 = [...this.state.app_account];
                 data2.push(response.data[0]);
                 data2.sort((a, b) => a.idApp > b.idApp ? 1 : -1);
-                console.log(data2);
                 this.setState({
                     app_account: data2,
                 })
@@ -122,8 +121,6 @@ class AppContextProvider extends React.Component {
                 readAppAccountListe: this.readAppAccountListe.bind(this),
                 updateListe: this.updateListe.bind(this),
                 deleteListe: this.deleteListe.bind(this),
-
-
             }}>
                 {this.props.children}
             </AppContext.Provider>

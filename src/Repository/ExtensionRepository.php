@@ -19,32 +19,22 @@ class ExtensionRepository extends ServiceEntityRepository
         parent::__construct($registry, Extension::class);
     }
 
-    // /**
-    //  * @return Extension[] Returns an array of Extension objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('e.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+    /**
+      * @return Extension[] Returns an array of Extension objects
+      */
 
-    /*
-    public function findOneBySomeField($value): ?Extension
+
+    public function findExtension(int $client): array
     {
-        return $this->createQueryBuilder('e')
-            ->andWhere('e.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT T2.extension_name, T2.url, T2.playlist_name, T2.id
+             FROM App\Entity\User AS T1, App\Entity\Extension AS T2
+             where T1.id = T2.user_id and T1.id = ?1'
+        )->setParameter('1', $client);
+
+        // returns an array of Product objects
+        return $query->getResult();
     }
-    */
 }
