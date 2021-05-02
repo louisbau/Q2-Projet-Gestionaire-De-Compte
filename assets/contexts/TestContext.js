@@ -25,17 +25,16 @@ class TestContextProvider extends React.Component {
         });
     }
 
-    AddExtension(name ,url, playlist) {
-        axios.get('/api/extension/' + name + '/' + url + '/' + playlist)
+    AddExtension(url ,name, playlist) {
+        axios.get('/api/extension/' + url + '/' + name + '/' + playlist)
             .then(response => {
-                if (!response.data.error) {
-                    this.setState({
-                        test: response.data,
-                    });
-                }
-
+                let data = [...this.state.test];
+                data.push(response.data[0]);
+                this.setState({
+                    test: data,
+                })
             }).catch(error => {
-            console.error(error);
+                console.log(error);
         })
     }
 

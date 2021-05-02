@@ -159,7 +159,7 @@ class ApiController extends AbstractController
         $entityManager->persist($nvExtension);
         $entityManager->flush();
 
-        return $this->json(['extension_name' => $name, 'url'=> $lien]);
+        return $this->json(['extension_name' => $name, 'url'=> $lien, 'playlist_name' =>$playlist]);
     }
 
     #[Route('/list/read', name: 'api_list_client')]

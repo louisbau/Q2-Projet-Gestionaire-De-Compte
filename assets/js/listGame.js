@@ -131,6 +131,8 @@ export default function Test2() {
     const [addDes, setAddDes] = React.useState('');
     const [addGame, setAddGame] = React.useState('');
     const [visible, setVisible] = React.useState('0');
+    const [addUrl, setAddUrl] = React.useState('');
+    const [addPlaylist, setAddPlaylist] = React.useState('');
     const [open, setOpen] = React.useState(false);
     const handleClickOpen = () => {
         setOpen(true);
@@ -175,6 +177,19 @@ export default function Test2() {
             },
         );
     }
+    const handleChangePlaylist = (e)=> {
+        setAddPlaylist(e.target.value)
+    }
+    const handleChangeUrl = (e)=> {
+        setAddUrl(e.target.value)
+    }
+
+    const handleSubmitExtension = (e)=> {
+        e.preventDefault();
+        setOpen(false);
+        //decouppage du lien a faire
+        extension.AddExtension(addUrl, "spotify", addPlaylist)
+    }
     const handleSubmitJeux = (e) => {
         e.preventDefault();
         setOpen(false);
@@ -209,6 +224,11 @@ export default function Test2() {
         >
             <ListItemText primary={number.name_app} align={'center'}/>
         </ListItem>
+    );
+    const exten = extension.test.map((number) =>
+        <MenuItem value={number.url}>
+            <em>{number.playlist_name}</em>
+        </MenuItem>
     );
 
     const dialo = <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -415,16 +435,42 @@ export default function Test2() {
                                 id="demo-simple-select-filled"
                                 onChange={handleChange}
                             >
-                                {extension.test.map((ext)=> (
-                                    ext.extension_name === "spotify" &&
-                                        <MenuItem value={ext.url}>
-                                            <em>{ext.playlist_name}</em>
-                                        </MenuItem>
-                                    )
-                                )}
+                                {exten}
                             </Select>
                         </FormControl>
-
+                        <Button onClick={handleClose} color="primary">Add</Button>
+                        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                            <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+                            <DialogContent>
+                                <DialogContentText>
+                                    Ajouter un jeux avec un compte :
+                                </DialogContentText>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="Addurl"
+                                    label="ajouter l'url : "
+                                    fullWidth
+                                    onChange={(e) => handleChangeUrl(e)}
+                                />
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="Addplaylist"
+                                    label="ajouter un playlist : "
+                                    fullWidth
+                                    onChange={(e) => handleChangePlaylist(e)}
+                                />
+                            </DialogContent>
+                            <DialogActions>
+                                <Button onClick={handleClickOpen} color="primary">
+                                    Cancel
+                                </Button>
+                                <Button onClick={(e) => handleSubmitExtension(e)} color="primary">
+                                    Submit
+                                </Button>
+                            </DialogActions>
+                        </Dialog>
                     </Grid>
                 </Grid>
             </Grid>

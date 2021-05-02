@@ -80,6 +80,7 @@ class Extension
 
         return $this;
     }
+
     public function getPlaylistName(): ?string
     {
         return $this->playlist_name;
@@ -87,7 +88,7 @@ class Extension
 
     public function setPlaylistName(string $playlist_name): self
     {
-        $this->url = $playlist_name;
+        $this->playlist_name = $playlist_name;
 
         return $this;
     }
