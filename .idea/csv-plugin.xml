@@ -101,6 +101,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\src\DataFixtures\ExtensionFixture.php">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\src\DataFixtures\UserFixtures.php">
           <value>
             <Attribute>

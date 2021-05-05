@@ -7,3 +7,10 @@
     <input type="hidden" id='token' name="_csrf_token" value="{{ csrf_token('authenticate') }}">
     <input type="hidden" id='last_username' name="last_username" value="{{ last_username }}">
 {% endblock %}
+{% block stylesheets %}
+    {{ encore_entry_link_tags('SecurityLogin') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('SecurityLogin') }}
+{% endblock %}

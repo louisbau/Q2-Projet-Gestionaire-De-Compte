@@ -1,7 +1,7 @@
 import React from "react";
 import './styles/app.css';
 import ReactDOM from "react-dom";
-import LoginSecurity from "./js/SecurityLoginCode";
+import LoginSecurity from "./js/components/SecurityLoginCode";
 
 
 

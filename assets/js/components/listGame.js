@@ -225,8 +225,8 @@ export default function Test2() {
             <ListItemText primary={number.name_app} align={'center'}/>
         </ListItem>
     );
-    const exten = extension.test.map((number) =>
-        <MenuItem value={number.url}>
+    const exten = extension.test.map((number, index) =>
+        <MenuItem value={number.url} key={index}>
             <em>{number.playlist_name}</em>
         </MenuItem>
     );
@@ -416,14 +416,14 @@ export default function Test2() {
                         <div align={'center'} className={classes.ext}>
                             <iframe src="https://open.spotify.com/embed/playlist/6wj5KOqIvQl2fOSIT9UMyE" width="350"
                                     id="level"
-                                    height="430" frameBorder="0" allowTransparency="true" allow="encrypted-media"/>
+                                    height="430" frameBorder="0" allowtransparency="true" allow="encrypted-media"/>
                         </div>
                     </Grid>
                     <Grid item xs={12} className={classes.ext}>
                         <div align={'center'}>
                         <iframe src="https://discord.com/widget?id=677883046359334930&theme=dark" width="350"
                                 height="430"
-                                allowTransparency="true" frameBorder="0"
+                                allowtransparency="true" frameBorder="0"
                                 sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"/>
                         </div>
                     </Grid>

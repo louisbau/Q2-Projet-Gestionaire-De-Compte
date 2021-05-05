@@ -1,12 +1,12 @@
 import React, {useContext} from "react";
 import './styles/app.css';
 import ReactDOM from "react-dom";
-import SimpleMenu from "./js/menuBar.js";
-import Test2 from "./js/listGame";
-import TestContextProvider, {TestContext} from "./contexts/TestContext";
-import ProfileContextProvider from "./contexts/ProfileContext";
-import Footer from "./js/Footer";
-import AppContextProvider from "./contexts/AppContext";
+import SimpleMenu from "./js/components/menuBar.js";
+import Test2 from "./js/components/listGame";
+import TestContextProvider, {TestContext} from "./js/contexts/TestContext";
+import ProfileContextProvider from "./js/contexts/ProfileContext";
+import Footer from "./js/components/Footer";
+import AppContextProvider from "./js/contexts/AppContext";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";

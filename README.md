@@ -10,3 +10,8 @@ yarn install (si pull)
 
 symfony server:start
 yarn encore dev --watch
+
+
+
+.\node_modules\.bin\cypress.cmd install --force
+./node_modules/.bin/cypress open

@@ -7,7 +7,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import {Paper} from "@material-ui/core";
-import Image from '../images/contact_us.jpg';
+import Image from '../../images/contact_us.jpg';
 import Link from "@material-ui/core/Link";
 import {lightBlue} from "@material-ui/core/colors";
 import {TestContext} from "../contexts/TestContext";

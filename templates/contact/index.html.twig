@@ -30,6 +30,12 @@
             {% endfor %}
             </tbody>
         </table>
-
     {% endif %}
+{% endblock %}
+{% block stylesheets %}
+    {{ encore_entry_link_tags('mail') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('mail') }}
 {% endblock %}
