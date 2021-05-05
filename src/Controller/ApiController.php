@@ -317,6 +317,17 @@ class ApiController extends AbstractController
         $this->entityManager->flush();
         return $this->json('ca marche');
     }
-
+    #[Route('/lol', name: 'api_lol')]
+    public function lol()
+    {
+        $users = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findAll();
+        $arrayApp = [];
+        foreach ($users as $user){
+            $arrayApp[] = $user->toArrayId();
+        }
+        return $this->json($arrayApp[]);
+    }
 
 }

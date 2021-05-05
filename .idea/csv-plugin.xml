@@ -73,6 +73,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\phpunit.xml.dist">
+          <value>
+            <Attribute>
+              <option name="separator" value=":" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\src\Controller\ApiController.php">
           <value>
             <Attribute>

@@ -169,6 +169,10 @@ class User implements UserInterface
     {
         return ['id' => $this-> id, 'email'=>$this->email, 'roles' =>$this->roles];
     }
+    public function toArrayId()
+    {
+        return $this-> id;
+    }
 
     /**
      * @return Collection|Extension[]
