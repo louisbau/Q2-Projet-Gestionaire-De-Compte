@@ -35,7 +35,8 @@ class AppFixtures extends Fixture
             array_push($listApp, $Nvgame);
             $manager->persist($Nvgame);
             $manager->flush();
-            $this->addReference(Application::class.'_'. $i, $Nvgame);
+            $ref = 'application'.$i;
+            $this->addReference($ref, $Nvgame);
         }
         /*
         ApplicationFactory::new()->createMany(10);;

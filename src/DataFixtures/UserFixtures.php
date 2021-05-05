@@ -21,8 +21,8 @@ class UserFixtures extends Fixture
     {
         $listID = [];
         $faker = \Faker\Factory::create('fr_FR');
-        $user = new User();
         for ($i = 0; $i < 10; $i++) {
+            $user = new User();
             $user->setPassword($this->passwordEncoder->encodePassword($user,$faker->password()));
             $user->setEmail($faker->email);
             $user->setRoles(['ROLE_USER']);
@@ -34,14 +34,8 @@ class UserFixtures extends Fixture
                 array_push($listID, $user);
             }
             $manager->persist($user);
-            $manager->flush();
-            $this->addReference('user', (object)$listID);
-
-
+            $this->addReference('user'.$i, $user);
         }
-
-        $manager->persist($user);
         $manager->flush();
-        $this->addReference('user', (object)$listID);
     }
 }
