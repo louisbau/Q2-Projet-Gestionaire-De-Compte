@@ -13,5 +13,5 @@ yarn encore dev --watch
 
 
 
-.\node_modules\.bin\cypress.cmd install --force
-./node_modules/.bin/cypress open
+ .\node_modules\.bin\cypress.cmd install --force
+to launch =  ./node_modules/.bin/cypress open

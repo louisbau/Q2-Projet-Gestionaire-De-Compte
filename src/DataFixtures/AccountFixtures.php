@@ -28,7 +28,7 @@ class AccountFixtures extends Fixture implements DependentFixtureInterface
                     $CompteInitialisation->setUsernameAccount($faker->userName);
                     $CompteInitialisation->setPasswordAccount($faker->password());
                     $CompteInitialisation->setDescription($faker->sentence($nbWords = 6, $variableNbWords = true));
-                    $ref = 'application'.$i;
+                    $ref = 'application'.$b;
                     $refe = 'user'.$i;
                     $CompteInitialisation->setAppId($this->getReference($ref));
                     $CompteInitialisation->setAccountId($this->getReference($refe));
