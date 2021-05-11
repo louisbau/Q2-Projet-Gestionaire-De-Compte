@@ -71,7 +71,7 @@ export default function LoginSecurity() {
                             <LockOutlinedIcon/>
                         </Avatar>
                         <Typography component="h1" variant="h5">
-                            Sign in
+                            Sign In
                         </Typography>
                         <form method="post" className={classes.form} noValidate>
                             <TextField variant="outlined"

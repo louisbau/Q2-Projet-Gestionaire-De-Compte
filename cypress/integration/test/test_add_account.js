@@ -1,4 +1,4 @@
-describe('test add account on league of legends', () => {
+describe('test add account', () => {
     beforeEach(() => {
         //const {username, password} = this.currentUser
         const password = "Admin"
@@ -9,12 +9,8 @@ describe('test add account on league of legends', () => {
         //cy.contains('Sign in').click()
         cy.url().should('include', '/index')
     })
-    it('test add account lol', function () {
+    it('test add account ', function () {
         cy.get('.MuiFab-label > .MuiSvgIcon-root').as('button edit').click()
-        //cy.get('.Mui-selected').as('button_lol').click()
-
-        //cy.get(':nth-child(6) > [width="85%"] > .MuiPaper-root > #panel1a-header\n' +
-            //'\n').as('button add account')
 
         cy.get('.MuiAccordionSummary-content').as('button_add_account').click()
 

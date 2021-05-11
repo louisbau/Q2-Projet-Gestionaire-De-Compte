@@ -1,6 +1,7 @@
-describe('test connection devashish account', () => {
-    it('', () => {
-        //const {username, password} = this.currentUser
+describe('test connection to index', () => {
+
+
+    it('test connection', function () {
         const password = "Admin"
         const email = "bauchau@gmail.com"
         cy.visit('/')
@@ -10,4 +11,3 @@ describe('test connection devashish account', () => {
         cy.url().should('include', '/index')
     })
 })
-
