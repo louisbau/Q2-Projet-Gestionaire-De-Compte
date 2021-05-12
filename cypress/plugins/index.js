@@ -1,4 +1,4 @@
-/// <reference types="cypress" />
+//<reference types="cypress" />
 // ***********************************************************
 // This example plugins/index.js can be used to load plugins
 //
@@ -19,4 +19,13 @@
 module.exports = (on, config) => {
   // `on` is used to hook into various events Cypress emits
   // `config` is the resolved Cypress config
+}
+module.exports = (on, config) => {
+    require('@cypress/code-coverage/task')(on, config)
+
+    // add other tasks to be registered here
+
+    // IMPORTANT to return the config object
+    // with the any changed environment variables
+    return config
 }
