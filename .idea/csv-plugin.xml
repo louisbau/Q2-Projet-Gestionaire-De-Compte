@@ -136,6 +136,13 @@
             </Attribute>
           </value>
         </entry>
+        <entry key="\tests\AppTest.php">
+          <value>
+            <Attribute>
+              <option name="separator" value=";" />
+            </Attribute>
+          </value>
+        </entry>
         <entry key="\var\cache\dev\profiler\index.csv">
           <value>
             <Attribute>
