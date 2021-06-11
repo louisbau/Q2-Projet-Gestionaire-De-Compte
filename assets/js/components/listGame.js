@@ -134,6 +134,7 @@ export default function Test2() {
     const [addUrl, setAddUrl] = React.useState('');
     const [addPlaylist, setAddPlaylist] = React.useState('');
     const [open, setOpen] = React.useState(false);
+    const [opens, setOpens] = React.useState(false);
     const handleClickOpen = () => {
         setOpen(true);
         console.log("lol")
@@ -439,7 +440,7 @@ export default function Test2() {
                             </Select>
                         </FormControl>
                         <Button onClick={handleClose} color="primary">Add</Button>
-                        <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+                        <Dialog open={opens} onClose={handleClose} aria-labelledby="form-dialog-title">
                             <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
                             <DialogContent>
                                 <DialogContentText>
